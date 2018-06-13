@@ -2,9 +2,8 @@
 
 class ShootBehavior extends Behavior{
     
-    constructor(gameObject : GameObject) {
+    constructor(gameObject : AnimatedGameObject) {
         super(gameObject)
-        this.gameObject = gameObject
         this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack", 9, this, gameObject)
     }
 
@@ -12,6 +11,9 @@ class ShootBehavior extends Behavior{
      * performBehavior
      */
     public performBehavior(playScreen : PlayScreen, player : Player) {
+
+        // Set Shooting class
+        this.gameObject.element.classList.add("shoot");
 
         // Get the element boundings
         let rect:ClientRect = this.gameObject.element.getBoundingClientRect()
@@ -30,6 +32,7 @@ class ShootBehavior extends Behavior{
     }
 
     public onAnimationCompleted() {
+        this.gameObject.element.classList.remove("shoot");
         this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, this, this.gameObject)
     }
 }

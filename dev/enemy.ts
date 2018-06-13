@@ -1,36 +1,14 @@
-// class Enemy {
+/// <reference path="animatedgameobject.ts"/>
 
-//     private element : HTMLElement
-//     private playScreen : PlayScreen
+class Enemy extends AnimatedGameObject {
 
-//     protected state : number
+    constructor(type : string, playScreen : PlayScreen) {
+        // Give the type of the enemy to the parent constructor
+        super(type, playScreen)
+    }
 
-//     protected sprite : string
-//     protected xSpeed : number
-
-//     protected animation : GameAnimation
-
-//     private x : number
-//     private y : number
-
-//     constructor(p : PlayScreen) {
-
-//         this.playScreen = p
-
-//         // Create the enemy element
-//         this.element = document.createElement("Enemy")
-//     }
-
-//     private spawn() {
+    public onAnimationCompleted() {
         
+    }
 
-
-//     }
-
-//     public update() {
-
-//         this.element.style.transform = `translate(${this.x}px, ${this.y}px)`
-
-//     }
-
-// }
+}

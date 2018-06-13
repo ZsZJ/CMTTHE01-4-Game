@@ -1,28 +1,24 @@
-/// <reference path="gameobject.ts" />
-
+/// <reference path="gameobject.ts"/>
 
 class AnimatedGameObject extends GameObject {
-    
-    protected behavior : Behavior
-    protected currentSide : number = 1
 
-    public set playerBehavior(b : Behavior) {
+    // Behavior property
+    protected behavior : Behavior
+
+    constructor(type : string, playScreen : PlayScreen) {
+        super(type, playScreen)
+    }
+
+    public set objectBehavior(b : Behavior) {
         this.behavior = b
     }
 
-    public get viewDirection() {
-        return this.currentSide
-    }
-    constructor(type : string, behavior: Behavior) {
-        super(type)
-        this.behavior = behavior
+    public onAnimationCompleted() : void {
+        this.behavior.onAnimationCompleted()
     }
 
     public update() {
         this.behavior.update()
     }
 
-    public onAnimationCompleted() : void {
-
-    }
 }

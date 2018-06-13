@@ -1,33 +1,24 @@
-/// <reference path="gameobject.ts" />
+/// <reference path="animatedgameobject.ts" />
 
+class Player extends AnimatedGameObject {
 
-class Player extends GameObject {
-
-    private playScreen : PlayScreen
-    // private animation : GameAnimation
-
-    protected behavior : Behavior
-
+    // protected behavior : Behavior
     protected currentSide : number = 1
 
-    public set playerBehavior(b : Behavior) {
-        this.behavior = b
-    }
-
+    // Getter player direction
     public get viewDirection() {
         return this.currentSide
     }
     
-    // private state : number
-
     constructor(p : PlayScreen) {
-        super("Player")
-        this.playScreen = p
+
+        // Call parent constructor
+        super("Player", p)
 
         // Add controls to the player
         window.addEventListener("keydown", (e:KeyboardEvent) => this.control(e))
 
-        // Set in idle state
+        // Player behavior idle
         this.behavior = new IdleBehavior(this)
     }
 
@@ -51,13 +42,4 @@ class Player extends GameObject {
                 break
         }
     }
-
-    public update() {
-        this.behavior.update()
-    }
-
-    public onAnimationCompleted() : void {
-        this.behavior.onAnimationCompleted()
-    }
-
 }

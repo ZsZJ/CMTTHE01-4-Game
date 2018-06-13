@@ -1,14 +1,13 @@
-// class Zombie extends Enemy {
+/// <reference path="enemy.ts"/>
 
-//     constructor() {
-//         super()
+class Zombie extends Enemy {
 
-//         this.sprite = ""
-//         this.xSpeed = 3
-//     }
+    constructor(playScreen : PlayScreen) {
+        
+        super("Zombie", playScreen)
 
-//     public update() {
+        // Set in appear statement
+        this.behavior = new AppearBehavior(10, this)
+    }
 
-//     }
-
-// }
+}

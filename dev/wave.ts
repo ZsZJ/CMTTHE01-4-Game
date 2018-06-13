@@ -1,15 +1,15 @@
-class Wave {
+// class Wave {
 
-    private level : number
-    private amountMonsters : number
+//     private level : number
+//     private amountMonsters : number
 
-    constructor(l : number) {
-        this.level = l
-        this.amountMonsters = l * 1.25
-    }
+//     constructor(l : number) {
+//         this.level = l
+//         this.amountMonsters = l * 1.25
+//     }
 
-    public update() {
+//     public update() {
         
-    }
+//     }
 
-}
+// }

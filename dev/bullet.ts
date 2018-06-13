@@ -1,6 +1,8 @@
-class Bullet {
+/// <reference path="gameobject.ts"/>
 
-    private element : HTMLElement
+class Bullet extends GameObject {
+
+    //private element : HTMLElement
 
     public x : number;
     public y : number;
@@ -10,8 +12,10 @@ class Bullet {
 
     constructor(x : number, y : number, side : number) {
 
-        this.element = document.createElement("Bullet")
-        document.body.appendChild(this.element)
+        super("Bullet") 
+
+        // this.element = document.createElement("Bullet")
+        // document.body.appendChild(this.element)
 
         // Position the bullet
         this.x = x

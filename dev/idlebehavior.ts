@@ -1,7 +1,12 @@
+/// <reference path="behavior.ts" />
+
 class IdleBehavior extends Behavior {
+
     // private gameAnimation : GameAnimation
-    constructor(gameObject : GameObject) {
+    constructor(gameObject : AnimatedGameObject) {
+
         super(gameObject)
+
         this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, this, gameObject)
     }
 
@@ -11,9 +16,5 @@ class IdleBehavior extends Behavior {
 
     public onAnimationCompleted() : void {
         this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, this, this.gameObject)
-    }
-
-    public update() {
-        this.gameAnimation.update()
     }
 }

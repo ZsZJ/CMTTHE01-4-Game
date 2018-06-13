@@ -1,13 +1,13 @@
 abstract class Behavior {
 
     protected gameAnimation : GameAnimation
-    protected gameObject : GameObject
+    protected gameObject : AnimatedGameObject
 
-    constructor(gameObject : GameObject) {
+    constructor(gameObject : AnimatedGameObject) {
         this.gameObject = gameObject
     }
 
-    abstract performBehavior(playScreen : PlayScreen, gameObject : GameObject) : void
+    abstract performBehavior(playScreen : PlayScreen, gameObject : AnimatedGameObject) : void
     abstract onAnimationCompleted() : void
 
     public update() : void {

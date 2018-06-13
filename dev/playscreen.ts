@@ -2,14 +2,17 @@ class PlayScreen {
 
     private game : Game
     private player : Player
-    // public enemies : Enemy[]
+    private enemies : Enemy[]
     private bullets : Bullet[]
-    private wave : Wave
 
     constructor(g : Game) {
 
+        // Assign Game Object
         this.game = g
+
+        // Assign arrays
         this.bullets = new Array
+        this.enemies = new Array
 
         // Make the ground
         let ground = document.createElement("ground")
@@ -18,20 +21,33 @@ class PlayScreen {
         // Create the player
         this.player = new Player(this)
 
-        // Create the wave
-        this.wave = new Wave(this.game.level)
+        // Create 5 Zombies
+        for(let i : number = 0; i < 5; i++) {
+            this.enemies.push(new Zombie(this))
+        }
     }
 
+    // Add bullet in playscreen
     public addBullet(b:Bullet) {
         this.bullets.push(b)
     }
 
+    // Update the game
     public update() {
+        
         for (let b of this.bullets) {
             b.update()
         }
 
+        // Keep the player updated
         this.player.update()
+
+        // Loop through enemies
+        for (let e of this.enemies) {
+            // Update the enemy
+            e.update()
+        }
+
     }
 
 }

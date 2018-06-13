@@ -17,19 +17,20 @@ class GameAnimation {
     }
 
     public update() {
-     
+        
+        // Count the delay counter
         this.delayCounter ++
 
         if (this.delayCounter == 5) {
             
             this.currentFrame ++
-
             this.delayCounter = 0
         }
-        
+                
         // Change the sprite
         this.gameObject.element.style.backgroundImage = `url(${this._path}_${this.currentFrame}.png)`
         
+        // Animation is complete
         if (this.currentFrame == this.amountFrames) {
             this.behavior.onAnimationCompleted()
         }

@@ -10,38 +10,31 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 var GameObject = (function () {
-    function GameObject(type) {
-        this.element = document.createElement(type);
+    function GameObject(type, playScreen) {
+        this.type = type;
+        this.playScreen = playScreen;
+        this.element = document.createElement(this.type);
         document.body.appendChild(this.element);
     }
     return GameObject;
 }());
 var AnimatedGameObject = (function (_super) {
     __extends(AnimatedGameObject, _super);
-    function AnimatedGameObject(type, behavior) {
-        var _this = _super.call(this, type) || this;
-        _this.currentSide = 1;
-        _this.behavior = behavior;
-        return _this;
+    function AnimatedGameObject(type, playScreen) {
+        return _super.call(this, type, playScreen) || this;
     }
-    Object.defineProperty(AnimatedGameObject.prototype, "playerBehavior", {
+    Object.defineProperty(AnimatedGameObject.prototype, "objectBehavior", {
         set: function (b) {
             this.behavior = b;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(AnimatedGameObject.prototype, "viewDirection", {
-        get: function () {
-            return this.currentSide;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    AnimatedGameObject.prototype.onAnimationCompleted = function () {
+        this.behavior.onAnimationCompleted();
+    };
     AnimatedGameObject.prototype.update = function () {
         this.behavior.update();
-    };
-    AnimatedGameObject.prototype.onAnimationCompleted = function () {
     };
     return AnimatedGameObject;
 }(GameObject));
@@ -54,14 +47,28 @@ var Behavior = (function () {
     };
     return Behavior;
 }());
-var Bullet = (function () {
+var AppearBehavior = (function (_super) {
+    __extends(AppearBehavior, _super);
+    function AppearBehavior(amountFrames, gameObject) {
+        var _this = _super.call(this, gameObject) || this;
+        _this.gameAnimation = new GameAnimation("images/" + _this.gameObject.type + "/appear/appear", amountFrames, _this, gameObject);
+        return _this;
+    }
+    AppearBehavior.prototype.performBehavior = function (playScreen) {
+    };
+    AppearBehavior.prototype.onAnimationCompleted = function () {
+    };
+    return AppearBehavior;
+}(Behavior));
+var Bullet = (function (_super) {
+    __extends(Bullet, _super);
     function Bullet(x, y, side) {
-        this.element = document.createElement("Bullet");
-        document.body.appendChild(this.element);
-        this.x = x;
-        this.y = y;
-        this.side = side;
-        this.xSpeed = 5;
+        var _this = _super.call(this, "Bullet") || this;
+        _this.x = x;
+        _this.y = y;
+        _this.side = side;
+        _this.xSpeed = 5;
+        return _this;
     }
     Bullet.prototype.update = function () {
         if (this.side === 0) {
@@ -76,7 +83,29 @@ var Bullet = (function () {
         this.element.style.transform = "translate(" + this.x + "px, " + this.y + "px)";
     };
     return Bullet;
-}());
+}(GameObject));
+var PlayerDeadBehavior = (function (_super) {
+    __extends(PlayerDeadBehavior, _super);
+    function PlayerDeadBehavior(gameObject) {
+        var _this = _super.call(this, gameObject) || this;
+        _this.gameAnimation = new GameAnimation("images/Hero/06-Die/", 9, _this, gameObject);
+        return _this;
+    }
+    PlayerDeadBehavior.prototype.performBehavior = function (playScreen, player) {
+    };
+    PlayerDeadBehavior.prototype.onAnimationCompleted = function () {
+    };
+    return PlayerDeadBehavior;
+}(Behavior));
+var Enemy = (function (_super) {
+    __extends(Enemy, _super);
+    function Enemy(type, playScreen) {
+        return _super.call(this, type, playScreen) || this;
+    }
+    Enemy.prototype.onAnimationCompleted = function () {
+    };
+    return Enemy;
+}(AnimatedGameObject));
 var Game = (function () {
     function Game() {
         this.screen = new StartScreen(this);
@@ -125,28 +154,17 @@ var IdleBehavior = (function (_super) {
     IdleBehavior.prototype.onAnimationCompleted = function () {
         this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, this, this.gameObject);
     };
-    IdleBehavior.prototype.update = function () {
-        this.gameAnimation.update();
-    };
     return IdleBehavior;
 }(Behavior));
 var Player = (function (_super) {
     __extends(Player, _super);
     function Player(p) {
-        var _this = _super.call(this, "Player") || this;
+        var _this = _super.call(this, "Player", p) || this;
         _this.currentSide = 1;
-        _this.playScreen = p;
         window.addEventListener("keydown", function (e) { return _this.control(e); });
         _this.behavior = new IdleBehavior(_this);
         return _this;
     }
-    Object.defineProperty(Player.prototype, "playerBehavior", {
-        set: function (b) {
-            this.behavior = b;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(Player.prototype, "viewDirection", {
         get: function () {
             return this.currentSide;
@@ -170,22 +188,19 @@ var Player = (function (_super) {
                 break;
         }
     };
-    Player.prototype.update = function () {
-        this.behavior.update();
-    };
-    Player.prototype.onAnimationCompleted = function () {
-        this.behavior.onAnimationCompleted();
-    };
     return Player;
-}(GameObject));
+}(AnimatedGameObject));
 var PlayScreen = (function () {
     function PlayScreen(g) {
         this.game = g;
         this.bullets = new Array;
+        this.enemies = new Array;
         var ground = document.createElement("ground");
         document.body.appendChild(ground);
         this.player = new Player(this);
-        this.wave = new Wave(this.game.level);
+        for (var i = 0; i < 5; i++) {
+            this.enemies.push(new Zombie(this));
+        }
     }
     PlayScreen.prototype.addBullet = function (b) {
         this.bullets.push(b);
@@ -196,6 +211,10 @@ var PlayScreen = (function () {
             b.update();
         }
         this.player.update();
+        for (var _b = 0, _c = this.enemies; _b < _c.length; _b++) {
+            var e = _c[_b];
+            e.update();
+        }
     };
     return PlayScreen;
 }());
@@ -203,11 +222,11 @@ var ShootBehavior = (function (_super) {
     __extends(ShootBehavior, _super);
     function ShootBehavior(gameObject) {
         var _this = _super.call(this, gameObject) || this;
-        _this.gameObject = gameObject;
         _this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack", 9, _this, gameObject);
         return _this;
     }
     ShootBehavior.prototype.performBehavior = function (playScreen, player) {
+        this.gameObject.element.classList.add("shoot");
         var rect = this.gameObject.element.getBoundingClientRect();
         var rectSide = rect.left;
         if (player.viewDirection === 1) {
@@ -217,6 +236,7 @@ var ShootBehavior = (function (_super) {
         playScreen.addBullet(bullet);
     };
     ShootBehavior.prototype.onAnimationCompleted = function () {
+        this.gameObject.element.classList.remove("shoot");
         this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, this, this.gameObject);
     };
     return ShootBehavior;
@@ -246,13 +266,26 @@ var StartScreen = (function () {
     };
     return StartScreen;
 }());
-var Wave = (function () {
-    function Wave(l) {
-        this.level = l;
-        this.amountMonsters = l * 1.25;
+var WalkBehavior = (function (_super) {
+    __extends(WalkBehavior, _super);
+    function WalkBehavior(path, amountFrames, gameObject) {
+        var _this = _super.call(this, gameObject) || this;
+        _this.gameAnimation = new GameAnimation(path, amountFrames, _this, gameObject);
+        return _this;
     }
-    Wave.prototype.update = function () {
+    WalkBehavior.prototype.performBehavior = function (playScreen) {
     };
-    return Wave;
-}());
+    WalkBehavior.prototype.onAnimationCompleted = function () {
+    };
+    return WalkBehavior;
+}(Behavior));
+var Zombie = (function (_super) {
+    __extends(Zombie, _super);
+    function Zombie(playScreen) {
+        var _this = _super.call(this, "Zombie", playScreen) || this;
+        _this.behavior = new AppearBehavior(10, _this);
+        return _this;
+    }
+    return Zombie;
+}(Enemy));
 //# sourceMappingURL=main.js.map

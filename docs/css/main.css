@@ -67,14 +67,8 @@ splash highscores:hover {
     cursor: pointer;
 }
 
-/* Play screen */
-level  {
-    width: 100%;
-    height: 100%;
-}
-
+/* Player */
 player {
-    background-image: url(../images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle_0.png);
     background-size: contain;
     width: 10em; height: 10em;
     position: fixed;
@@ -83,6 +77,10 @@ player {
     transform: translate(-50%, 0%);
 }
 
+player.shoot {
+}
+
+/* Ground */
 ground {
     position: fixed;
     bottom: 0;
@@ -93,8 +91,17 @@ ground {
     background-repeat: repeat-x;
 }
 
+/* Bullet */
 bullet {
     width:1em; height:1em;
     background-image: url('../images/Hero/_Weapon/Bullet.png');
     background-size: contain;
+}
+
+/* Zombie */
+zombie {
+    /* background-image: url('../images/Zombie/appear/appear_0.png'); */
+    background-size: contain;
+    width: 10em; height: 10em;
+    bottom: 0%;
 }
