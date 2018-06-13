@@ -1,10 +1,10 @@
 class PlayScreen {
 
     private game : Game
-
     private player : Player
-    private enemies : Enemy[]
+    // public enemies : Enemy[]
     private bullets : Bullet[]
+    private wave : Wave
 
     constructor(g : Game) {
 
@@ -17,6 +17,9 @@ class PlayScreen {
 
         // Create the player
         this.player = new Player(this)
+
+        // Create the wave
+        this.wave = new Wave(this.game.level)
     }
 
     public addBullet(b:Bullet) {
@@ -27,6 +30,8 @@ class PlayScreen {
         for (let b of this.bullets) {
             b.update()
         }
+
+        this.player.update()
     }
 
 }

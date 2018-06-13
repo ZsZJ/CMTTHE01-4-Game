@@ -10,7 +10,7 @@ class Bullet {
 
     constructor(x : number, y : number, side : number) {
 
-        this.element = document.createElement("bullet")
+        this.element = document.createElement("Bullet")
         document.body.appendChild(this.element)
 
         // Position the bullet

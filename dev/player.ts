@@ -1,21 +1,34 @@
-class Player {
+/// <reference path="gameobject.ts" />
+
+
+class Player extends GameObject {
 
     private playScreen : PlayScreen
-    private animation : GameAnimation
+    // private animation : GameAnimation
 
-    private element : HTMLElement
-    private currentSide : number = 1
+    protected behavior : Behavior
+
+    protected currentSide : number = 1
+
+    public set playerBehavior(b : Behavior) {
+        this.behavior = b
+    }
+
+    public get viewDirection() {
+        return this.currentSide
+    }
+    
+    // private state : number
 
     constructor(p : PlayScreen) {
-
+        super("Player")
         this.playScreen = p
-
-        // Create the element
-        this.element = document.createElement("Player")
-        document.body.appendChild(this.element)
 
         // Add controls to the player
         window.addEventListener("keydown", (e:KeyboardEvent) => this.control(e))
+
+        // Set in idle state
+        this.behavior = new IdleBehavior(this)
     }
 
     private control(e:KeyboardEvent): void {
@@ -25,37 +38,26 @@ class Player {
             case 37 :
                 this.element.style.transform = "translate(-50%, 0) scaleX(-1)"
                 this.currentSide = 0
-            break
+                break
             // Player look right (Right arrow key)
             case 39 :
                 this.element.style.transform = "translate(-50%, 0) scaleX(1)"
                 this.currentSide = 1
-            break
+                break
             // Player shoots (Spacebar)
             case 32 :
-                this.attack();
-            break
+                this.behavior = new ShootBehavior(this)
+                this.behavior.performBehavior(this.playScreen, this)
+                break
         }
-    }
-
-    private attack() {
-
-        // this.animation = new GameAnimation()
-        let rect:ClientRect = this.element.getBoundingClientRect()
-
-        let rectSide = rect.left
-
-        if (this.currentSide === 1) {
-            rectSide = rect.right
-        }
-        
-        let bullet = new Bullet(rectSide - 10, rect.bottom - 70, this.currentSide)
-
-        this.playScreen.addBullet(bullet)
     }
 
     public update() {
+        this.behavior.update()
+    }
 
+    public onAnimationCompleted() : void {
+        this.behavior.onAnimationCompleted()
     }
 
 }

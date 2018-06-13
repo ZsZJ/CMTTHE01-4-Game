@@ -1,7 +1,62 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var GameObject = (function () {
+    function GameObject(type) {
+        this.element = document.createElement(type);
+        document.body.appendChild(this.element);
+    }
+    return GameObject;
+}());
+var AnimatedGameObject = (function (_super) {
+    __extends(AnimatedGameObject, _super);
+    function AnimatedGameObject(type, behavior) {
+        var _this = _super.call(this, type) || this;
+        _this.currentSide = 1;
+        _this.behavior = behavior;
+        return _this;
+    }
+    Object.defineProperty(AnimatedGameObject.prototype, "playerBehavior", {
+        set: function (b) {
+            this.behavior = b;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AnimatedGameObject.prototype, "viewDirection", {
+        get: function () {
+            return this.currentSide;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    AnimatedGameObject.prototype.update = function () {
+        this.behavior.update();
+    };
+    AnimatedGameObject.prototype.onAnimationCompleted = function () {
+    };
+    return AnimatedGameObject;
+}(GameObject));
+var Behavior = (function () {
+    function Behavior(gameObject) {
+        this.gameObject = gameObject;
+    }
+    Behavior.prototype.update = function () {
+        this.gameAnimation.update();
+    };
+    return Behavior;
+}());
 var Bullet = (function () {
     function Bullet(x, y, side) {
-        this.element = document.createElement("bullet");
+        this.element = document.createElement("Bullet");
         document.body.appendChild(this.element);
         this.x = x;
         this.y = y;
@@ -22,14 +77,10 @@ var Bullet = (function () {
     };
     return Bullet;
 }());
-var Enemy = (function () {
-    function Enemy() {
-    }
-    return Enemy;
-}());
 var Game = (function () {
     function Game() {
         this.screen = new StartScreen(this);
+        this.level = 1;
         this.gameLoop();
     }
     Game.prototype.gameLoop = function () {
@@ -41,111 +92,68 @@ var Game = (function () {
 }());
 window.addEventListener("load", function () { return new Game(); });
 var GameAnimation = (function () {
-    function GameAnimation(p, go) {
+    function GameAnimation(p, af, r, behavior, gameObject) {
+        this.delayCounter = 0;
+        this.currentFrame = 0;
         this._path = p;
-        this.gameObject = go;
+        this.amountFrames = af;
+        this.behavior = behavior;
+        this.gameObject = gameObject;
     }
+    GameAnimation.prototype.update = function () {
+        this.delayCounter++;
+        if (this.delayCounter == 5) {
+            this.currentFrame++;
+            this.delayCounter = 0;
+        }
+        this.gameObject.element.style.backgroundImage = "url(" + this._path + "_" + this.currentFrame + ".png)";
+        if (this.currentFrame == this.amountFrames) {
+            this.behavior.onAnimationCompleted();
+        }
+    };
     return GameAnimation;
 }());
-var Hero = (function () {
-    function Hero(left, right, spacebar, rKey, g) {
-        var _this = this;
-        this.sprite = "";
-        this.currentState = 1;
-        this.amountFrames = 0;
-        this.delayAmount = 0;
-        this.health = 3;
-        this.element = document.createElement('hero');
-        document.body.appendChild(this.element);
-        this.leftKey = left;
-        this.rightKey = right;
-        this.spaceBar = spacebar;
-        this.rKey = rKey;
-        this.game = g;
-        this.idle();
-        this.stats = new Stats(1, 1, 1, 1);
-        window.addEventListener("keydown", function (e) { return _this.onKeyDown(e); });
+var IdleBehavior = (function (_super) {
+    __extends(IdleBehavior, _super);
+    function IdleBehavior(gameObject) {
+        var _this = _super.call(this, gameObject) || this;
+        _this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, false, _this, gameObject);
+        return _this;
     }
-    Hero.prototype.onKeyDown = function (e) {
-        switch (e.keyCode) {
-            case this.leftKey:
-                this.element.style.transform = "scaleX(-1)";
-                this.currentState = this.leftKey;
-                break;
-            case this.rightKey:
-                this.element.style.transform = "scaleX(1)";
-                this.currentState = this.rightKey;
-                break;
-            case this.spaceBar:
-                this.shoot();
-                break;
-            case this.rKey:
-                this.reload();
-                break;
-        }
+    IdleBehavior.prototype.performBehavior = function () {
     };
-    Hero.prototype.idle = function () {
-        this.state = 1;
-        this.element.classList.remove('shoot');
-        this.amountFrames = 9;
-        this.delayAmount = 4;
-        this.animation = new GameAnimation("img/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", this);
+    IdleBehavior.prototype.onAnimationCompleted = function () {
+        this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, false, this, this.gameObject);
     };
-    Hero.prototype.shoot = function () {
-        this.state = 2;
-        this.amountFrames = 9;
-        this.delayAmount = 4;
-        this.animation = new GameAnimation("img/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack", this);
-        this.element.classList.add('shoot');
-        var rect = this.element.getBoundingClientRect();
-        var bullet = new Bullet(rect.left - 10, rect.top + 75, this.currentState);
-        this.game.addBullet(bullet);
+    IdleBehavior.prototype.update = function () {
+        this.gameAnimation.update();
     };
-    Hero.prototype.die = function () {
-        this.state = 3;
-        this.amountFrames = 9;
-        this.delayAmount = 4;
-        this.animation = new GameAnimation("img/Hero/06-Die/JK_P__Die", this);
-        this.element.classList.add('dead');
-    };
-    Hero.prototype.hit = function (p) {
-        this.health -= p;
-        if (this.health == 0) {
-            this.die();
-        }
-    };
-    Hero.prototype.update = function () {
-        switch (this.state) {
-            case 1:
-                if (this.animation.currentFrame >= this.amountFrames) {
-                    this.animation.currentFrame = 0;
-                }
-                break;
-            case 2:
-                if (this.animation.currentFrame >= this.amountFrames) {
-                    this.idle();
-                }
-                break;
-            case 3:
-                if (this.animation.currentFrame >= this.amountFrames) {
-                    this.element.remove();
-                }
-                break;
-        }
-        this.animation.update();
-        this.element.style.backgroundImage = "url(" + this.sprite;
-    };
-    return Hero;
-}());
-var Player = (function () {
+    return IdleBehavior;
+}(Behavior));
+var Player = (function (_super) {
+    __extends(Player, _super);
     function Player(p) {
-        var _this = this;
-        this.currentSide = 1;
-        this.playScreen = p;
-        this.element = document.createElement("Player");
-        document.body.appendChild(this.element);
+        var _this = _super.call(this, "Player") || this;
+        _this.currentSide = 1;
+        _this.playScreen = p;
         window.addEventListener("keydown", function (e) { return _this.control(e); });
+        _this.behavior = new IdleBehavior(_this);
+        return _this;
     }
+    Object.defineProperty(Player.prototype, "playerBehavior", {
+        set: function (b) {
+            this.behavior = b;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Player.prototype, "viewDirection", {
+        get: function () {
+            return this.currentSide;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Player.prototype.control = function (e) {
         switch (e.keyCode) {
             case 37:
@@ -157,23 +165,19 @@ var Player = (function () {
                 this.currentSide = 1;
                 break;
             case 32:
-                this.attack();
+                this.behavior = new ShootBehavior(this);
+                this.behavior.performBehavior(this.playScreen, this);
                 break;
         }
     };
-    Player.prototype.attack = function () {
-        var rect = this.element.getBoundingClientRect();
-        var rectSide = rect.left;
-        if (this.currentSide === 1) {
-            rectSide = rect.right;
-        }
-        var bullet = new Bullet(rectSide - 10, rect.bottom - 70, this.currentSide);
-        this.playScreen.addBullet(bullet);
-    };
     Player.prototype.update = function () {
+        this.behavior.update();
+    };
+    Player.prototype.onAnimationCompleted = function () {
+        this.behavior.onAnimationCompleted();
     };
     return Player;
-}());
+}(GameObject));
 var PlayScreen = (function () {
     function PlayScreen(g) {
         this.game = g;
@@ -181,6 +185,7 @@ var PlayScreen = (function () {
         var ground = document.createElement("ground");
         document.body.appendChild(ground);
         this.player = new Player(this);
+        this.wave = new Wave(this.game.level);
     }
     PlayScreen.prototype.addBullet = function (b) {
         this.bullets.push(b);
@@ -190,9 +195,32 @@ var PlayScreen = (function () {
             var b = _a[_i];
             b.update();
         }
+        this.player.update();
     };
     return PlayScreen;
 }());
+var ShootBehavior = (function (_super) {
+    __extends(ShootBehavior, _super);
+    function ShootBehavior(gameObject) {
+        var _this = _super.call(this, gameObject) || this;
+        _this.gameObject = gameObject;
+        _this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack", 9, false, _this, gameObject);
+        return _this;
+    }
+    ShootBehavior.prototype.performBehavior = function (playScreen) {
+        var rect = this.gameObject.element.getBoundingClientRect();
+        var rectSide = rect.left;
+        if (this.gameObject.viewDirection === 1) {
+            rectSide = rect.right;
+        }
+        var bullet = new Bullet(rectSide - 10, rect.bottom - 70, player.viewDirection);
+        playScreen.addBullet(bullet);
+    };
+    ShootBehavior.prototype.onAnimationCompleted = function () {
+        this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, true, this, this.gameObject);
+    };
+    return ShootBehavior;
+}(Behavior));
 var StartScreen = (function () {
     function StartScreen(g) {
         var _this = this;
@@ -217,5 +245,14 @@ var StartScreen = (function () {
     StartScreen.prototype.update = function () {
     };
     return StartScreen;
+}());
+var Wave = (function () {
+    function Wave(l) {
+        this.level = l;
+        this.amountMonsters = l * 1.25;
+    }
+    Wave.prototype.update = function () {
+    };
+    return Wave;
 }());
 //# sourceMappingURL=main.js.map
