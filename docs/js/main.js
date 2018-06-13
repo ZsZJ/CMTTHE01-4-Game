@@ -92,7 +92,7 @@ var Game = (function () {
 }());
 window.addEventListener("load", function () { return new Game(); });
 var GameAnimation = (function () {
-    function GameAnimation(p, af, r, behavior, gameObject) {
+    function GameAnimation(p, af, behavior, gameObject) {
         this.delayCounter = 0;
         this.currentFrame = 0;
         this._path = p;
@@ -117,13 +117,13 @@ var IdleBehavior = (function (_super) {
     __extends(IdleBehavior, _super);
     function IdleBehavior(gameObject) {
         var _this = _super.call(this, gameObject) || this;
-        _this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, false, _this, gameObject);
+        _this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, _this, gameObject);
         return _this;
     }
     IdleBehavior.prototype.performBehavior = function () {
     };
     IdleBehavior.prototype.onAnimationCompleted = function () {
-        this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, false, this, this.gameObject);
+        this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, this, this.gameObject);
     };
     IdleBehavior.prototype.update = function () {
         this.gameAnimation.update();
@@ -204,20 +204,20 @@ var ShootBehavior = (function (_super) {
     function ShootBehavior(gameObject) {
         var _this = _super.call(this, gameObject) || this;
         _this.gameObject = gameObject;
-        _this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack", 9, false, _this, gameObject);
+        _this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack", 9, _this, gameObject);
         return _this;
     }
-    ShootBehavior.prototype.performBehavior = function (playScreen) {
+    ShootBehavior.prototype.performBehavior = function (playScreen, player) {
         var rect = this.gameObject.element.getBoundingClientRect();
         var rectSide = rect.left;
-        if (this.gameObject.viewDirection === 1) {
+        if (player.viewDirection === 1) {
             rectSide = rect.right;
         }
         var bullet = new Bullet(rectSide - 10, rect.bottom - 70, player.viewDirection);
         playScreen.addBullet(bullet);
     };
     ShootBehavior.prototype.onAnimationCompleted = function () {
-        this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, true, this, this.gameObject);
+        this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, this, this.gameObject);
     };
     return ShootBehavior;
 }(Behavior));

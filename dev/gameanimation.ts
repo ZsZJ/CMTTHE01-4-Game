@@ -8,7 +8,7 @@ class GameAnimation {
     public currentFrame : number = 0
     public amountFrames : number
 
-    constructor(p : string, af : number, r : boolean, behavior : Behavior, gameObject : GameObject) {
+    constructor(p : string, af : number, behavior : Behavior, gameObject : GameObject) {
         
         this._path = p
         this.amountFrames = af
