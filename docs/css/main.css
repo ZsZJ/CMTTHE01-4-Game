@@ -1,0 +1,100 @@
+html, body {
+    height: 100%;
+    background-color: #70CF51;
+    font-family: 'Press Start 2P', cursive;
+    overflow:hidden;
+    margin:0px; padding:0px;
+    background-image: url('../images/background.jpg');
+    background-size: cover;
+}
+
+body * {
+    position: absolute;
+    display: block;
+    margin:0px; padding:0px;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+}
+
+@font-face {
+    font-family: Horror;
+    src: url(../fonts/DoubleFeature20.ttf);
+}
+
+/* Start Screen */
+splash {
+    text-align: center;
+    text-shadow: -5px 0 black, 0 5px black, 5px 0 black, 0 -5px black;
+    width: 100%;
+    height: 100%;
+}
+
+splash title {
+    color: #af111c;
+    font-family : Horror;
+    font-size: 10em;
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+splash start {
+    color: #ffffff;
+    font-size: 4em;
+    font-weight: bold;
+    position: fixed;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+splash start:hover {
+    cursor: pointer;
+}
+
+splash highscores {
+    color: #ffffff;
+    font-size: 4em;
+    font-weight: bold;
+    position: fixed;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+splash highscores:hover {
+    cursor: pointer;
+}
+
+/* Play screen */
+level  {
+    width: 100%;
+    height: 100%;
+}
+
+player {
+    background-image: url(../images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle_0.png);
+    background-size: contain;
+    width: 10em; height: 10em;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+ground {
+    position: fixed;
+    bottom: 0;
+    height: 3em;
+    width: 100%;
+    border-top: 3px solid #000000;
+    background-image: url(../images/ground.jpg);
+    background-repeat: repeat-x;
+}
+
+bullet {
+    width:1em; height:1em;
+    background-image: url('../images/Hero/_Weapon/Bullet.png');
+    background-size: contain;
+}
