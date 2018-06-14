@@ -27,7 +27,7 @@ class ShootBehavior extends Behavior{
         }
 
         // Make new bullet instance
-        let bullet = new Bullet(rectSide - 10, rect.bottom - 70, player.viewDirection)
+        let bullet = new Bullet(rectSide - 10, rect.bottom - 70, player.viewDirection, playScreen)
         playScreen.addBullet(bullet)
     }
 

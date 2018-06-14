@@ -1,9 +1,7 @@
 class GameObject {
 
     public element : HTMLElement
-
     public type : string
-
     public playScreen : PlayScreen
 
     constructor(type : string, playScreen : PlayScreen) {

@@ -23,18 +23,28 @@ var AnimatedGameObject = (function (_super) {
     function AnimatedGameObject(type, playScreen) {
         return _super.call(this, type, playScreen) || this;
     }
-    Object.defineProperty(AnimatedGameObject.prototype, "objectBehavior", {
+    Object.defineProperty(AnimatedGameObject.prototype, "behavior", {
+        get: function () {
+            return this._behavior;
+        },
         set: function (b) {
-            this.behavior = b;
+            this._behavior = b;
         },
         enumerable: true,
         configurable: true
     });
-    AnimatedGameObject.prototype.onAnimationCompleted = function () {
-        this.behavior.onAnimationCompleted();
-    };
+    Object.defineProperty(AnimatedGameObject.prototype, "frames", {
+        get: function () {
+            return this._frames;
+        },
+        set: function (f) {
+            this._frames = f;
+        },
+        enumerable: true,
+        configurable: true
+    });
     AnimatedGameObject.prototype.update = function () {
-        this.behavior.update();
+        this._behavior.update();
     };
     return AnimatedGameObject;
 }(GameObject));
@@ -49,21 +59,22 @@ var Behavior = (function () {
 }());
 var AppearBehavior = (function (_super) {
     __extends(AppearBehavior, _super);
-    function AppearBehavior(amountFrames, gameObject) {
+    function AppearBehavior(gameObject) {
         var _this = _super.call(this, gameObject) || this;
-        _this.gameAnimation = new GameAnimation("images/" + _this.gameObject.type + "/appear/appear", amountFrames, _this, gameObject);
+        _this.gameAnimation = new GameAnimation("images/" + _this.gameObject.type + "/appear/appear", _this.gameObject.frames, _this, gameObject);
         return _this;
     }
-    AppearBehavior.prototype.performBehavior = function (playScreen) {
+    AppearBehavior.prototype.performBehavior = function () {
     };
     AppearBehavior.prototype.onAnimationCompleted = function () {
+        this.gameObject.behavior = new WalkBehavior(this.gameObject.frames, this.gameObject);
     };
     return AppearBehavior;
 }(Behavior));
 var Bullet = (function (_super) {
     __extends(Bullet, _super);
-    function Bullet(x, y, side) {
-        var _this = _super.call(this, "Bullet") || this;
+    function Bullet(x, y, side, playScreen) {
+        var _this = _super.call(this, "Bullet", playScreen) || this;
         _this.x = x;
         _this.y = y;
         _this.side = side;
@@ -102,7 +113,10 @@ var Enemy = (function (_super) {
     function Enemy(type, playScreen) {
         return _super.call(this, type, playScreen) || this;
     }
-    Enemy.prototype.onAnimationCompleted = function () {
+    Enemy.prototype.spawn = function () {
+        this.frames = this.appearFrames;
+        this.behavior = new AppearBehavior(this);
+        this.frames = this.walkFrames;
     };
     return Enemy;
 }(AnimatedGameObject));
@@ -121,21 +135,21 @@ var Game = (function () {
 }());
 window.addEventListener("load", function () { return new Game(); });
 var GameAnimation = (function () {
-    function GameAnimation(p, af, behavior, gameObject) {
+    function GameAnimation(path, amountFrames, behavior, gameObject) {
         this.delayCounter = 0;
         this.currentFrame = 0;
-        this._path = p;
-        this.amountFrames = af;
+        this.path = path;
+        this.amountFrames = amountFrames;
         this.behavior = behavior;
         this.gameObject = gameObject;
     }
     GameAnimation.prototype.update = function () {
         this.delayCounter++;
-        if (this.delayCounter == 5) {
+        if (this.delayCounter == 7) {
             this.currentFrame++;
             this.delayCounter = 0;
         }
-        this.gameObject.element.style.backgroundImage = "url(" + this._path + "_" + this.currentFrame + ".png)";
+        this.gameObject.element.style.backgroundImage = "url(" + this.path + "_" + this.currentFrame + ".png)";
         if (this.currentFrame == this.amountFrames) {
             this.behavior.onAnimationCompleted();
         }
@@ -198,6 +212,7 @@ var PlayScreen = (function () {
         var ground = document.createElement("ground");
         document.body.appendChild(ground);
         this.player = new Player(this);
+        console.log(this.player);
         for (var i = 0; i < 5; i++) {
             this.enemies.push(new Zombie(this));
         }
@@ -232,7 +247,7 @@ var ShootBehavior = (function (_super) {
         if (player.viewDirection === 1) {
             rectSide = rect.right;
         }
-        var bullet = new Bullet(rectSide - 10, rect.bottom - 70, player.viewDirection);
+        var bullet = new Bullet(rectSide - 10, rect.bottom - 70, player.viewDirection, playScreen);
         playScreen.addBullet(bullet);
     };
     ShootBehavior.prototype.onAnimationCompleted = function () {
@@ -268,22 +283,36 @@ var StartScreen = (function () {
 }());
 var WalkBehavior = (function (_super) {
     __extends(WalkBehavior, _super);
-    function WalkBehavior(path, amountFrames, gameObject) {
+    function WalkBehavior(amountFrames, gameObject) {
         var _this = _super.call(this, gameObject) || this;
-        _this.gameAnimation = new GameAnimation(path, amountFrames, _this, gameObject);
+        _this.gameAnimation = new GameAnimation("images/" + _this.gameObject.type + "/walk/go", amountFrames, _this, gameObject);
         return _this;
     }
-    WalkBehavior.prototype.performBehavior = function (playScreen) {
+    WalkBehavior.prototype.performBehavior = function (playScreen, gameObject) {
     };
     WalkBehavior.prototype.onAnimationCompleted = function () {
+        this.gameAnimation = new GameAnimation("images/" + this.gameObject.type + "/walk/go", this.gameObject.frames, this, this.gameObject);
     };
     return WalkBehavior;
 }(Behavior));
+var Wave = (function () {
+    function Wave(l) {
+        this.level = l;
+        this.amountMonsters = l * 1.25;
+    }
+    Wave.prototype.update = function () {
+    };
+    return Wave;
+}());
 var Zombie = (function (_super) {
     __extends(Zombie, _super);
     function Zombie(playScreen) {
         var _this = _super.call(this, "Zombie", playScreen) || this;
-        _this.behavior = new AppearBehavior(10, _this);
+        _this.appearFrames = 10;
+        _this.walkFrames = 9;
+        _this.attackFrames = 6;
+        _this.dieFrames = 7;
+        _this.spawn();
         return _this;
     }
     return Zombie;

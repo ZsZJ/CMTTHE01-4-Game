@@ -10,12 +10,9 @@ class Bullet extends GameObject {
     private side : number
     private xSpeed : number
 
-    constructor(x : number, y : number, side : number) {
+    constructor(x : number, y : number, side : number, playScreen : PlayScreen) {
 
-        super("Bullet") 
-
-        // this.element = document.createElement("Bullet")
-        // document.body.appendChild(this.element)
+        super("Bullet", playScreen) 
 
         // Position the bullet
         this.x = x

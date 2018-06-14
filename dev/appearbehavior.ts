@@ -2,18 +2,21 @@
 
 class AppearBehavior extends Behavior {
 
-    constructor(amountFrames : number, gameObject : AnimatedGameObject) {
-        
+    /** 
+     * gameAnimation
+     * gameObject
+    */
+
+    constructor(gameObject : AnimatedGameObject) {
         super(gameObject)
-        
-        this.gameAnimation = new GameAnimation(`images/${this.gameObject.type}/appear/appear`, amountFrames, this, gameObject)
+        this.gameAnimation = new GameAnimation(`images/${this.gameObject.type}/appear/appear`, this.gameObject.frames, this, gameObject)
     }
 
-    public performBehavior(playScreen : PlayScreen) {
+    public performBehavior() {
 
     }
 
     public onAnimationCompleted() {
-
+        this.gameObject.behavior = new WalkBehavior(this.gameObject.frames, this.gameObject)
     }
 }

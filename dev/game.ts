@@ -1,7 +1,6 @@
 class Game {
 
     public screen : any
-
     public level : number
 
     constructor() {

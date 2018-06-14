@@ -20,6 +20,7 @@ class PlayScreen {
 
         // Create the player
         this.player = new Player(this)
+        console.log(this.player)
 
         // Create 5 Zombies
         for(let i : number = 0; i < 5; i++) {
@@ -35,6 +36,7 @@ class PlayScreen {
     // Update the game
     public update() {
         
+        // Loop through bullets
         for (let b of this.bullets) {
             b.update()
         }

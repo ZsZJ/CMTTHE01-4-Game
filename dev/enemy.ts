@@ -2,13 +2,33 @@
 
 class Enemy extends AnimatedGameObject {
 
+    /**
+     * behavior : behavior (SET) [AnimatedGameObject]
+     * frames : frames (SET) [AnimatedGameObjects]
+     */
+    protected appearFrames : number
+    protected walkFrames : number
+    protected attackFrames : number
+    protected dieFrames : number
+
     constructor(type : string, playScreen : PlayScreen) {
-        // Give the type of the enemy to the parent constructor
+        /* Parent constructor [AnimatedGameObject]
+        *  type : string
+        *  playScreen : PlayScreen
+        */
         super(type, playScreen)
     }
 
-    public onAnimationCompleted() {
+    protected spawn () {
+
+        // Set Spawn Frames
+        this.frames = this.appearFrames
         
+        // Set Spawn Behavior
+        this.behavior = new AppearBehavior(this)
+
+        // After Spawn -> SET walk frames
+        this.frames = this.walkFrames
     }
 
 }

@@ -1,6 +1,6 @@
 class GameAnimation {
 
-    public _path : string
+    public path : string
     private behavior : Behavior
     private gameObject : GameObject
 
@@ -8,10 +8,10 @@ class GameAnimation {
     public currentFrame : number = 0
     public amountFrames : number
 
-    constructor(p : string, af : number, behavior : Behavior, gameObject : GameObject) {
+    constructor(path : string, amountFrames : number, behavior : Behavior, gameObject : GameObject) {
         
-        this._path = p
-        this.amountFrames = af
+        this.path = path
+        this.amountFrames = amountFrames
         this.behavior = behavior
         this.gameObject = gameObject
     }
@@ -21,14 +21,14 @@ class GameAnimation {
         // Count the delay counter
         this.delayCounter ++
 
-        if (this.delayCounter == 5) {
+        if (this.delayCounter == 7) {
             
             this.currentFrame ++
             this.delayCounter = 0
         }
                 
         // Change the sprite
-        this.gameObject.element.style.backgroundImage = `url(${this._path}_${this.currentFrame}.png)`
+        this.gameObject.element.style.backgroundImage = `url(${this.path}_${this.currentFrame}.png)`
         
         // Animation is complete
         if (this.currentFrame == this.amountFrames) {
