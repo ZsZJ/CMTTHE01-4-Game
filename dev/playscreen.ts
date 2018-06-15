@@ -46,14 +46,9 @@ class PlayScreen {
 
         // Keep the player updated
         this._player.update()
-        
-        // Loop through bullets
-        for (let b of this.bullets) {
-            b.update()
-        }
 
-        // Loop through enemies
-        for (let e of this.enemies) {
+         // Loop through enemies
+         for (let e of this.enemies) {
             
             // update the enemies
             e.update()
@@ -61,6 +56,24 @@ class PlayScreen {
             // Enemy has collision with player
             if (this.checkCollision(e.getRectangle(), this.player.getRectangle())) {
                 e.move = false
+            }
+
+        }
+        
+        // Loop through bullets
+        for (let b of this.bullets) {
+
+            b.update()
+
+            // Loop through enemies
+            for (let e of this.enemies) {
+
+                // Enemy has collision with player and is not spawning and dying
+                if (this.checkCollision(b.getRectangle(), e.getRectangle()) && e.state == 2) {
+                    b.element.remove()
+                    e.hit()
+                }
+
             }
 
         }

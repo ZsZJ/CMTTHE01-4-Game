@@ -55,8 +55,19 @@ var AnimatedGameObject = (function (_super) {
         _this._walkFrames = 0;
         _this._attackFrames = 0;
         _this._dieFrames = 0;
+        _this._state = 0;
         return _this;
     }
+    Object.defineProperty(AnimatedGameObject.prototype, "state", {
+        get: function () {
+            return this._state;
+        },
+        set: function (s) {
+            this._state = s;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(AnimatedGameObject.prototype, "appearFrames", {
         get: function () {
             return this._appearFrames;
@@ -160,9 +171,11 @@ var AppearBehavior = (function (_super) {
         return _this;
     }
     AppearBehavior.prototype.performBehavior = function () {
+        this.gameObject.state = 1;
     };
     AppearBehavior.prototype.onAnimationCompleted = function () {
         this.gameObject.behavior = new WalkBehavior(this.gameObject);
+        this.gameObject.state = 2;
         this.gameObject.move = true;
     };
     return AppearBehavior;
@@ -218,10 +231,28 @@ var PlayerDeadBehavior = (function (_super) {
     };
     return PlayerDeadBehavior;
 }(Behavior));
+var DieBehavior = (function (_super) {
+    __extends(DieBehavior, _super);
+    function DieBehavior(gameObject) {
+        var _this = _super.call(this, gameObject) || this;
+        _this.gameAnimation = new GameAnimation("images/" + _this.gameObject.type + "/die/die", _this.gameObject.dieFrames, _this, gameObject);
+        return _this;
+    }
+    DieBehavior.prototype.performBehavior = function () {
+        this.gameObject.state = 3;
+        this.gameObject.move = false;
+        this.gameObject.element.classList.add('dead');
+    };
+    DieBehavior.prototype.onAnimationCompleted = function () {
+        this.gameObject.element.remove();
+    };
+    return DieBehavior;
+}(Behavior));
 var Enemy = (function (_super) {
     __extends(Enemy, _super);
     function Enemy(type, playScreen, xPos, yPos) {
         var _this = _super.call(this, type, playScreen, xPos, yPos) || this;
+        _this.health = 0;
         if (_this.objectPosX < _this.playScreen.player.getRectangle().left) {
             _this.viewDirection = 0;
             _this.element.style.transform += "scaleX(-1)";
@@ -234,6 +265,14 @@ var Enemy = (function (_super) {
     }
     Enemy.prototype.spawn = function () {
         this.behavior = new AppearBehavior(this);
+        this.behavior.performBehavior();
+    };
+    Enemy.prototype.hit = function () {
+        this.health--;
+        if (this.health == 0) {
+            this.behavior = new DieBehavior(this);
+            this.behavior.performBehavior();
+        }
     };
     return Enemy;
 }(AnimatedGameObject));
@@ -346,15 +385,22 @@ var PlayScreen = (function () {
     };
     PlayScreen.prototype.update = function () {
         this._player.update();
-        for (var _i = 0, _a = this.bullets; _i < _a.length; _i++) {
-            var b = _a[_i];
-            b.update();
-        }
-        for (var _b = 0, _c = this.enemies; _b < _c.length; _b++) {
-            var e = _c[_b];
+        for (var _i = 0, _a = this.enemies; _i < _a.length; _i++) {
+            var e = _a[_i];
             e.update();
             if (this.checkCollision(e.getRectangle(), this.player.getRectangle())) {
                 e.move = false;
+            }
+        }
+        for (var _b = 0, _c = this.bullets; _b < _c.length; _b++) {
+            var b = _c[_b];
+            b.update();
+            for (var _d = 0, _e = this.enemies; _d < _e.length; _d++) {
+                var e = _e[_d];
+                if (this.checkCollision(b.getRectangle(), e.getRectangle()) && e.state == 2) {
+                    b.element.remove();
+                    e.hit();
+                }
             }
         }
     };
@@ -419,10 +465,10 @@ var WalkBehavior = (function (_super) {
     function WalkBehavior(gameObject) {
         var _this = _super.call(this, gameObject) || this;
         _this.gameAnimation = new GameAnimation("images/" + _this.gameObject.type + "/walk/go", _this.gameObject.walkFrames, _this, gameObject);
-        _this.performBehavior();
         return _this;
     }
     WalkBehavior.prototype.performBehavior = function () {
+        this.gameObject.state = 2;
         if (this.gameObject.playScreen.checkCollision(this.gameObject.getRectangle(), this.gameObject.playScreen.player.getRectangle())) {
             this.gameObject.behavior = new AttackBehavior(this.gameObject);
         }
@@ -473,6 +519,7 @@ var Zombie = (function (_super) {
         _this.walkFrames = 9;
         _this.attackFrames = 6;
         _this.dieFrames = 7;
+        _this.health = 3;
         _this.spawn();
         return _this;
     }

@@ -22,6 +22,9 @@ class Zombie extends Enemy {
         this.walkFrames = 9
         this.attackFrames = 6
         this.dieFrames = 7
+
+        // Zombie stats
+        this.health = 3
         
         // Let the zombie spawn
         this.spawn()        

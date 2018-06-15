@@ -175,3 +175,8 @@ zombie {
 zombie.attack {
     background-size: cover;
 }
+
+zombie.dead {
+    width: 14em;
+    background-size: cover;
+}

@@ -13,11 +13,12 @@ class AppearBehavior extends Behavior {
     }
 
     public performBehavior() {
-    
+        this.gameObject.state = 1
     }
 
     public onAnimationCompleted() {
         this.gameObject.behavior = new WalkBehavior(this.gameObject)
+        this.gameObject.state = 2
         this.gameObject.move = true
     }
 }

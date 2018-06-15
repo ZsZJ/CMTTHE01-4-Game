@@ -17,12 +17,25 @@ class AnimatedGameObject extends GameObject {
     private _attackFrames : number = 0
     private _dieFrames : number = 0
 
+    // Object state
+    private _state : number = 0
+
     constructor(type : string, playScreen : PlayScreen, xPos : number, yPos : number) {
         /* Parent constructor [GameObject]
         *  type : string
         *  playScreen : PlayScreen
         */
         super(type, playScreen, xPos, yPos)
+    }
+
+    // Set State Object
+    public set state(s : number) {
+        this._state = s
+    }
+
+    // Get State Object
+    public get state() : number {
+        return this._state
     }
 
     // Getter appear frames

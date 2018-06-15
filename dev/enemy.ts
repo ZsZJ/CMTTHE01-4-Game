@@ -2,6 +2,8 @@
 
 class Enemy extends AnimatedGameObject {
 
+    protected health : number = 0
+
     constructor(type : string, playScreen : PlayScreen, xPos : number, yPos : number) {
         
         /* Parent constructor [AnimatedGameObject]
@@ -26,9 +28,23 @@ class Enemy extends AnimatedGameObject {
 
     // Enemy Spawn
     public spawn () {
-        
         // Set Spawn Behavior
         this.behavior = new AppearBehavior(this)
+        this.behavior.performBehavior()
     }
-    
+
+    // Enemy is hit by bullet
+    public hit () {
+
+        // Subtract health
+        this.health--
+
+        // If health is zero give enemy die behavior
+        if (this.health == 0) {
+            this.behavior = new DieBehavior(this)
+            this.behavior.performBehavior()
+        }
+
+    }
+     
 }
