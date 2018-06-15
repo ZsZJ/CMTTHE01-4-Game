@@ -7,7 +7,7 @@ class PlayerDeadBehavior extends Behavior {
         this.gameAnimation = new GameAnimation("images/Hero/06-Die/", 9, this, gameObject)
     }
 
-    public performBehavior(playScreen : PlayScreen, player : Player) {
+    public performBehavior() {
     
     }
 

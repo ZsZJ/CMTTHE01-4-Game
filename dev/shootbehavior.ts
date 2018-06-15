@@ -10,7 +10,7 @@ class ShootBehavior extends Behavior{
     /**
      * performBehavior
      */
-    public performBehavior(playScreen : PlayScreen, player : Player) {
+    public performBehavior() {
 
         // Set Shooting class
         this.gameObject.element.classList.add("shoot");
@@ -22,13 +22,13 @@ class ShootBehavior extends Behavior{
         let rectSide = rect.left
 
         // Player is looking to the right
-        if (player.viewDirection === 1) {
+        if (this.gameObject.viewDirection === 1) {
             rectSide = rect.right
         }
 
         // Make new bullet instance
-        let bullet = new Bullet(rectSide - 10, rect.bottom - 70, player.viewDirection, playScreen)
-        playScreen.addBullet(bullet)
+        let bullet = new Bullet(rectSide - 10, rect.bottom - 70, this.gameObject.viewDirection, this.gameObject.playScreen)
+        this.gameObject.playScreen.addBullet(bullet)
     }
 
     public onAnimationCompleted() {

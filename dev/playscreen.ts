@@ -1,9 +1,10 @@
 class PlayScreen {
 
     private game : Game
-    private player : Player
+    private _player : Player
     private enemies : Enemy[]
     private bullets : Bullet[]
+    private wave : Wave
 
     constructor(g : Game) {
 
@@ -19,13 +20,20 @@ class PlayScreen {
         document.body.appendChild(ground)
 
         // Create the player
-        this.player = new Player(this)
-        console.log(this.player)
+        this._player = new Player(this, 640, 0)
 
-        // Create 5 Zombies
-        for(let i : number = 0; i < 5; i++) {
-            this.enemies.push(new Zombie(this))
-        }
+        // Create Wave [Game.level : number]
+        this.wave = new Wave(g.level, this, this._player)
+    }
+
+    public get player() : Player {
+        return this._player
+    }
+
+    // Push enemy in array
+    public addEnemy(e : Enemy)
+    {
+        this.enemies.push(e)
     }
 
     // Add bullet in playscreen
@@ -35,21 +43,36 @@ class PlayScreen {
 
     // Update the game
     public update() {
+
+        // Keep the player updated
+        this._player.update()
         
         // Loop through bullets
         for (let b of this.bullets) {
             b.update()
         }
 
-        // Keep the player updated
-        this.player.update()
-
         // Loop through enemies
         for (let e of this.enemies) {
-            // Update the enemy
+            
+            // update the enemies
             e.update()
+
+            // Enemy has collision with player
+            if (this.checkCollision(e.getRectangle(), this.player.getRectangle())) {
+                e.move = false
+            }
+
         }
 
     }
+
+    // Check Collision
+    public checkCollision(a: ClientRect, b: ClientRect) {
+        return (a.left <= b.right &&
+            b.left <= a.right &&
+            a.top <= b.bottom &&
+            b.top <= a.bottom)
+     }
 
 }

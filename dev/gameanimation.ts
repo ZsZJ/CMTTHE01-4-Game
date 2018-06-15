@@ -21,7 +21,7 @@ class GameAnimation {
         // Count the delay counter
         this.delayCounter ++
 
-        if (this.delayCounter == 7) {
+        if (this.delayCounter == 6) {
             
             this.currentFrame ++
             this.delayCounter = 0

@@ -7,18 +7,30 @@ class WalkBehavior extends Behavior {
      * gameObject
      */
 
-    constructor(amountFrames : number, gameObject : AnimatedGameObject) {
+    constructor(gameObject : AnimatedGameObject) {
+
         super(gameObject)
-        this.gameAnimation = new GameAnimation(`images/${this.gameObject.type}/walk/go`, amountFrames, this, gameObject)
+        this.gameAnimation = new GameAnimation(`images/${this.gameObject.type}/walk/go`, this.gameObject.walkFrames, this, gameObject)
+        this.performBehavior()
+        
     }
 
-    public performBehavior(playScreen : PlayScreen, gameObject : AnimatedGameObject) {
+    public performBehavior() {
+
+        // Enemy has collision with player
+        if (this.gameObject.playScreen.checkCollision(this.gameObject.getRectangle(), this.gameObject.playScreen.player.getRectangle())) {
+            this.gameObject.behavior = new AttackBehavior(this.gameObject)
+        }
 
     }
 
     public onAnimationCompleted() : void {
-        // Repeat animation
-        this.gameAnimation = new GameAnimation(`images/${this.gameObject.type}/walk/go`, this.gameObject.frames, this, this.gameObject)
+        // Repeat the behavior
+        if (this.gameObject.playScreen.checkCollision(this.gameObject.getRectangle(), this.gameObject.playScreen.player.getRectangle())) {
+            this.gameObject.behavior = new AttackBehavior(this.gameObject)
+        } else {
+            this.gameObject.behavior = new WalkBehavior(this.gameObject)
+        }
     }
 
 }

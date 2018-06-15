@@ -68,16 +68,82 @@ splash highscores:hover {
 }
 
 /* Player */
+
+/* Player preload images */
+#player-idle-0 {
+    background-image: url('../images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle_0.png')
+}
+#player-idle-1 {
+    background-image: url('../images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle_1.png')
+}
+#player-idle-2 {
+    background-image: url('../images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle_2.png')
+}
+#player-idle-3 {
+    background-image: url('../images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle_3.png')
+}
+#player-idle-4 {
+    background-image: url('../images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle_4.png')
+}
+#player-idle-5 {
+    background-image: url('../images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle_5.png')
+}
+#player-idle-6 {
+    background-image: url('../images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle_6.png')
+}
+#player-idle-7 {
+    background-image: url('../images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle_7.png')
+}
+#player-idle-8 {
+    background-image: url('../images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle_8.png')
+}
+#player-idle-9 {
+    background-image: url('../images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle_9.png')
+}
+
+#player-shoot-0 {
+    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_0.png')
+}
+#player-shoot-1 {
+    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_1.png')
+}
+#player-shoot-2 {
+    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_2.png')
+}
+#player-shoot-3 {
+    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_3.png')
+}
+#player-shoot-4 {
+    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_4.png')
+}
+#player-shoot-5 {
+    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_5.png')
+}
+#player-shoot-6 {
+    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_6.png')
+}
+#player-shoot-7 {
+    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_7.png')
+}
+#player-shoot-8 {
+    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_8.png')
+}
+#player-shoot-9 {
+    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_9.png')
+}
+
+
 player {
     background-size: contain;
     width: 10em; height: 10em;
     position: fixed;
     bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 0%);
+    /* left: 50%; */
+    /* transform: translate(-50%, 0%); */
 }
 
 player.shoot {
+    
 }
 
 /* Ground */
@@ -104,4 +170,8 @@ zombie {
     background-size: contain;
     width: 10em; height: 10em;
     bottom: 1.5em;
+}
+
+zombie.attack {
+    background-size: cover;
 }

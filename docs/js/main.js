@@ -10,19 +10,93 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 var GameObject = (function () {
-    function GameObject(type, playScreen) {
+    function GameObject(type, playScreen, xPos, yPos) {
+        this.xPos = xPos;
+        this.yPos = yPos;
         this.type = type;
         this.playScreen = playScreen;
         this.element = document.createElement(this.type);
+        this.element.style.transform = "translate(" + this.objectPosX + "px, " + this.objectPosY + "px)";
         document.body.appendChild(this.element);
     }
+    Object.defineProperty(GameObject.prototype, "objectPosX", {
+        get: function () {
+            return this.xPos;
+        },
+        set: function (xPos) {
+            this.xPos = xPos;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GameObject.prototype, "objectPosY", {
+        get: function () {
+            return this.yPos;
+        },
+        set: function (yPos) {
+            this.yPos = yPos;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    GameObject.prototype.getRectangle = function () {
+        return this.element.getBoundingClientRect();
+    };
     return GameObject;
 }());
 var AnimatedGameObject = (function (_super) {
     __extends(AnimatedGameObject, _super);
-    function AnimatedGameObject(type, playScreen) {
-        return _super.call(this, type, playScreen) || this;
+    function AnimatedGameObject(type, playScreen, xPos, yPos) {
+        var _this = _super.call(this, type, playScreen, xPos, yPos) || this;
+        _this._behavior = null;
+        _this._viewDirection = 0;
+        _this._move = false;
+        _this._appearFrames = 0;
+        _this._walkFrames = 0;
+        _this._attackFrames = 0;
+        _this._dieFrames = 0;
+        return _this;
     }
+    Object.defineProperty(AnimatedGameObject.prototype, "appearFrames", {
+        get: function () {
+            return this._appearFrames;
+        },
+        set: function (f) {
+            this._appearFrames = f;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AnimatedGameObject.prototype, "walkFrames", {
+        get: function () {
+            return this._walkFrames;
+        },
+        set: function (f) {
+            this._walkFrames = f;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AnimatedGameObject.prototype, "attackFrames", {
+        get: function () {
+            return this._attackFrames;
+        },
+        set: function (f) {
+            this._attackFrames = f;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AnimatedGameObject.prototype, "dieFrames", {
+        get: function () {
+            return this._dieFrames;
+        },
+        set: function (f) {
+            this._dieFrames = f;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(AnimatedGameObject.prototype, "behavior", {
         get: function () {
             return this._behavior;
@@ -33,23 +107,44 @@ var AnimatedGameObject = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(AnimatedGameObject.prototype, "frames", {
+    Object.defineProperty(AnimatedGameObject.prototype, "viewDirection", {
         get: function () {
-            return this._frames;
+            return this._viewDirection;
         },
-        set: function (f) {
-            this._frames = f;
+        set: function (v) {
+            this._viewDirection = v;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AnimatedGameObject.prototype, "move", {
+        get: function () {
+            return this._move;
+        },
+        set: function (m) {
+            this._move = m;
         },
         enumerable: true,
         configurable: true
     });
     AnimatedGameObject.prototype.update = function () {
         this._behavior.update();
+        if (this.move == true) {
+            if (this._viewDirection == 0) {
+                this.objectPosX += 1;
+                this.element.style.transform = "translate(" + this.objectPosX + "px, " + this.objectPosY + "px) scaleX(-1)";
+            }
+            else {
+                this.objectPosX -= 1;
+                this.element.style.transform = "translate(" + this.objectPosX + "px, " + this.objectPosY + "px) scaleX(1)";
+            }
+        }
     };
     return AnimatedGameObject;
 }(GameObject));
 var Behavior = (function () {
     function Behavior(gameObject) {
+        this.gameAnimation = null;
         this.gameObject = gameObject;
     }
     Behavior.prototype.update = function () {
@@ -61,37 +156,52 @@ var AppearBehavior = (function (_super) {
     __extends(AppearBehavior, _super);
     function AppearBehavior(gameObject) {
         var _this = _super.call(this, gameObject) || this;
-        _this.gameAnimation = new GameAnimation("images/" + _this.gameObject.type + "/appear/appear", _this.gameObject.frames, _this, gameObject);
+        _this.gameAnimation = new GameAnimation("images/" + _this.gameObject.type + "/appear/appear", _this.gameObject.appearFrames, _this, gameObject);
         return _this;
     }
     AppearBehavior.prototype.performBehavior = function () {
     };
     AppearBehavior.prototype.onAnimationCompleted = function () {
-        this.gameObject.behavior = new WalkBehavior(this.gameObject.frames, this.gameObject);
+        this.gameObject.behavior = new WalkBehavior(this.gameObject);
+        this.gameObject.move = true;
     };
     return AppearBehavior;
 }(Behavior));
+var AttackBehavior = (function (_super) {
+    __extends(AttackBehavior, _super);
+    function AttackBehavior(gameObject) {
+        var _this = _super.call(this, gameObject) || this;
+        _this.gameAnimation = new GameAnimation("images/" + _this.gameObject.type + "/attack/hit", _this.gameObject.attackFrames, _this, gameObject);
+        _this.performBehavior();
+        return _this;
+    }
+    AttackBehavior.prototype.performBehavior = function () {
+        this.gameObject.element.classList.add("attack");
+    };
+    AttackBehavior.prototype.onAnimationCompleted = function () {
+        this.gameObject.behavior = new AttackBehavior(this.gameObject);
+    };
+    return AttackBehavior;
+}(Behavior));
 var Bullet = (function (_super) {
     __extends(Bullet, _super);
-    function Bullet(x, y, side, playScreen) {
-        var _this = _super.call(this, "Bullet", playScreen) || this;
-        _this.x = x;
-        _this.y = y;
-        _this.side = side;
+    function Bullet(x, y, viewDirection, playScreen) {
+        var _this = _super.call(this, "Bullet", playScreen, x, y) || this;
+        _this.viewDirection = viewDirection;
         _this.xSpeed = 5;
         return _this;
     }
     Bullet.prototype.update = function () {
-        if (this.side === 0) {
-            this.x -= this.xSpeed;
+        if (this.viewDirection === 0) {
+            this.objectPosX -= this.xSpeed;
         }
         else {
-            this.x += this.xSpeed;
+            this.objectPosX += this.xSpeed;
         }
-        if (this.x <= 0 || this.x >= window.innerWidth) {
+        if (this.objectPosX <= 0 || this.objectPosX >= window.innerWidth) {
             this.element.remove();
         }
-        this.element.style.transform = "translate(" + this.x + "px, " + this.y + "px)";
+        this.element.style.transform = "translate(" + this.objectPosX + "px, " + this.objectPosY + "px)";
     };
     return Bullet;
 }(GameObject));
@@ -102,7 +212,7 @@ var PlayerDeadBehavior = (function (_super) {
         _this.gameAnimation = new GameAnimation("images/Hero/06-Die/", 9, _this, gameObject);
         return _this;
     }
-    PlayerDeadBehavior.prototype.performBehavior = function (playScreen, player) {
+    PlayerDeadBehavior.prototype.performBehavior = function () {
     };
     PlayerDeadBehavior.prototype.onAnimationCompleted = function () {
     };
@@ -110,13 +220,20 @@ var PlayerDeadBehavior = (function (_super) {
 }(Behavior));
 var Enemy = (function (_super) {
     __extends(Enemy, _super);
-    function Enemy(type, playScreen) {
-        return _super.call(this, type, playScreen) || this;
+    function Enemy(type, playScreen, xPos, yPos) {
+        var _this = _super.call(this, type, playScreen, xPos, yPos) || this;
+        if (_this.objectPosX < _this.playScreen.player.getRectangle().left) {
+            _this.viewDirection = 0;
+            _this.element.style.transform += "scaleX(-1)";
+        }
+        else {
+            _this.viewDirection = 1;
+            _this.element.style.transform += "scaleX(1)";
+        }
+        return _this;
     }
     Enemy.prototype.spawn = function () {
-        this.frames = this.appearFrames;
         this.behavior = new AppearBehavior(this);
-        this.frames = this.walkFrames;
     };
     return Enemy;
 }(AnimatedGameObject));
@@ -145,7 +262,7 @@ var GameAnimation = (function () {
     }
     GameAnimation.prototype.update = function () {
         this.delayCounter++;
-        if (this.delayCounter == 7) {
+        if (this.delayCounter == 6) {
             this.currentFrame++;
             this.delayCounter = 0;
         }
@@ -172,16 +289,16 @@ var IdleBehavior = (function (_super) {
 }(Behavior));
 var Player = (function (_super) {
     __extends(Player, _super);
-    function Player(p) {
-        var _this = _super.call(this, "Player", p) || this;
-        _this.currentSide = 1;
+    function Player(playScreen, xPos, yPos) {
+        var _this = _super.call(this, "Player", playScreen, xPos, yPos) || this;
+        _this._direction = 1;
         window.addEventListener("keydown", function (e) { return _this.control(e); });
         _this.behavior = new IdleBehavior(_this);
         return _this;
     }
     Object.defineProperty(Player.prototype, "viewDirection", {
         get: function () {
-            return this.currentSide;
+            return this._direction;
         },
         enumerable: true,
         configurable: true
@@ -189,16 +306,16 @@ var Player = (function (_super) {
     Player.prototype.control = function (e) {
         switch (e.keyCode) {
             case 37:
-                this.element.style.transform = "translate(-50%, 0) scaleX(-1)";
-                this.currentSide = 0;
+                this.element.style.transform = "translate(640px, 0) scaleX(-1)";
+                this._direction = 0;
                 break;
             case 39:
-                this.element.style.transform = "translate(-50%, 0) scaleX(1)";
-                this.currentSide = 1;
+                this.element.style.transform = "translate(640px, 0) scaleX(1)";
+                this._direction = 1;
                 break;
             case 32:
                 this.behavior = new ShootBehavior(this);
-                this.behavior.performBehavior(this.playScreen, this);
+                this.behavior.performBehavior();
                 break;
         }
     };
@@ -211,25 +328,41 @@ var PlayScreen = (function () {
         this.enemies = new Array;
         var ground = document.createElement("ground");
         document.body.appendChild(ground);
-        this.player = new Player(this);
-        console.log(this.player);
-        for (var i = 0; i < 5; i++) {
-            this.enemies.push(new Zombie(this));
-        }
+        this._player = new Player(this, 640, 0);
+        this.wave = new Wave(g.level, this, this._player);
     }
+    Object.defineProperty(PlayScreen.prototype, "player", {
+        get: function () {
+            return this._player;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    PlayScreen.prototype.addEnemy = function (e) {
+        this.enemies.push(e);
+    };
     PlayScreen.prototype.addBullet = function (b) {
         this.bullets.push(b);
     };
     PlayScreen.prototype.update = function () {
+        this._player.update();
         for (var _i = 0, _a = this.bullets; _i < _a.length; _i++) {
             var b = _a[_i];
             b.update();
         }
-        this.player.update();
         for (var _b = 0, _c = this.enemies; _b < _c.length; _b++) {
             var e = _c[_b];
             e.update();
+            if (this.checkCollision(e.getRectangle(), this.player.getRectangle())) {
+                e.move = false;
+            }
         }
+    };
+    PlayScreen.prototype.checkCollision = function (a, b) {
+        return (a.left <= b.right &&
+            b.left <= a.right &&
+            a.top <= b.bottom &&
+            b.top <= a.bottom);
     };
     return PlayScreen;
 }());
@@ -240,15 +373,15 @@ var ShootBehavior = (function (_super) {
         _this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack", 9, _this, gameObject);
         return _this;
     }
-    ShootBehavior.prototype.performBehavior = function (playScreen, player) {
+    ShootBehavior.prototype.performBehavior = function () {
         this.gameObject.element.classList.add("shoot");
         var rect = this.gameObject.element.getBoundingClientRect();
         var rectSide = rect.left;
-        if (player.viewDirection === 1) {
+        if (this.gameObject.viewDirection === 1) {
             rectSide = rect.right;
         }
-        var bullet = new Bullet(rectSide - 10, rect.bottom - 70, player.viewDirection, playScreen);
-        playScreen.addBullet(bullet);
+        var bullet = new Bullet(rectSide - 10, rect.bottom - 70, this.gameObject.viewDirection, this.gameObject.playScreen);
+        this.gameObject.playScreen.addBullet(bullet);
     };
     ShootBehavior.prototype.onAnimationCompleted = function () {
         this.gameObject.element.classList.remove("shoot");
@@ -283,31 +416,59 @@ var StartScreen = (function () {
 }());
 var WalkBehavior = (function (_super) {
     __extends(WalkBehavior, _super);
-    function WalkBehavior(amountFrames, gameObject) {
+    function WalkBehavior(gameObject) {
         var _this = _super.call(this, gameObject) || this;
-        _this.gameAnimation = new GameAnimation("images/" + _this.gameObject.type + "/walk/go", amountFrames, _this, gameObject);
+        _this.gameAnimation = new GameAnimation("images/" + _this.gameObject.type + "/walk/go", _this.gameObject.walkFrames, _this, gameObject);
+        _this.performBehavior();
         return _this;
     }
-    WalkBehavior.prototype.performBehavior = function (playScreen, gameObject) {
+    WalkBehavior.prototype.performBehavior = function () {
+        if (this.gameObject.playScreen.checkCollision(this.gameObject.getRectangle(), this.gameObject.playScreen.player.getRectangle())) {
+            this.gameObject.behavior = new AttackBehavior(this.gameObject);
+        }
     };
     WalkBehavior.prototype.onAnimationCompleted = function () {
-        this.gameAnimation = new GameAnimation("images/" + this.gameObject.type + "/walk/go", this.gameObject.frames, this, this.gameObject);
+        if (this.gameObject.playScreen.checkCollision(this.gameObject.getRectangle(), this.gameObject.playScreen.player.getRectangle())) {
+            this.gameObject.behavior = new AttackBehavior(this.gameObject);
+        }
+        else {
+            this.gameObject.behavior = new WalkBehavior(this.gameObject);
+        }
     };
     return WalkBehavior;
 }(Behavior));
 var Wave = (function () {
-    function Wave(l) {
-        this.level = l;
-        this.amountMonsters = l * 1.25;
+    function Wave(level, playScreen, player) {
+        this.level = level;
+        this.playScreen = playScreen;
+        this.player = player;
+        this.amountMonsters = Math.floor(this.level * 1.50);
+        this.createEnemies();
     }
+    Wave.prototype.createEnemies = function () {
+        for (var i = 0; i <= this.amountMonsters; i++) {
+            var posX = this.setEnemyPosition();
+            var posY = 0;
+            this.playScreen.addEnemy(new Zombie(this.playScreen, posX, posY));
+        }
+    };
+    Wave.prototype.setEnemyPosition = function () {
+        var posX = 0;
+        var posY = 0;
+        var playerHitBox = this.player.getRectangle();
+        do {
+            posX = Math.floor(Math.random() * Math.floor(window.innerWidth - 70));
+        } while (posX > playerHitBox.left - 150 && posX < playerHitBox.right + 150);
+        return posX;
+    };
     Wave.prototype.update = function () {
     };
     return Wave;
 }());
 var Zombie = (function (_super) {
     __extends(Zombie, _super);
-    function Zombie(playScreen) {
-        var _this = _super.call(this, "Zombie", playScreen) || this;
+    function Zombie(playScreen, xPos, yPos) {
+        var _this = _super.call(this, "Zombie", playScreen, xPos, yPos) || this;
         _this.appearFrames = 10;
         _this.walkFrames = 9;
         _this.attackFrames = 6;

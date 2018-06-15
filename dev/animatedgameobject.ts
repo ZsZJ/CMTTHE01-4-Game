@@ -7,21 +7,67 @@ class AnimatedGameObject extends GameObject {
      * type : string
      * playScreen : PlayScreen
      */
+    private _behavior : Behavior | null = null
+    private _viewDirection : number = 0
+    private _move : boolean = false
 
-    private _behavior : Behavior
-    private _frames : number
+    // Animation Behavior Frames
+    private _appearFrames : number = 0
+    private _walkFrames : number = 0
+    private _attackFrames : number = 0
+    private _dieFrames : number = 0
 
-    constructor(type : string, playScreen : PlayScreen) {
+    constructor(type : string, playScreen : PlayScreen, xPos : number, yPos : number) {
         /* Parent constructor [GameObject]
         *  type : string
         *  playScreen : PlayScreen
         */
-        super(type, playScreen)
+        super(type, playScreen, xPos, yPos)
     }
 
-    // Behavio Getter
+    // Getter appear frames
+    public get appearFrames() : number {
+        return this._appearFrames
+    }
+
+    // Setter appear frames
+    public set appearFrames(f : number) {
+        this._appearFrames = f
+    }
+
+    // Getter walk frames
+    public get walkFrames() : number {
+        return this._walkFrames
+    }
+
+    // Setter walk frames
+    public set walkFrames(f : number) {
+        this._walkFrames = f
+    }
+
+    // Getter attack frames
+    public get attackFrames() {
+        return this._attackFrames
+    }
+
+    // Setter attacks frames
+    public set attackFrames(f : number) {
+        this._attackFrames = f
+    }
+
+    // Getter die frames
+    public get dieFrames() {
+        return this._dieFrames
+    }
+
+    // Setter die frames
+    public set dieFrames(f : number) {
+        this._dieFrames = f
+    }
+
+    // Behavior Getter
     public get behavior() : Behavior {
-        return this._behavior
+        return this._behavior!
     }
 
     // Behavior Setter
@@ -29,19 +75,52 @@ class AnimatedGameObject extends GameObject {
         this._behavior = b
     }
 
-    // Frames getter
-    public get frames() : number {
-        return this._frames
+    // Direction setter
+    public set viewDirection(v : number) {
+        this._viewDirection = v
     }
 
-    // Frames setter
-    public set frames(f : number) {
-        this._frames = f
+    // Direction getter
+    public get viewDirection() : number {
+        return this._viewDirection
+    }
+
+    // Move Getter
+    public get move() : boolean {
+        return this._move!
+    }
+
+    // Move Setter
+    public set move(m : boolean) {
+        this._move = m
     }
 
     // Update the behavior
     public update() {
-        this._behavior.update()
+        
+        this._behavior!.update()
+
+        /**
+         * IS THERE ANY OTHER POSSIBLE WAY!? PLS HELP! 
+         * Moving object
+         */
+
+        // Move the Object the facing way
+        if (this.move == true) {
+            
+            // Left view
+            if (this._viewDirection == 0) {
+                this.objectPosX += 1
+                this.element.style.transform = `translate(${this.objectPosX}px, ${this.objectPosY}px) scaleX(-1)`
+
+            }
+            // Right view
+            else {
+                this.objectPosX -= 1
+                this.element.style.transform = `translate(${this.objectPosX}px, ${this.objectPosY}px) scaleX(1)`
+            }
+
+        }
     }
 
 }
