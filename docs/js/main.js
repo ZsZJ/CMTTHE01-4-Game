@@ -245,6 +245,7 @@ var DieBehavior = (function (_super) {
     };
     DieBehavior.prototype.onAnimationCompleted = function () {
         this.gameObject.element.remove();
+        this.gameObject.playScreen.wave.currentMonsters--;
     };
     return DieBehavior;
 }(Behavior));
@@ -278,8 +279,8 @@ var Enemy = (function (_super) {
 }(AnimatedGameObject));
 var Game = (function () {
     function Game() {
-        this.screen = new StartScreen(this);
         this.level = 1;
+        this.screen = new StartScreen(this);
         this.gameLoop();
     }
     Game.prototype.gameLoop = function () {
@@ -294,6 +295,7 @@ var GameAnimation = (function () {
     function GameAnimation(path, amountFrames, behavior, gameObject) {
         this.delayCounter = 0;
         this.currentFrame = 0;
+        this.animationCompleteTriggered = false;
         this.path = path;
         this.amountFrames = amountFrames;
         this.behavior = behavior;
@@ -306,7 +308,10 @@ var GameAnimation = (function () {
             this.delayCounter = 0;
         }
         this.gameObject.element.style.backgroundImage = "url(" + this.path + "_" + this.currentFrame + ".png)";
-        if (this.currentFrame == this.amountFrames) {
+        if (this.currentFrame == this.amountFrames && this.animationCompleteTriggered === false) {
+            this.animationCompleteTriggered = true;
+            if (this.amountFrames == 7) {
+            }
             this.behavior.onAnimationCompleted();
         }
     };
@@ -362,14 +367,21 @@ var Player = (function (_super) {
 }(AnimatedGameObject));
 var PlayScreen = (function () {
     function PlayScreen(g) {
-        this.game = g;
+        this._game = g;
         this.bullets = new Array;
-        this.enemies = new Array;
+        this._enemies = new Array;
         var ground = document.createElement("ground");
         document.body.appendChild(ground);
         this._player = new Player(this, 640, 0);
-        this.wave = new Wave(g.level, this, this._player);
+        this._wave = new Wave(this, this._player);
     }
+    Object.defineProperty(PlayScreen.prototype, "game", {
+        get: function () {
+            return this._game;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(PlayScreen.prototype, "player", {
         get: function () {
             return this._player;
@@ -377,15 +389,29 @@ var PlayScreen = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(PlayScreen.prototype, "wave", {
+        get: function () {
+            return this._wave;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PlayScreen.prototype, "enemies", {
+        get: function () {
+            return this._enemies;
+        },
+        enumerable: true,
+        configurable: true
+    });
     PlayScreen.prototype.addEnemy = function (e) {
-        this.enemies.push(e);
+        this._enemies.push(e);
     };
     PlayScreen.prototype.addBullet = function (b) {
         this.bullets.push(b);
     };
     PlayScreen.prototype.update = function () {
         this._player.update();
-        for (var _i = 0, _a = this.enemies; _i < _a.length; _i++) {
+        for (var _i = 0, _a = this._enemies; _i < _a.length; _i++) {
             var e = _a[_i];
             e.update();
             if (this.checkCollision(e.getRectangle(), this.player.getRectangle())) {
@@ -395,7 +421,7 @@ var PlayScreen = (function () {
         for (var _b = 0, _c = this.bullets; _b < _c.length; _b++) {
             var b = _c[_b];
             b.update();
-            for (var _d = 0, _e = this.enemies; _d < _e.length; _d++) {
+            for (var _d = 0, _e = this._enemies; _d < _e.length; _d++) {
                 var e = _e[_d];
                 if (this.checkCollision(b.getRectangle(), e.getRectangle()) && e.state == 2) {
                     b.element.remove();
@@ -403,6 +429,7 @@ var PlayScreen = (function () {
                 }
             }
         }
+        this.wave.update();
     };
     PlayScreen.prototype.checkCollision = function (a, b) {
         return (a.left <= b.right &&
@@ -435,6 +462,15 @@ var ShootBehavior = (function (_super) {
     };
     return ShootBehavior;
 }(Behavior));
+var ShopScreen = (function () {
+    function ShopScreen(g) {
+        this.game = g;
+        console.log("Shopscreen");
+    }
+    ShopScreen.prototype.update = function () {
+    };
+    return ShopScreen;
+}());
 var StartScreen = (function () {
     function StartScreen(g) {
         var _this = this;
@@ -484,23 +520,36 @@ var WalkBehavior = (function (_super) {
     return WalkBehavior;
 }(Behavior));
 var Wave = (function () {
-    function Wave(level, playScreen, player) {
-        this.level = level;
+    function Wave(playScreen, player) {
+        this._currentMonsters = 0;
+        this.waveComplete = false;
         this.playScreen = playScreen;
         this.player = player;
-        this.amountMonsters = Math.floor(this.level * 1.50);
+        this.amountMonsters = Math.floor(this.playScreen.game.level * 1.50);
         this.createEnemies();
     }
+    Object.defineProperty(Wave.prototype, "currentMonsters", {
+        get: function () {
+            return this._currentMonsters;
+        },
+        set: function (c) {
+            this._currentMonsters = c;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Wave.prototype.createEnemies = function () {
-        for (var i = 0; i <= this.amountMonsters; i++) {
-            var posX = this.setEnemyPosition();
-            var posY = 0;
-            this.playScreen.addEnemy(new Zombie(this.playScreen, posX, posY));
+        var _this = this;
+        var posX = this.setEnemyPosition();
+        var posY = 0;
+        this.playScreen.addEnemy(new Zombie(this.playScreen, posX, posY));
+        this.currentMonsters++;
+        if (this.waveComplete == false && this.playScreen.enemies.length < this.amountMonsters) {
+            setTimeout(function () { return _this.createEnemies(); }, 1000);
         }
     };
     Wave.prototype.setEnemyPosition = function () {
         var posX = 0;
-        var posY = 0;
         var playerHitBox = this.player.getRectangle();
         do {
             posX = Math.floor(Math.random() * Math.floor(window.innerWidth - 70));
@@ -508,8 +557,34 @@ var Wave = (function () {
         return posX;
     };
     Wave.prototype.update = function () {
+        if (this.currentMonsters == 0 && this.playScreen.enemies.length == this.amountMonsters) {
+            this.waveComplete = true;
+            this.playScreen.game.level++;
+            this.playScreen.game.screen = new WaveScreen(this.playScreen.game);
+        }
     };
     return Wave;
+}());
+var WaveScreen = (function () {
+    function WaveScreen(g) {
+        var _this = this;
+        this.game = g;
+        this.element = document.createElement("Complete");
+        this.element.innerHTML = "Wave Complete";
+        var shopButton = document.createElement("ShopButton");
+        this.element.appendChild(shopButton);
+        this.nextButton = document.createElement("NextButton");
+        this.element.appendChild(this.nextButton);
+        document.body.appendChild(this.element);
+        this.nextButton.addEventListener("click", function () { return _this.nextWave(); });
+    }
+    WaveScreen.prototype.nextWave = function () {
+        document.body.innerHTML = "";
+        this.game.screen = new PlayScreen(this.game);
+    };
+    WaveScreen.prototype.update = function () {
+    };
+    return WaveScreen;
 }());
 var Zombie = (function (_super) {
     __extends(Zombie, _super);

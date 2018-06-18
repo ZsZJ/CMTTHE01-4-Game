@@ -7,6 +7,7 @@ class GameAnimation {
     private delayCounter : number = 0
     public currentFrame : number = 0
     public amountFrames : number
+    private animationCompleteTriggered = false;
 
     constructor(path : string, amountFrames : number, behavior : Behavior, gameObject : GameObject) {
         
@@ -31,7 +32,16 @@ class GameAnimation {
         this.gameObject.element.style.backgroundImage = `url(${this.path}_${this.currentFrame}.png)`
         
         // Animation is complete
-        if (this.currentFrame == this.amountFrames) {
+        if (this.currentFrame == this.amountFrames && this.animationCompleteTriggered === false) {
+
+            // Make sure the animation is completed once ( Loop too fast )
+            this.animationCompleteTriggered = true;
+            
+            if (this.amountFrames == 7) {
+            // console.log(this.currentFrame)
+            // console.log(this.amountFrames)
+            }
+
             this.behavior.onAnimationCompleted()
         }
 

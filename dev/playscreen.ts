@@ -1,19 +1,18 @@
 class PlayScreen {
 
-    private game : Game
+    private _game : Game
     private _player : Player
-    private enemies : Enemy[]
+    private _enemies : Enemy[]
     private bullets : Bullet[]
-    private wave : Wave
+    private _wave : Wave
 
     constructor(g : Game) {
-
         // Assign Game Object
-        this.game = g
+        this._game = g
 
         // Assign arrays
         this.bullets = new Array
-        this.enemies = new Array
+        this._enemies = new Array
 
         // Make the ground
         let ground = document.createElement("ground")
@@ -23,17 +22,33 @@ class PlayScreen {
         this._player = new Player(this, 640, 0)
 
         // Create Wave [Game.level : number]
-        this.wave = new Wave(g.level, this, this._player)
+        this._wave = new Wave(this, this._player)
     }
 
+    // Get the game instance
+    public get game() : Game {
+        return this._game
+    }
+
+    // Get the player instance
     public get player() : Player {
         return this._player
+    }
+
+    // Get the wave instance
+    public get wave() : Wave {
+        return this._wave
+    }
+
+    // Get the enemies instance
+    public get enemies() : Enemy[] {
+        return this._enemies
     }
 
     // Push enemy in array
     public addEnemy(e : Enemy)
     {
-        this.enemies.push(e)
+        this._enemies.push(e)
     }
 
     // Add bullet in playscreen
@@ -48,7 +63,7 @@ class PlayScreen {
         this._player.update()
 
          // Loop through enemies
-         for (let e of this.enemies) {
+         for (let e of this._enemies) {
             
             // update the enemies
             e.update()
@@ -57,26 +72,25 @@ class PlayScreen {
             if (this.checkCollision(e.getRectangle(), this.player.getRectangle())) {
                 e.move = false
             }
-
         }
         
         // Loop through bullets
         for (let b of this.bullets) {
-
             b.update()
-
             // Loop through enemies
-            for (let e of this.enemies) {
-
-                // Enemy has collision with player and is not spawning and dying
+            for (let e of this._enemies) {
+                // Enemy has collision with bullet and is not spawning or dying
                 if (this.checkCollision(b.getRectangle(), e.getRectangle()) && e.state == 2) {
+                    // Remove bullet element
                     b.element.remove()
+                    // Enemy is hit
                     e.hit()
                 }
-
             }
-
         }
+
+        // Keep the wave updated
+        this.wave.update()
 
     }
 

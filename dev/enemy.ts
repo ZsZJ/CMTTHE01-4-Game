@@ -41,8 +41,11 @@ class Enemy extends AnimatedGameObject {
 
         // If health is zero give enemy die behavior
         if (this.health == 0) {
+            
+            // Die Behavior enemy
             this.behavior = new DieBehavior(this)
             this.behavior.performBehavior()
+
         }
 
     }

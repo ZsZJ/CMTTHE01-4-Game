@@ -1,11 +1,10 @@
 class Game {
 
     public screen : any
-    public level : number
+    public level : number = 1
 
     constructor() {
         this.screen = new StartScreen(this)
-        this.level = 1
         this.gameLoop()
     }
 

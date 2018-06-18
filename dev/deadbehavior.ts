@@ -13,5 +13,7 @@ class PlayerDeadBehavior extends Behavior {
 
     public onAnimationCompleted() { 
 
+        
+
     }
 }
