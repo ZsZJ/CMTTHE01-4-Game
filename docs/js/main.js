@@ -321,13 +321,13 @@ var IdleBehavior = (function (_super) {
     __extends(IdleBehavior, _super);
     function IdleBehavior(gameObject) {
         var _this = _super.call(this, gameObject) || this;
-        _this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, _this, gameObject);
+        _this.gameAnimation = new GameAnimation("./images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, _this, gameObject);
         return _this;
     }
     IdleBehavior.prototype.performBehavior = function () {
     };
     IdleBehavior.prototype.onAnimationCompleted = function () {
-        this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, this, this.gameObject);
+        this.gameAnimation = new GameAnimation("./images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, this, this.gameObject);
     };
     return IdleBehavior;
 }(Behavior));
@@ -443,7 +443,7 @@ var ShootBehavior = (function (_super) {
     __extends(ShootBehavior, _super);
     function ShootBehavior(gameObject) {
         var _this = _super.call(this, gameObject) || this;
-        _this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack", 9, _this, gameObject);
+        _this.gameAnimation = new GameAnimation("./images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack", 9, _this, gameObject);
         return _this;
     }
     ShootBehavior.prototype.performBehavior = function () {
@@ -458,7 +458,7 @@ var ShootBehavior = (function (_super) {
     };
     ShootBehavior.prototype.onAnimationCompleted = function () {
         this.gameObject.element.classList.remove("shoot");
-        this.gameAnimation = new GameAnimation("images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, this, this.gameObject);
+        this.gameAnimation = new GameAnimation("./images/Hero/_Mode-Gun/01-Idle/JK_P_Gun__Idle", 9, this, this.gameObject);
     };
     return ShootBehavior;
 }(Behavior));

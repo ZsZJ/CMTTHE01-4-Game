@@ -8,6 +8,8 @@ class StartScreen {
     private game : Game
 
     constructor(g : Game) {
+
+        // Create Start Splash element
         this.game = g
         this.element = document.createElement("splash")
         document.body.appendChild(this.element)
