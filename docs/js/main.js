@@ -321,13 +321,13 @@ var IdleBehavior = (function (_super) {
     __extends(IdleBehavior, _super);
     function IdleBehavior(gameObject) {
         var _this = _super.call(this, gameObject) || this;
-        _this.gameAnimation = new GameAnimation("images/hero/mode-gun/idle/idle", 9, _this, gameObject);
+        _this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, _this, gameObject);
         return _this;
     }
     IdleBehavior.prototype.performBehavior = function () {
     };
     IdleBehavior.prototype.onAnimationCompleted = function () {
-        this.gameAnimation = new GameAnimation("images/hero/mode-gun/idle/idle", 9, this, this.gameObject);
+        this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, this, this.gameObject);
     };
     return IdleBehavior;
 }(Behavior));
