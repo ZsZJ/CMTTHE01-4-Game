@@ -526,7 +526,8 @@ var Wave = (function () {
         this.playScreen = playScreen;
         this.player = player;
         this.amountMonsters = Math.floor(this.playScreen.game.level * 1.50);
-        this.createEnemies();
+        this.waveIntroElement = document.createElement("waveintro");
+        this.waveIntro();
     }
     Object.defineProperty(Wave.prototype, "currentMonsters", {
         get: function () {
@@ -538,8 +539,15 @@ var Wave = (function () {
         enumerable: true,
         configurable: true
     });
+    Wave.prototype.waveIntro = function () {
+        var _this = this;
+        this.waveIntroElement.innerHTML = "Wave " + this.playScreen.game.level;
+        document.body.appendChild(this.waveIntroElement);
+        setTimeout(function () { return _this.createEnemies(); }, 3000);
+    };
     Wave.prototype.createEnemies = function () {
         var _this = this;
+        this.waveIntroElement.remove();
         var posX = this.setEnemyPosition();
         var posY = 0;
         this.playScreen.addEnemy(new Zombie(this.playScreen, posX, posY));
@@ -560,6 +568,7 @@ var Wave = (function () {
         if (this.currentMonsters == 0 && this.playScreen.enemies.length == this.amountMonsters) {
             this.waveComplete = true;
             this.playScreen.game.level++;
+            document.body.innerHTML = "";
             this.playScreen.game.screen = new WaveScreen(this.playScreen.game);
         }
     };
@@ -570,10 +579,14 @@ var WaveScreen = (function () {
         var _this = this;
         this.game = g;
         this.element = document.createElement("Complete");
-        this.element.innerHTML = "Wave Complete";
-        var shopButton = document.createElement("ShopButton");
-        this.element.appendChild(shopButton);
+        this.title = document.createElement("title");
+        this.title.innerHTML = "Wave Complete";
+        this.element.appendChild(this.title);
+        this.upgradeButton = document.createElement("UpgradeButton");
+        this.upgradeButton.innerHTML = "Upgrades";
+        this.element.appendChild(this.upgradeButton);
         this.nextButton = document.createElement("NextButton");
+        this.nextButton.innerHTML = "Next Wave";
         this.element.appendChild(this.nextButton);
         document.body.appendChild(this.element);
         this.nextButton.addEventListener("click", function () { return _this.nextWave(); });

@@ -16,6 +16,19 @@ body * {
     background-repeat: no-repeat;
 }
 
+/* Fade in animation */
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50%   { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+
 @font-face {
     font-family: Horror;
     src: url(../fonts/DoubleFeature20.ttf);
@@ -58,35 +71,13 @@ splash highscores {
     font-size: 4em;
     font-weight: bold;
     position: fixed;
-    top: 85%;
+    top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
 splash highscores:hover {
     cursor: pointer;
-}
-
-/* The complete wave interface */
-complete {
-    text-align: center;
-    text-shadow: -5px 0 black, 0 5px black, 5px 0 black, 0 -5px black;
-    width: 100%;
-    height: 100%;
-    color: #af111c;
-    font-family : Horror;
-    font-size: 8em;
-    position: fixed;
-    top: 65%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: fadein 1s;
-}
-
-/* Fade in animation */
-@keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
 }
 
 /* Player */
@@ -101,6 +92,100 @@ player.shoot {
     width: 10.5em; height: 10.5em;
     bottom: -1%;
     background-size: contain;
+}
+
+/* Ground */
+ground {
+    position: fixed;
+    bottom: 0;
+    height: 3em;
+    width: 100%;
+    border-top: 3px solid #000000;
+    background-image: url(../images/ground.jpg);
+    background-repeat: repeat-x;
+}
+
+/* Bullet */
+bullet {
+    width:1em; height:1em;
+    background-image: url('../images/Hero/_Weapon/Bullet.png');
+    background-size: contain;
+}
+
+/* Wave intro */
+waveintro {
+    text-align: center;
+    text-shadow: -5px 0 black, 0 5px black, 5px 0 black, 0 -5px black;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    animation: fadeInOut 3s;
+    color: #af111c;
+    font-family : Horror;
+    font-size: 8em;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Wave Complete screen */
+/* The complete wave interface */
+complete {
+    text-align: center;
+    text-shadow: -5px 0 black, 0 5px black, 5px 0 black, 0 -5px black;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    animation: fadein 1s;
+}
+
+complete title {
+    color: #af111c;
+    font-family : Horror;
+    font-size: 8em;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+complete upgradebutton {
+    color: #f39c12;
+    font-weight: bold;
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    font-size: 3em;
+    transform: translate(-50%, -50%);
+}
+
+complete nextbutton {
+    color: #fff;
+    font-weight: bold;
+    position: fixed;
+    top: 70%;
+    left: 50%;
+    font-size: 3em;
+    transform: translate(-50%, -50%);
+}
+
+complete nextbutton:hover {
+    cursor: pointer;
+}
+
+/* Zombie */
+zombie {
+    background-size: contain;
+    width: 10em; height: 10em;
+    bottom: 1.5em;
+}
+
+zombie.attack {
+    background-size: cover;
+}
+
+zombie.dead {
+    width: 14em;
+    background-size: cover;
 }
 
 /* Player preload images */
@@ -164,40 +249,6 @@ player.shoot {
 }
 #player-shoot-9 {
     background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_9.png')
-}
-
-/* Ground */
-ground {
-    position: fixed;
-    bottom: 0;
-    height: 3em;
-    width: 100%;
-    border-top: 3px solid #000000;
-    background-image: url(../images/ground.jpg);
-    background-repeat: repeat-x;
-}
-
-/* Bullet */
-bullet {
-    width:1em; height:1em;
-    background-image: url('../images/Hero/_Weapon/Bullet.png');
-    background-size: contain;
-}
-
-/* Zombie */
-zombie {
-    background-size: contain;
-    width: 10em; height: 10em;
-    bottom: 1.5em;
-}
-
-zombie.attack {
-    background-size: cover;
-}
-
-zombie.dead {
-    width: 14em;
-    background-size: cover;
 }
 
 /* Zombie preload images */

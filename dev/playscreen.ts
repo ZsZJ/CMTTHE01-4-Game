@@ -7,6 +7,7 @@ class PlayScreen {
     private _wave : Wave
 
     constructor(g : Game) {
+
         // Assign Game Object
         this._game = g
 
@@ -21,7 +22,6 @@ class PlayScreen {
         // Create the player
         this._player = new Player(this, 640, 0)
 
-        // Create Wave [Game.level : number]
         this._wave = new Wave(this, this._player)
     }
 
@@ -91,7 +91,6 @@ class PlayScreen {
 
         // Keep the wave updated
         this.wave.update()
-
     }
 
     // Check Collision

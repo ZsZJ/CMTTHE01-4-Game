@@ -1,12 +1,12 @@
 class Wave {
 
-    private completeElement : HTMLElement
-
     private playScreen : PlayScreen
     private player : Player
     private amountMonsters : number
     private _currentMonsters : number = 0
     private waveComplete : boolean = false
+
+    private waveIntroElement : HTMLElement
 
     public get currentMonsters() : number {
         return this._currentMonsters
@@ -28,10 +28,24 @@ class Wave {
         this.amountMonsters = Math.floor(this.playScreen.game.level * 1.50)
 
         // Create the enemies
-        this.createEnemies()
+        this.waveIntroElement = document.createElement("waveintro")
+
+        this.waveIntro()
+    }
+
+    // The Wave intro
+    private waveIntro() {
+
+        this.waveIntroElement.innerHTML = `Wave ${this.playScreen.game.level}`
+        document.body.appendChild(this.waveIntroElement)
+
+        setTimeout( () => this.createEnemies(), 3000 )
     }
 
     private createEnemies() {
+
+        // Remove the wave level intro
+        this.waveIntroElement.remove()
 
         // Set the position of the enemy
         let posX = this.setEnemyPosition()
@@ -79,6 +93,7 @@ class Wave {
             this.playScreen.game.level ++
 
             // Open the Wave Complete Screen
+            document.body.innerHTML = ""
             this.playScreen.game.screen = new WaveScreen(this.playScreen.game)
         }
 
