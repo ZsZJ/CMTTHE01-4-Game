@@ -12,6 +12,9 @@ class ShootBehavior extends Behavior{
      */
     public performBehavior() {
 
+        // After shooting decrease current amount of bullets
+        this.gameObject.playScreen.game.user.userStats.currentBullets --
+
         // Set Shooting class
         this.gameObject.element.classList.add("shoot");
 

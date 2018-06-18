@@ -279,10 +279,17 @@ var Enemy = (function (_super) {
 }(AnimatedGameObject));
 var Game = (function () {
     function Game() {
-        this.level = 1;
         this.screen = new StartScreen(this);
+        this._user = new User();
         this.gameLoop();
     }
+    Object.defineProperty(Game.prototype, "user", {
+        get: function () {
+            return this._user;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Game.prototype.gameLoop = function () {
         var _this = this;
         this.screen.update();
@@ -336,13 +343,25 @@ var Player = (function (_super) {
     function Player(playScreen, xPos, yPos) {
         var _this = _super.call(this, "Player", playScreen, xPos, yPos) || this;
         _this._direction = 1;
-        window.addEventListener("keydown", function (e) { return _this.control(e); });
+        _this._reloading = false;
+        _this.event = function (e) { return _this.control(e); };
+        window.addEventListener("keydown", _this.event);
         _this.behavior = new IdleBehavior(_this);
         return _this;
     }
     Object.defineProperty(Player.prototype, "viewDirection", {
         get: function () {
             return this._direction;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Player.prototype, "reloading", {
+        get: function () {
+            return this._reloading;
+        },
+        set: function (r) {
+            this._reloading = r;
         },
         enumerable: true,
         configurable: true
@@ -358,10 +377,21 @@ var Player = (function (_super) {
                 this._direction = 1;
                 break;
             case 32:
-                this.behavior = new ShootBehavior(this);
-                this.behavior.performBehavior();
+                if (this.playScreen.game.user.userStats.currentBullets != 0) {
+                    this.behavior = new ShootBehavior(this);
+                    this.behavior.performBehavior();
+                }
+                break;
+            case 67:
+                if (this.playScreen.game.user.userStats.currentBullets != this.playScreen.game.user.userStats.bulletCap && this.reloading == false) {
+                    this.behavior = new ReloadBehavior(this);
+                    this.behavior.performBehavior();
+                }
                 break;
         }
+    };
+    Player.prototype.removeListener = function () {
+        window.removeEventListener("keydown", this.event);
     };
     return Player;
 }(AnimatedGameObject));
@@ -373,6 +403,12 @@ var PlayScreen = (function () {
         var ground = document.createElement("ground");
         document.body.appendChild(ground);
         this._player = new Player(this, 640, 0);
+        this.bulletPlaceHolder = document.createElement("bulletplaceholder");
+        document.body.appendChild(this.bulletPlaceHolder);
+        this.bulletCap = document.createElement("bulletcap");
+        this.bulletPlaceHolder.appendChild(this.bulletCap);
+        var bulletImage = document.createElement("bulletimage");
+        this.bulletPlaceHolder.appendChild(bulletImage);
         this._wave = new Wave(this, this._player);
     }
     Object.defineProperty(PlayScreen.prototype, "game", {
@@ -411,6 +447,17 @@ var PlayScreen = (function () {
     };
     PlayScreen.prototype.update = function () {
         this._player.update();
+        this.bulletCap.innerHTML = "" + this._game.user.userStats.currentBullets;
+        if (this._game.user.userStats.currentBullets == 0) {
+            this.bulletCap.classList.add('red');
+        }
+        else {
+            this.bulletCap.classList.remove('red');
+        }
+        if (this.player.reloading == true) {
+            this.bulletCap.innerHTML = 'Reloading...';
+            this.bulletCap.classList.remove('red');
+        }
         for (var _i = 0, _a = this._enemies; _i < _a.length; _i++) {
             var e = _a[_i];
             e.update();
@@ -439,6 +486,28 @@ var PlayScreen = (function () {
     };
     return PlayScreen;
 }());
+var ReloadBehavior = (function (_super) {
+    __extends(ReloadBehavior, _super);
+    function ReloadBehavior(gameObject) {
+        return _super.call(this, gameObject) || this;
+    }
+    ReloadBehavior.prototype.performBehavior = function () {
+        var _this = this;
+        console.log('reloading....');
+        this.gameObject.playScreen.bulletCap.innerHTML = "Reloading...";
+        this.gameObject.playScreen.player.reloading = true;
+        setTimeout(function () { return _this.onAnimationCompleted(); }, this.gameObject.playScreen.game.user.userStats.reload);
+    };
+    ReloadBehavior.prototype.onAnimationCompleted = function () {
+        console.log("Done reloading!");
+        this.gameObject.playScreen.player.reloading = false;
+        this.gameObject.playScreen.game.user.userStats.currentBullets = this.gameObject.playScreen.game.user.userStats.bulletCap;
+        this.gameObject.behavior = new IdleBehavior(this.gameObject);
+    };
+    ReloadBehavior.prototype.update = function () {
+    };
+    return ReloadBehavior;
+}(Behavior));
 var ShootBehavior = (function (_super) {
     __extends(ShootBehavior, _super);
     function ShootBehavior(gameObject) {
@@ -447,6 +516,7 @@ var ShootBehavior = (function (_super) {
         return _this;
     }
     ShootBehavior.prototype.performBehavior = function () {
+        this.gameObject.playScreen.game.user.userStats.currentBullets--;
         this.gameObject.element.classList.add("shoot");
         var rect = this.gameObject.element.getBoundingClientRect();
         var rectSide = rect.left;
@@ -496,6 +566,134 @@ var StartScreen = (function () {
     };
     return StartScreen;
 }());
+var User = (function () {
+    function User() {
+        this._level = 1;
+        this._userStats = new UserStats();
+    }
+    Object.defineProperty(User.prototype, "level", {
+        get: function () {
+            return this._level;
+        },
+        set: function (l) {
+            this._level = l;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(User.prototype, "userStats", {
+        get: function () {
+            return this._userStats;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return User;
+}());
+var UserStats = (function () {
+    function UserStats() {
+        this._healthLevel = 0;
+        this._reloadLevel = 0;
+        this._bulletPowerLevel = 0;
+        this._bulletCapLevel = 0;
+        this._health = 10;
+        this._reload = 1500;
+        this._bullet = 1;
+        this._bulletCap = 3;
+        this._currentHealth = 10;
+        this._currentBullets = 3;
+        this.healthLevel = 0;
+        this._reloadLevel = 0;
+        this._bulletPowerLevel = 0;
+        this._bulletCapLevel = 0;
+    }
+    Object.defineProperty(UserStats.prototype, "healthLevel", {
+        get: function () {
+            return this._healthLevel;
+        },
+        set: function (h) {
+            this._health += h;
+            this._healthLevel = h;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UserStats.prototype, "reloadLevel", {
+        get: function () {
+            return this._reloadLevel;
+        },
+        set: function (r) {
+            this._reload -= (r * 200);
+            this._reloadLevel = r;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UserStats.prototype, "bulletPowerLevel", {
+        get: function () {
+            return this._bulletPowerLevel;
+        },
+        set: function (b) {
+            this._bullet += b;
+            this._bulletPowerLevel = b;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UserStats.prototype, "bulletCapLevel", {
+        get: function () {
+            return this._bulletCapLevel;
+        },
+        set: function (b) {
+            this._bulletCap += b;
+            this._bulletCapLevel = b;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UserStats.prototype, "currentBullets", {
+        get: function () {
+            return this._currentBullets;
+        },
+        set: function (b) {
+            this._currentBullets = b;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UserStats.prototype, "currentHealth", {
+        get: function () {
+            return this._currentHealth;
+        },
+        set: function (h) {
+            this._currentHealth = h;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UserStats.prototype, "bulletCap", {
+        get: function () {
+            return this._bulletCap;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UserStats.prototype, "health", {
+        get: function () {
+            return this._health;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UserStats.prototype, "reload", {
+        get: function () {
+            return this._reload;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return UserStats;
+}());
 var WalkBehavior = (function (_super) {
     __extends(WalkBehavior, _super);
     function WalkBehavior(gameObject) {
@@ -525,7 +723,7 @@ var Wave = (function () {
         this.waveComplete = false;
         this.playScreen = playScreen;
         this.player = player;
-        this.amountMonsters = Math.floor(this.playScreen.game.level * 1.50);
+        this.amountMonsters = Math.floor(this.playScreen.game.user.level * 1.50);
         this.waveIntroElement = document.createElement("waveintro");
         this.waveIntro();
     }
@@ -541,7 +739,7 @@ var Wave = (function () {
     });
     Wave.prototype.waveIntro = function () {
         var _this = this;
-        this.waveIntroElement.innerHTML = "Wave " + this.playScreen.game.level;
+        this.waveIntroElement.innerHTML = "Wave " + this.playScreen.game.user.level;
         document.body.appendChild(this.waveIntroElement);
         setTimeout(function () { return _this.createEnemies(); }, 3000);
     };
@@ -567,7 +765,7 @@ var Wave = (function () {
     Wave.prototype.update = function () {
         if (this.currentMonsters == 0 && this.playScreen.enemies.length == this.amountMonsters) {
             this.waveComplete = true;
-            this.playScreen.game.level++;
+            this.player.removeListener();
             document.body.innerHTML = "";
             this.playScreen.game.screen = new WaveScreen(this.playScreen.game);
         }
@@ -592,6 +790,9 @@ var WaveScreen = (function () {
         this.nextButton.addEventListener("click", function () { return _this.nextWave(); });
     }
     WaveScreen.prototype.nextWave = function () {
+        this.game.user.level++;
+        this.game.user.userStats.currentHealth = this.game.user.userStats.health;
+        this.game.user.userStats.currentBullets = this.game.user.userStats.bulletCap;
         document.body.innerHTML = "";
         this.game.screen = new PlayScreen(this.game);
     };

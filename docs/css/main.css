@@ -34,6 +34,10 @@ body * {
     src: url(../fonts/DoubleFeature20.ttf);
 }
 
+.red {
+    color: #af111c;
+}
+
 /* Start Screen */
 splash {
     text-align: center;
@@ -78,6 +82,29 @@ splash highscores {
 
 splash highscores:hover {
     cursor: pointer;
+}
+
+/* Bullet Cap & Bullet image */
+bulletPlaceholder {
+    position: absolute;
+    top: 70%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
+bulletImage {
+    transform: translate(-150%, 5%);
+    background-image: url("../images/Hero/_Weapon/Bullet.png");
+    width: 1.5em; height: 1.5em;
+    top: 20%;
+    background-size: cover;
+}
+
+bulletcap {
+    font-family: 'Courier New', Courier, monospace;
+    color: #ffffff;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 /* Player */

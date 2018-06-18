@@ -6,6 +6,10 @@ class PlayScreen {
     private bullets : Bullet[]
     private _wave : Wave
 
+    // HTML ELEMENTS
+    private bulletPlaceHolder : HTMLElement
+    public bulletCap : HTMLElement
+
     constructor(g : Game) {
 
         // Assign Game Object
@@ -15,13 +19,25 @@ class PlayScreen {
         this.bullets = new Array
         this._enemies = new Array
 
-        // Make the ground
+        // Create the ground
         let ground = document.createElement("ground")
         document.body.appendChild(ground)
 
         // Create the player
         this._player = new Player(this, 640, 0)
 
+        // Create the UI / Stats
+        this.bulletPlaceHolder = document.createElement("bulletplaceholder")
+        document.body.appendChild(this.bulletPlaceHolder)
+
+        this.bulletCap = document.createElement("bulletcap")
+        this.bulletPlaceHolder.appendChild(this.bulletCap)
+
+        let bulletImage = document.createElement("bulletimage")
+        this.bulletPlaceHolder.appendChild(bulletImage)
+        // END UI CREATION
+
+        // Create the Wave
         this._wave = new Wave(this, this._player)
     }
 
@@ -62,8 +78,24 @@ class PlayScreen {
         // Keep the player updated
         this._player.update()
 
-         // Loop through enemies
-         for (let e of this._enemies) {
+        // Keep the current bullets updated
+        this.bulletCap.innerHTML = `${this._game.user.userStats.currentBullets}`
+
+        if(this._game.user.userStats.currentBullets == 0) {
+            this.bulletCap.classList.add('red')
+        } 
+        else {
+            this.bulletCap.classList.remove('red')
+        }
+        
+        // Player is reloading
+        if (this.player.reloading == true) {
+            this.bulletCap.innerHTML = 'Reloading...'
+            this.bulletCap.classList.remove('red')
+        }
+
+        // Loop through enemies
+        for (let e of this._enemies) {
             
             // update the enemies
             e.update()

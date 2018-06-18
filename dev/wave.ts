@@ -25,7 +25,7 @@ class Wave {
         this.player = player
 
         // Calculate amount monster ( FLOOR : level * 1.50 )
-        this.amountMonsters = Math.floor(this.playScreen.game.level * 1.50)
+        this.amountMonsters = Math.floor(this.playScreen.game.user.level * 1.50)
 
         // Create the enemies
         this.waveIntroElement = document.createElement("waveintro")
@@ -36,10 +36,12 @@ class Wave {
     // The Wave intro
     private waveIntro() {
 
-        this.waveIntroElement.innerHTML = `Wave ${this.playScreen.game.level}`
+        // Show the Wave intro
+        this.waveIntroElement.innerHTML = `Wave ${this.playScreen.game.user.level}`
         document.body.appendChild(this.waveIntroElement)
 
-        setTimeout( () => this.createEnemies(), 3000 )
+        // Wait 3 seconds for the intro
+        setTimeout( () => this.createEnemies(), 3000)
     }
 
     private createEnemies() {
@@ -89,8 +91,8 @@ class Wave {
             // Complete the wave
             this.waveComplete = true
 
-            // Game Level up
-            this.playScreen.game.level ++
+            // Remove the event listener
+            this.player.removeListener()
 
             // Open the Wave Complete Screen
             document.body.innerHTML = ""
