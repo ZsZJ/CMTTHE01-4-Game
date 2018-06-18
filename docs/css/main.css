@@ -221,34 +221,34 @@ zombie.dead {
 }
 
 #player-shoot-0 {
-    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_0.png')
+    background-image: url('../images/Hero/modegun/shot/attack_0.png')
 }
 #player-shoot-1 {
-    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_1.png')
+    background-image: url('../images/Hero/modegun/shot/attack_1.png')
 }
 #player-shoot-2 {
-    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_2.png')
+    background-image: url('../images/Hero/modegun/shot/attack_2.png')
 }
 #player-shoot-3 {
-    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_3.png')
+    background-image: url('../images/Hero/modegun/shot/attack_3.png')
 }
 #player-shoot-4 {
-    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_4.png')
+    background-image: url('../images/Hero/modegun/shot/attack_4.png')
 }
 #player-shoot-5 {
-    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_5.png')
+    background-image: url('../images/Hero/modegun/shot/attack_5.png')
 }
 #player-shoot-6 {
-    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_6.png')
+    background-image: url('../images/Hero/modegun/shot/attack_6.png')
 }
 #player-shoot-7 {
-    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_7.png')
+    background-image: url('../images/Hero/modegun/shot/attack_7.png')
 }
 #player-shoot-8 {
-    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_8.png')
+    background-image: url('../images/Hero/modegun/shot/attack_8.png')
 }
 #player-shoot-9 {
-    background-image: url('../images/Hero/_Mode-Gun/03-Shot/JK_P_Gun__Attack_9.png')
+    background-image: url('../images/Hero/modegun/shot/attack_9.png')
 }
 
 /* Zombie preload images */
