@@ -809,6 +809,9 @@ var Sound = (function () {
     Sound.prototype.playIntro = function () {
         this.intro.play();
     };
+    Sound.prototype.stopIntro = function () {
+        this.intro.stop();
+    };
     Sound.prototype.playBattle = function () {
         this.battle.play();
     };
@@ -837,6 +840,7 @@ var StartScreen = (function () {
         Sound.getInstance().playIntro();
     }
     StartScreen.prototype.startGame = function () {
+        Sound.getInstance().stopIntro();
         document.body.innerHTML = "";
         this.game.screen = new PlayScreen(this.game);
     };

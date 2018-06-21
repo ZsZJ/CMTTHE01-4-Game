@@ -36,6 +36,10 @@ class StartScreen {
     }
 
     private startGame() {
+
+        // Stop the intro sound
+        Sound.getInstance().stopIntro()
+
         // Reset the body inner html and show the play screen
         document.body.innerHTML = ""
         this.game.screen = new PlayScreen(this.game)

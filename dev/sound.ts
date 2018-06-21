@@ -38,12 +38,18 @@ class Sound {
         this.intro.play()
     }
 
+    public stopIntro(){
+        // stop intro sound
+        this.intro.stop()
+    }
+
     public playBattle() {
         // play battle sound
         this.battle.play()
     }
 
     public stopBattle() {
+        // stop battle sound
         this.battle.stop()
     }
 
