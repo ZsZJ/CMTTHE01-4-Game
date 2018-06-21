@@ -1,0 +1,26 @@
+{
+  "name": "cmtthe01-4-game",
+  "version": "1.0.0",
+  "description": "TypeScript Game voor Programmeren 4.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZsZJ/CMTTHE01-4-Game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZsZJ/CMTTHE01-4-Game/issues"
+  },
+  "homepage": "https://github.com/ZsZJ/CMTTHE01-4-Game#readme",
+  "dependencies": {
+    "@types/howler": "^2.0.5",
+    "howler": "^2.0.12"
+  }
+}

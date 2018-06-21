@@ -3,7 +3,7 @@ class StartScreen {
     private element : HTMLElement
     private title : HTMLElement
     private start : HTMLElement
-    //private highscores: HTMLElement
+    private menu : HTMLElement
 
     private game : Game
 
@@ -19,18 +19,21 @@ class StartScreen {
         this.element.appendChild(this.title)
         this.title.innerHTML = "Grave Rampage"
 
-        // Make the start option
-        this.start = document.createElement("start")
-        this.element.appendChild(this.start)
-        this.start.innerHTML = "Start"
+        // Make the menu placeholder
+        this.menu = document.createElement("menu")
+        this.element.appendChild(this.menu)
 
-        // Make the highscore option
-        // this.highscores = document.createElement("highscores")
-        // this.element.appendChild(this.highscores)
-        // this.highscores.innerHTML = "Highscores"
+        // Make the start option
+        this.start = document.createElement("option")
+        this.start.classList.add("start")
+        this.menu.appendChild(this.start)
+        this.start.innerHTML = "Start"
 
         // Click on start to start the game
         this.start.addEventListener("click", () => this.startGame())
+
+        let intro = new Sound()
+        intro.playIntro() 
     }
 
     private startGame() {

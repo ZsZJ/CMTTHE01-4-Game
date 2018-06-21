@@ -2,6 +2,11 @@ class GameOverScreen {
 
     private element : HTMLElement
     private title : HTMLElement
+
+    private menu : HTMLElement
+
+    // Menu options
+    private endScore : HTMLElement
     private return : HTMLElement
 
     private game : Game
@@ -21,21 +26,37 @@ class GameOverScreen {
         this.element.appendChild(this.title)
         this.title.innerHTML = "Game Over!"
 
-        // Make the return option
-        this.return = document.createElement("return")
-        this.element.appendChild(this.return)
-        this.return.innerHTML = "Return to menu"
+        // Make the menu placeholder
+        this.menu = document.createElement("menu")
+        this.element.appendChild(this.menu)
 
+        /**
+         *  Make the options
+        **/
+
+        // End score
+        this.endScore = document.createElement("option")
+        this.endScore.classList.add("endscore")
+        this.endScore.innerHTML = `You died at wave ${this.game.user.level}`
+        this.menu.appendChild(this.endScore)
+
+        // Make the return option
+        this.return = document.createElement("option")
+        this.return.classList.add("return")
+        this.return.innerHTML = "Return to menu"
+        this.menu.appendChild(this.return)
+
+        // Make the ground
         let ground = document.createElement("ground")
         document.body.appendChild(ground)
 
         // Click on start to start the game
         this.return.addEventListener("click", () => this.returnMenu())
     }   
-
+    
+    // Return to the start screen ( New Game )
     public returnMenu() {
         document.body.innerHTML = ""
-        // Return to the Menu.. Means new Game :)
         new Game()
     }
 

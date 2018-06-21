@@ -40,33 +40,57 @@ body * {
 
 /* Start Screen && GameOver Screen */
 splash {
-    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%; height: 75%;
+    transform: translate(-50%, -50%);
     text-shadow: -5px 0 black, 0 5px black, 5px 0 black, 0 -5px black;
-    width: 100%;
-    height: 100%;
 }
 
 splash title {
     color: #af111c;
-    font-family : Horror;
-    font-size: 10em;
-    position: fixed;
-    top: 30%;
+    font-family: Horror;
+    font-size: 750%;
+    text-align: center;
+}
+
+splash menu {
+    position : absolute;
+    width: 50%; height: 50%;
+    transform: translate(-50%, -50%);
+    top: 75%;
+    left: 50%;
+}
+
+splash option {
+    color: #fff;
+    font-size: 300%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-splash start, splash return {
-    color: #ffffff;
-    font-size: 4em;
+/* End score */
+splash option.endscore {
+    font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
-    position: fixed;
+}
+
+splash option:nth-child(2) {
+    top: 45%;
+}
+
+splash .start, splash return {
+    color: #ffffff;
+    font-size: 300%;
+    font-weight: bold;
+    position: absolute;
     top: 65%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-splash start:hover, splash return:hover {
+splash .start:hover, splash .return:hover {
     cursor: pointer;
 }
 

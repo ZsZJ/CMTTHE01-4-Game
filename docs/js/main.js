@@ -294,9 +294,9 @@ var Enemy = (function (_super) {
 }(AnimatedGameObject));
 var Game = (function () {
     function Game() {
-        this.screen = new StartScreen(this);
         this._user = new User();
         this._enemyLevel = 0;
+        this.screen = new StartScreen(this);
         this.gameLoop();
     }
     Object.defineProperty(Game.prototype, "user", {
@@ -360,9 +360,16 @@ var GameOverScreen = (function () {
         this.title = document.createElement("title");
         this.element.appendChild(this.title);
         this.title.innerHTML = "Game Over!";
-        this.return = document.createElement("return");
-        this.element.appendChild(this.return);
+        this.menu = document.createElement("menu");
+        this.element.appendChild(this.menu);
+        this.endScore = document.createElement("option");
+        this.endScore.classList.add("endscore");
+        this.endScore.innerHTML = "You died at wave " + this.game.user.level;
+        this.menu.appendChild(this.endScore);
+        this.return = document.createElement("option");
+        this.return.classList.add("return");
         this.return.innerHTML = "Return to menu";
+        this.menu.appendChild(this.return);
         var ground = document.createElement("ground");
         document.body.appendChild(ground);
         this.return.addEventListener("click", function () { return _this.returnMenu(); });
@@ -781,6 +788,30 @@ var ShopScreen = (function () {
     };
     return ShopScreen;
 }());
+var Sound = (function () {
+    function Sound() {
+        this.soundFiles = ['sounds/intro.mp3'];
+        this.sounds = [];
+        for (var i = 0; i < 5; i++) {
+            var h = new Howl({
+                src: [this.soundFiles[i]],
+                loop: false
+            });
+            this.sounds.push(h);
+        }
+    }
+    Sound.getInstance = function () {
+        if (Sound.instance == null) {
+            Sound.instance = new Sound();
+        }
+        return Sound.instance;
+    };
+    Sound.prototype.playIntro = function () {
+        this.sounds[0].play();
+    };
+    Sound.instance = null;
+    return Sound;
+}());
 var StartScreen = (function () {
     function StartScreen(g) {
         var _this = this;
@@ -790,10 +821,15 @@ var StartScreen = (function () {
         this.title = document.createElement("title");
         this.element.appendChild(this.title);
         this.title.innerHTML = "Grave Rampage";
-        this.start = document.createElement("start");
-        this.element.appendChild(this.start);
+        this.menu = document.createElement("menu");
+        this.element.appendChild(this.menu);
+        this.start = document.createElement("option");
+        this.start.classList.add("start");
+        this.menu.appendChild(this.start);
         this.start.innerHTML = "Start";
         this.start.addEventListener("click", function () { return _this.startGame(); });
+        var intro = new Sound();
+        intro.playIntro();
     }
     StartScreen.prototype.startGame = function () {
         document.body.innerHTML = "";

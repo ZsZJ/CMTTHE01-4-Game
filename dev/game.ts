@@ -9,9 +9,9 @@ class Game {
     private _enemyLevel : number
     
     constructor() {
-        this.screen = new StartScreen(this)
         this._user = new User()
         this._enemyLevel = 0
+        this.screen = new StartScreen(this)
         this.gameLoop()
     }
 
