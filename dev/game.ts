@@ -1,6 +1,6 @@
 class Game {
 
-    public screen : any
+    public screen : GameScreen
 
     // This will be the actual player who is playing the game ( Needed for stats and levels )
     private _user : User

@@ -1,4 +1,4 @@
-class ShopScreen {
+class ShopScreen extends GameScreen {
 
     // HTML element
     private menu : HTMLElement
@@ -11,13 +11,9 @@ class ShopScreen {
     private reloadSpeedPrice : number
     private maxHealthPrice : number
 
-    // Game instance
-    private game : Game
-
     constructor(g : Game) {
 
-        // Set the game instance
-        this.game = g
+        super(g)
 
         // Create the shop menu
         this.menu = document.createElement("shopmenu")

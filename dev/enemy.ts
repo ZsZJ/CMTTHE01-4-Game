@@ -5,25 +5,25 @@ class Enemy extends AnimatedGameObject {
     protected health : number = 0
 
     // Rewards
-    private _rewardScore : number = 0
-    private _rewardCoins : number = 0
+    protected _rewardScore : number = 0
+    protected _rewardCoins : number = 0
 
     // Reward Score GETTER & SETTERS
     public get rewardScore() : number {
         return this._rewardScore
     }
 
-    public set rewardScore(r : number) {
-        this._rewardScore = r
-    }
+    // public set rewardScore(r : number) {
+    //     this._rewardScore = r
+    // }
 
     public get rewardCoins() : number {
         return this._rewardCoins
     }
 
-    public set rewardCoins(r : number) {
-        this._rewardCoins = r
-    } 
+    // public set rewardCoins(r : number) {
+    //     this._rewardCoins = r
+    // } 
 
     constructor(type : string, playScreen : PlayScreen, xPos : number, yPos : number) {
         

@@ -1,6 +1,6 @@
-# game-master
-Game voor Programmeren!!
-- https://jordy770.github.io/game-master/
+# CMTTHE01-4-Game
+Link voor een demo
+- https://zszj.github.io/CMTTHE01-4-Game/
 
 # Checklist
 - [x] De code van het individuele project staat op GitHub.
@@ -24,163 +24,296 @@ Game voor Programmeren!!
 - [x] De game ziet er zeer verzorgd uit dankzij goed uitgewerkt UI design en artwork.
 - [ ] De game bevat een hiscore lijst. Scores worden bewaard nadat de game is afgesloten.
 - [ ] De game werkt met Canvas in plaats van DOM elementen
-- [x] De game bevat local of online multiplayer.
+- [ ] De game bevat local of online multiplayer.
 - [ ] De game werkt op mobiele schermen en ondersteunt touchscreen controls.
 - [ ] De game maakt gebruik van device api's zoals de camera, microfoon, gyroscoop of GPS.
-- [ ] De game gebruikt een externe library uit de lijst in deze modulewijzer. 
+- [x] De game gebruikt een externe library uit de lijst in deze modulewijzer. 
 
 
 # Toelichting OOP principes
 ## Classes
-In mijn game maak ik gebruik van classes, Classes zijn eigenlijk de hoofdprinciepe van OOP (Object georienteerd Programmeren) omdat dit handig is om alle onderdelen geschrijden van elkaar te houden. Hierdoor crëeer je meer duidelijkheid. Dat kan je zien de DEV map in mijn repository eigenlijk alle onderdelen hier bevatten classes. Hier een klein voorbeeld:
+In dit project maak ik gebruik van OOP. Classes zijn een hoofdonderdeel in de OOP principes. Classes zijn componenten
+die deel uit maken van een groot geheel. Met Classes zorg je ervoor dat je een soort blauwdruk maakt van een component,
+hierdoor hoef je voor een 2e component niet nogmaals de zelfde code te schrijven.
+Hier een klein voorbeeld:
 ```
-class GameOver {
-    private textfield: HTMLElement
+/// <reference path="animatedgameobject.ts"/>
 
-    private game:Game
+class Enemy extends AnimatedGameObject {
 
-    constructor(g:Game) {
-        this.game = g
-        this.textfield = document.createElement("textfield")
-        document.body.appendChild(this.textfield)
-        // this.textfield.addEventListener("click", ()=> this.switchScreens())
+    protected health : number = 0
+
+    // Rewards
+    private _rewardScore : number = 0
+    private _rewardCoins : number = 0
+
+    // Reward Score GETTER & SETTERS
+    public get rewardScore() : number {
+        return this._rewardScore
+    }
+
+    public set rewardScore(r : number) {
+        this._rewardScore = r
+    }
+
+    public get rewardCoins() : number {
+        return this._rewardCoins
+    }
+
+    public set rewardCoins(r : number) {
+        this._rewardCoins = r
+    } 
+
+    constructor(type : string, playScreen : PlayScreen, xPos : number, yPos : number) {
         
+        /* Parent constructor [AnimatedGameObject]
+        *  type : string
+        *  playScreen : PlayScreen
+        *  xPosition
+        *  yPosition
+        */
+
+        super(type, playScreen, xPos, yPos)
+
+        // Flip the enemy sprite depends on side
+        if ( this.objectPosX < this.playScreen.player.getRectangle().left ) {
+            this.viewDirection = 0 // Left
+            this.element.style.transform += `scaleX(-1)`
+        }
+        else {
+            this.viewDirection = 1 // Right
+            this.element.style.transform += `scaleX(1)`
+        }
+        // Change the color if the enemy is stronger
+        this.element.style.filter += `hue-rotate(${360 - (this.playScreen.game.enemyLevel * 50)}deg)`
     }
-    public update() { 
-        this.textfield.innerHTML =  " GAME OVER, MAN!"
+
+    // Enemy Spawn
+    public spawn () {
+        // Set Spawn Behavior
+        this.behavior = new AppearBehavior(this)
+        this.behavior.performBehavior()
     }
+
+    // Enemy is hit by bullet
+    public hit () {
+        // Subtract health according to bullet power level
+        this.health -= (this.playScreen.game.user.userStats.bulletPowerLevel + 1)
+        // If health is zero give enemy die behavior
+        if (this.health <= 0) {
+            // Die Behavior enemy
+            this.behavior = new DieBehavior(this, this._rewardCoins, this._rewardScore)
+            this.behavior.performBehavior()
+        }
+    }    
 }
 ```
 
 ## Encapsulation
-Encapsulation gebruik je wanneer je iets wil wilt beschremen, want niet alle bestanden hoeven te weten wat de snelheid is van de player. Hiervoor gebruik je dus Encapsulation voor, er zijn verschillende manieren om daarvoor te zorgen de mogelijkheden zijn: 'public', 'private' en 'protected'. <br/>
+Dit principe gebruik je wanneer properties wilt blootstellen of afschermen, bij andere Class instancies.
+'public' Ieder onderdeel mag gebruik maken van deze property
+'protected' Alleen de classes die erven van deze class mag deze property gebruiken
+'private' Enkel de class, waarin deze property staat mag deze property gebruiken <br/>
 Hier een voorbeeld: <br/>
-- Ik maak hier gebruik van protected om de speed en de car door te geven aan een andere class zodat de andere classes deze kunnen her gebruiken.
-- Private gebruik ik hier om de x en y as te bepalen voor de gameObjecten deze is niet protected omdat ik deze niet vaker hoef aan te passen omdat ze hetzelfde zijn.
-- Public gebruik ik hier om de functie getRectagle() te gebruiken in een ander bestand het enige probleem is dat alle andere bestander er ook gebruik van kunnen maken dus het is minder veilig.
+- Protected, omdat ik de children van dit object de health wil laten bepalen, omdat dit voor elke child uniek is, wel heeft de enemy deze property als gemeenschappelijke property.
+- Private ( onder enemy class code ), omdat het geen enkel ander bestand deze element nodig heeft of hoeft te gebruiken, ik verberg dat als een private.
+- Public getters gebruik ik zodat ik alsnog de waardes overal kan aanroepen, ondanks dat mijn properties op private/protected staan, zelf gebruik ik bijna nooit public properties ( dit los ik meestal op door public setters/getters ).
+
 ```
-class GameObject{
+class Enemy extends AnimatedGameObject {
 
-    protected car: HTMLElement
-    private x:number 
-    private y:number
-    protected speed:number = 0
+    protected health : number = 0
 
-    
-    
-    constructor(tag:string){ 
+    // Rewards
+    protected _rewardScore : number = 0
+    protected _rewardCoins : number = 0
 
-        this.car = document.createElement(tag)
-        let game = document.getElementsByTagName("game")[0]
-        game.appendChild(this.car)
-
-        this.x = Math.random() * (window.innerWidth - 200)
-        this.y = -400 - (Math.random() * 450)  
-
-        }
-
-        public update(): void{
-            this.y += this.speed
-            this.car.style.transform = `translate(${this.x}px, ${this.y}px)`
-
-            if (this.y + this.car.clientHeight > window.innerHeight){
-                this.reset()
-            }
-        }
-
-        public getRectangle() {
-            return this.car.getBoundingClientRect()
-        }
-
-        public reset(){
-            this.x =  Math.random() * (window.innerWidth - 200)
-            this.y = -400 - (Math.random() * 450) 
-        }
-
-}
-```
-## Composition
-
-Composition gebruik je om classes aan elkaar te koppelen denk hierbij dat de Game een gamescreen heeft en de gamescreen heeft dan de player is en de enemy's.<br/>
-Hier een voorbeeld:
-```
-class GameScreen{
-
-    private player:Player1
-    private cars:Car[]
-    // private foreground:HTMLElement
-    private game:Game
-    private hitByCar:number = 0
-    private score:number = 0
-    private textfield:HTMLElement
-
-    
-
-    constructor(g:Game){
-
-        this.game = g
-
-        this.textfield = document.createElement("textfield")
-        document.body.appendChild(this.textfield)
-
-        this.player = new Player1()
-        this.cars = [new Blue(), new Yellow(), new Yellow(), new Red(), new Red(), new Red()]
-
+    // Reward Score GETTER & SETTERS
+    public get rewardScore() : number {
+        return this._rewardScore
     }
+
+    public get rewardCoins() : number {
+        return this._rewardCoins
+    }
+
+    constructor(type : string, playScreen : PlayScreen, xPos : number, yPos : number) {
+        
+        /* Parent constructor [AnimatedGameObject]
+        *  type : string
+        *  playScreen : PlayScreen
+        *  xPosition
+        *  yPosition
+        */
+
+        super(type, playScreen, xPos, yPos)
+
+        // Flip the enemy sprite depends on side
+        if ( this.objectPosX < this.playScreen.player.getRectangle().left ) {
+            this.viewDirection = 0 // Left
+            this.element.style.transform += `scaleX(-1)`
+        }
+        else {
+            this.viewDirection = 1 // Right
+            this.element.style.transform += `scaleX(1)`
+        }
+
+        // Change the color if the enemy is stronger
+        this.element.style.filter += `hue-rotate(${360 - (this.playScreen.game.enemyLevel * 50)}deg)`
+    }
+
+    // Enemy Spawn
+    public spawn () {
+        // Set Spawn Behavior
+        this.behavior = new AppearBehavior(this)
+        this.behavior.performBehavior()
+    }
+
+    // Enemy is hit by bullet
+    public hit () {
+
+        // Subtract health according to bullet power level
+        this.health -= (this.playScreen.game.user.userStats.bulletPowerLevel + 1)
+
+        // If health is zero give enemy die behavior
+        if (this.health <= 0) {
+            // Die Behavior enemy
+            this.behavior = new DieBehavior(this, this._rewardCoins, this._rewardScore)
+            this.behavior.performBehavior()
+        }
+    }    
+}
+
+
+class StartScreen {
+
+    private element : HTMLElement
+    private title : HTMLElement
+    private start : HTMLElement
+    private menu : HTMLElement
+
+    private game : Game
 ```
 ## Inheritance
+Het overerven van methods en properties voorkomt het schrijven van dubbele code. Neem als voorbeeld een zombie en een Skeleton. Dit zijn beide Enemies die als property Health gemeen hebben. Maar, omdat zombie weer andere properties heeft dan een Skeleton extend je de Enemy class in beide child classes.
 
-In een game wordt inheritance gebruikt wanneer er meerder objecten veel van dezelfde code gebruikt. In mijn game heb ik dit gebruikt voor de verschillende auto's. Er wordt een class gemaakt waar alle code instaat dit noem je meestal het 'gameobject' hier staat alle code in wat voor elke class het zelfde is. Het is zo geschreven dat alle eigenschappen veranderd kunnen worden. Daarna kan je meerdere classes aanmaken die individuele eigenschappen hebben. Hierin komen alle andere de eigenschappen in te staan. Dit ziet er als volgt uit: 
+Hieronder een voorbeeld : 
 ```
-class GameObject{
+/// <reference path="animatedgameobject.ts"/>
 
-    protected car: HTMLElement
-    private x:number 
-    private y:number
-    protected speed:number = 0
+class Enemy extends AnimatedGameObject {
 
-    
-    
-    constructor(tag:string){ 
+    protected health : number = 0
 
-        this.car = document.createElement(tag)
-        let game = document.getElementsByTagName("game")[0]
-        game.appendChild(this.car)
+    // Rewards
+    protected _rewardScore : number = 0
+    protected _rewardCoins : number = 0
 
-        this.x = Math.random() * (window.innerWidth - 200)
-        this.y = -400 - (Math.random() * 450)  
+    // Reward Score GETTER & SETTERS
+    public get rewardScore() : number {
+        return this._rewardScore
+    }
+
+    // public set rewardScore(r : number) {
+    //     this._rewardScore = r
+    // }
+
+    public get rewardCoins() : number {
+        return this._rewardCoins
+    }
+
+    // public set rewardCoins(r : number) {
+    //     this._rewardCoins = r
+    // } 
+
+    constructor(type : string, playScreen : PlayScreen, xPos : number, yPos : number) {
+        
+        /* Parent constructor [AnimatedGameObject]
+        *  type : string
+        *  playScreen : PlayScreen
+        *  xPosition
+        *  yPosition
+        */
+
+        super(type, playScreen, xPos, yPos)
+
+        // Flip the enemy sprite depends on side
+        if ( this.objectPosX < this.playScreen.player.getRectangle().left ) {
+            this.viewDirection = 0 // Left
+            this.element.style.transform += `scaleX(-1)`
+        }
+        else {
+            this.viewDirection = 1 // Right
+            this.element.style.transform += `scaleX(1)`
+        }
+
+        // Change the color if the enemy is stronger
+        this.element.style.filter += `hue-rotate(${360 - (this.playScreen.game.enemyLevel * 50)}deg)`
+    }
+
+    // Enemy Spawn
+    public spawn () {
+        // Set Spawn Behavior
+        this.behavior = new AppearBehavior(this)
+        this.behavior.performBehavior()
+    }
+
+    // Enemy is hit by bullet
+    public hit () {
+
+        // Subtract health according to bullet power level
+        this.health -= (this.playScreen.game.user.userStats.bulletPowerLevel + 1)
+
+        // If health is zero give enemy die behavior
+        if (this.health <= 0) {
+            
+            // Die Behavior enemy
+            this.behavior = new DieBehavior(this, this._rewardCoins, this._rewardScore)
+            this.behavior.performBehavior()
 
         }
 
-        public update(): void{
-            this.y += this.speed
-            this.car.style.transform = `translate(${this.x}px, ${this.y}px)`
-
-            if (this.y + this.car.clientHeight > window.innerHeight){
-                this.reset()
-            }
-        }
-
-        public getRectangle() {
-            return this.car.getBoundingClientRect()
-        }
-
-        public reset(){
-            this.x =  Math.random() * (window.innerWidth - 200)
-            this.y = -400 - (Math.random() * 450) 
-        }
-
+    }
+     
 }
 ```
 ```
 /// <reference path="../gameobject.ts" />
 
-class Red extends GameObject{
+/// <reference path="enemy.ts"/>
 
-    constructor(){ 
-    super("carRed")     
+class Zombie extends Enemy {
+
+    /**
+     * behavior : Behavior (SET) [AnimatedGameObject]
+     */
+
+    constructor(playScreen : PlayScreen, xPos : number, yPos : number) {
         
-    this.speed = 15
+        /* Parent constructor [Enemy]
+        *  type : string
+        *  playScreen : PlayScreen
+        *  xPosition
+        *  yPosition
+        */
+
+        super("zombie", playScreen, xPos, yPos)
+
+        // Animation amount frames
+        this.appearFrames = 10
+        this.walkFrames = 9
+        this.attackFrames = 6
+        this.dieFrames = 7
+
+        // Zombie stats
+        this.health = (this.playScreen.game.enemyLevel * 2) + 3
+
+        // Reward Zombie
+        this._rewardScore = (100 * (this.playScreen.game.enemyLevel + 1) )
+        this._rewardCoins = 50
+        
+        // Let the zombie spawn
+        this.spawn()        
     }
 
 }
@@ -192,7 +325,7 @@ class Red extends GameObject{
 
 
 # Peer reviews
-### PeerReview Sven Koene https://github.com/Sven-Koene/programmeren4
+### PeerReview Marleen van Lubeek https://github.com/JuliaMarleen/Game
 
 - [x] De code van het individuele project staat op GitHub.
 - [x] De game is online speelbaar.
@@ -212,7 +345,7 @@ class Red extends GameObject{
 
 ### Extra opdrachten 
 
-- [x] De game ziet er zeer verzorgd uit dankzij goed uitgewerkt UI design en artwork.
+- [ ] De game ziet er zeer verzorgd uit dankzij goed uitgewerkt UI design en artwork.
 - [ ] De game bevat een hiscore lijst. Scores worden bewaard nadat de game is afgesloten.
 - [ ] De game werkt met Canvas in plaats van DOM elementen
 - [x] De game bevat local of online multiplayer.
@@ -221,4 +354,4 @@ class Red extends GameObject{
 - [ ] De game gebruikt een externe library uit de lijst in deze modulewijzer. 
 
 ## Mijn feedback
-Ik sta der versteld van hoe Sven zoiets prachtigs heeft kunnen creeën, omdat dit zijn eerste game is die hij zelf voluit heeft geprogrammeerd, ik Rate deze game een <b>10/10 IGN Rated</b>  
+Marleen heeft keihard gewerkt aan deze game. Ze heeft vanuit de base van het huiswerk een leuk spel in elkaar gezet.

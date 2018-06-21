@@ -1,16 +1,15 @@
-class StartScreen {
+class StartScreen extends GameScreen {
 
     private element : HTMLElement
     private title : HTMLElement
     private start : HTMLElement
     private menu : HTMLElement
 
-    private game : Game
-
     constructor(g : Game) {
 
+        super(g)
+
         // Create Start Splash element
-        this.game = g
         this.element = document.createElement("splash")
         document.body.appendChild(this.element)
 

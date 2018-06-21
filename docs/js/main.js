@@ -264,18 +264,12 @@ var Enemy = (function (_super) {
         get: function () {
             return this._rewardScore;
         },
-        set: function (r) {
-            this._rewardScore = r;
-        },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(Enemy.prototype, "rewardCoins", {
         get: function () {
             return this._rewardCoins;
-        },
-        set: function (r) {
-            this._rewardCoins = r;
         },
         enumerable: true,
         configurable: true
@@ -351,29 +345,45 @@ var GameAnimation = (function () {
     };
     return GameAnimation;
 }());
-var GameOverScreen = (function () {
+var GameScreen = (function () {
+    function GameScreen(g) {
+        this._game = g;
+    }
+    Object.defineProperty(GameScreen.prototype, "game", {
+        get: function () {
+            return this._game;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    GameScreen.prototype.update = function () {
+    };
+    return GameScreen;
+}());
+var GameOverScreen = (function (_super) {
+    __extends(GameOverScreen, _super);
     function GameOverScreen(g) {
-        var _this = this;
-        this.game = g;
+        var _this = _super.call(this, g) || this;
         document.body.innerHTML = "";
-        this.element = document.createElement("splash");
-        document.body.appendChild(this.element);
-        this.title = document.createElement("title");
-        this.element.appendChild(this.title);
-        this.title.innerHTML = "Game Over!";
-        this.menu = document.createElement("menu");
-        this.element.appendChild(this.menu);
-        this.endScore = document.createElement("option");
-        this.endScore.classList.add("endscore");
-        this.endScore.innerHTML = "You died at wave " + this.game.user.level;
-        this.menu.appendChild(this.endScore);
-        this.return = document.createElement("option");
-        this.return.classList.add("return");
-        this.return.innerHTML = "Return to menu";
-        this.menu.appendChild(this.return);
+        _this.element = document.createElement("splash");
+        document.body.appendChild(_this.element);
+        _this.title = document.createElement("title");
+        _this.element.appendChild(_this.title);
+        _this.title.innerHTML = "Game Over!";
+        _this.menu = document.createElement("menu");
+        _this.element.appendChild(_this.menu);
+        _this.endScore = document.createElement("option");
+        _this.endScore.classList.add("endscore");
+        _this.endScore.innerHTML = "You died at wave " + _this.game.user.level;
+        _this.menu.appendChild(_this.endScore);
+        _this.return = document.createElement("option");
+        _this.return.classList.add("return");
+        _this.return.innerHTML = "Return to menu";
+        _this.menu.appendChild(_this.return);
         var ground = document.createElement("ground");
         document.body.appendChild(ground);
-        this.return.addEventListener("click", function () { return _this.returnMenu(); });
+        _this.return.addEventListener("click", function () { return _this.returnMenu(); });
+        return _this;
     }
     GameOverScreen.prototype.returnMenu = function () {
         document.body.innerHTML = "";
@@ -382,7 +392,7 @@ var GameOverScreen = (function () {
     GameOverScreen.prototype.update = function () {
     };
     return GameOverScreen;
-}());
+}(GameScreen));
 var IdleBehavior = (function (_super) {
     __extends(IdleBehavior, _super);
     function IdleBehavior(gameObject) {
@@ -492,48 +502,43 @@ var PlayerDeadBehavior = (function (_super) {
     };
     return PlayerDeadBehavior;
 }(Behavior));
-var PlayScreen = (function () {
+var PlayScreen = (function (_super) {
+    __extends(PlayScreen, _super);
     function PlayScreen(g) {
-        this._game = g;
-        this.bullets = new Array;
-        this._enemies = new Array;
+        var _this = _super.call(this, g) || this;
+        _this.bullets = new Array;
+        _this._enemies = new Array;
         var ground = document.createElement("ground");
         document.body.appendChild(ground);
-        this._player = new Player(this, (window.innerWidth / 2 - 50), 0);
-        this.scoreText = document.createElement("scoreText");
-        this.scoreText.innerHTML = "" + this.game.user.score;
-        document.body.appendChild(this.scoreText);
-        this.coinsPlaceHolder = document.createElement("coinsPlaceholder");
-        document.body.appendChild(this.coinsPlaceHolder);
+        _this._player = new Player(_this, (window.innerWidth / 2 - 50), 0);
+        _this.scoreText = document.createElement("scoreText");
+        _this.scoreText.innerHTML = "" + _this.game.user.score;
+        document.body.appendChild(_this.scoreText);
+        _this.coinsPlaceHolder = document.createElement("coinsPlaceholder");
+        document.body.appendChild(_this.coinsPlaceHolder);
         var coinsImage = document.createElement("coinsImage");
-        this.coinsPlaceHolder.appendChild(coinsImage);
-        this.coinsText = document.createElement("coinsText");
-        this.coinsText.innerHTML = "" + this.game.user.coins;
-        this.coinsPlaceHolder.appendChild(this.coinsText);
-        this.waveText = document.createElement("waveText");
-        this.waveText.innerHTML = "Wave : " + this.game.user.level;
-        document.body.appendChild(this.waveText);
-        this.bulletPlaceHolder = document.createElement("bulletplaceholder");
-        document.body.appendChild(this.bulletPlaceHolder);
-        this.bulletCap = document.createElement("bulletcap");
-        this.bulletPlaceHolder.appendChild(this.bulletCap);
+        _this.coinsPlaceHolder.appendChild(coinsImage);
+        _this.coinsText = document.createElement("coinsText");
+        _this.coinsText.innerHTML = "" + _this.game.user.coins;
+        _this.coinsPlaceHolder.appendChild(_this.coinsText);
+        _this.waveText = document.createElement("waveText");
+        _this.waveText.innerHTML = "Wave : " + _this.game.user.level;
+        document.body.appendChild(_this.waveText);
+        _this.bulletPlaceHolder = document.createElement("bulletplaceholder");
+        document.body.appendChild(_this.bulletPlaceHolder);
+        _this.bulletCap = document.createElement("bulletcap");
+        _this.bulletPlaceHolder.appendChild(_this.bulletCap);
         var bulletImage = document.createElement("bulletimage");
-        this.bulletPlaceHolder.appendChild(bulletImage);
-        this.healthPlaceHolder = document.createElement("healthplaceholder");
-        document.body.appendChild(this.healthPlaceHolder);
-        this.healthCap = document.createElement("healthcap");
-        this.healthPlaceHolder.appendChild(this.healthCap);
+        _this.bulletPlaceHolder.appendChild(bulletImage);
+        _this.healthPlaceHolder = document.createElement("healthplaceholder");
+        document.body.appendChild(_this.healthPlaceHolder);
+        _this.healthCap = document.createElement("healthcap");
+        _this.healthPlaceHolder.appendChild(_this.healthCap);
         var healthImage = document.createElement("healthimage");
-        this.healthPlaceHolder.appendChild(healthImage);
-        this._wave = new Wave(this, this._player);
+        _this.healthPlaceHolder.appendChild(healthImage);
+        _this._wave = new Wave(_this, _this._player);
+        return _this;
     }
-    Object.defineProperty(PlayScreen.prototype, "game", {
-        get: function () {
-            return this._game;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(PlayScreen.prototype, "player", {
         get: function () {
             return this._player;
@@ -563,11 +568,11 @@ var PlayScreen = (function () {
     };
     PlayScreen.prototype.update = function () {
         this._player.update();
-        this.healthCap.innerHTML = "" + this._game.user.userStats.currentHealth;
+        this.healthCap.innerHTML = "" + this.game.user.userStats.currentHealth;
         this.scoreText.innerHTML = "" + this.game.user.score;
         this.coinsText.innerHTML = "" + this.game.user.coins;
-        this.bulletCap.innerHTML = "" + this._game.user.userStats.currentBullets;
-        if (this._game.user.userStats.currentBullets == 0) {
+        this.bulletCap.innerHTML = "" + this.game.user.userStats.currentBullets;
+        if (this.game.user.userStats.currentBullets == 0) {
             this.bulletCap.classList.add('red');
         }
         else {
@@ -604,7 +609,7 @@ var PlayScreen = (function () {
             b.top <= a.bottom);
     };
     return PlayScreen;
-}());
+}(GameScreen));
 var ReloadBehavior = (function (_super) {
     __extends(ReloadBehavior, _super);
     function ReloadBehavior(gameObject) {
@@ -654,31 +659,32 @@ var ShootBehavior = (function (_super) {
     };
     return ShootBehavior;
 }(Behavior));
-var ShopScreen = (function () {
+var ShopScreen = (function (_super) {
+    __extends(ShopScreen, _super);
     function ShopScreen(g) {
-        var _this = this;
-        this.game = g;
-        this.menu = document.createElement("shopmenu");
-        document.body.appendChild(this.menu);
+        var _this = _super.call(this, g) || this;
+        _this.menu = document.createElement("shopmenu");
+        document.body.appendChild(_this.menu);
         var title = document.createElement("title");
         title.innerHTML = "Upgrades Shop";
-        this.menu.appendChild(title);
-        this.upgrades = document.createElement("upgrades");
-        this.menu.appendChild(this.upgrades);
-        this.bulletPowerPrice = 400 * (this.game.user.userStats.bulletPowerLevel + 1);
-        this.bulletCapPrice = 600 * (this.game.user.userStats.bulletCapLevel + 1);
-        this.reloadSpeedPrice = 250 * (this.game.user.userStats.reloadLevel + 1);
-        this.maxHealthPrice = 450 * (this.game.user.userStats.healthLevel + 1);
-        this.createBulletPowerTile();
-        this.createBulletCapTile();
-        this.createReloadSpeedTile();
-        this.createMaxHealthTile();
-        this.amountCoins = document.createElement("amount");
-        this.menu.appendChild(this.amountCoins);
+        _this.menu.appendChild(title);
+        _this.upgrades = document.createElement("upgrades");
+        _this.menu.appendChild(_this.upgrades);
+        _this.bulletPowerPrice = 400 * (_this.game.user.userStats.bulletPowerLevel + 1);
+        _this.bulletCapPrice = 600 * (_this.game.user.userStats.bulletCapLevel + 1);
+        _this.reloadSpeedPrice = 250 * (_this.game.user.userStats.reloadLevel + 1);
+        _this.maxHealthPrice = 450 * (_this.game.user.userStats.healthLevel + 1);
+        _this.createBulletPowerTile();
+        _this.createBulletCapTile();
+        _this.createReloadSpeedTile();
+        _this.createMaxHealthTile();
+        _this.amountCoins = document.createElement("amount");
+        _this.menu.appendChild(_this.amountCoins);
         var nextButton = document.createElement("NextButton");
         nextButton.innerHTML = "Next Wave";
-        this.menu.appendChild(nextButton);
+        _this.menu.appendChild(nextButton);
         nextButton.addEventListener("click", function () { return _this.nextWave(); });
+        return _this;
     }
     ShopScreen.prototype.nextWave = function () {
         this.game.user.level++;
@@ -799,7 +805,7 @@ var ShopScreen = (function () {
         tile.addEventListener("click", function () { return _this.upgrade(_this.maxHealthPrice, 3, text, cost); });
     };
     return ShopScreen;
-}());
+}(GameScreen));
 var Sound = (function () {
     function Sound() {
         this.soundFiles = ['sounds/intro.mp3', 'sounds/battle.mp3'];
@@ -834,23 +840,24 @@ var Sound = (function () {
     Sound.instance = null;
     return Sound;
 }());
-var StartScreen = (function () {
+var StartScreen = (function (_super) {
+    __extends(StartScreen, _super);
     function StartScreen(g) {
-        var _this = this;
-        this.game = g;
-        this.element = document.createElement("splash");
-        document.body.appendChild(this.element);
-        this.title = document.createElement("title");
-        this.element.appendChild(this.title);
-        this.title.innerHTML = "Grave Rampage";
-        this.menu = document.createElement("menu");
-        this.element.appendChild(this.menu);
-        this.start = document.createElement("option");
-        this.start.classList.add("start");
-        this.menu.appendChild(this.start);
-        this.start.innerHTML = "Start";
-        this.start.addEventListener("click", function () { return _this.startGame(); });
+        var _this = _super.call(this, g) || this;
+        _this.element = document.createElement("splash");
+        document.body.appendChild(_this.element);
+        _this.title = document.createElement("title");
+        _this.element.appendChild(_this.title);
+        _this.title.innerHTML = "Grave Rampage";
+        _this.menu = document.createElement("menu");
+        _this.element.appendChild(_this.menu);
+        _this.start = document.createElement("option");
+        _this.start.classList.add("start");
+        _this.menu.appendChild(_this.start);
+        _this.start.innerHTML = "Start";
+        _this.start.addEventListener("click", function () { return _this.startGame(); });
         Sound.getInstance().playIntro();
+        return _this;
     }
     StartScreen.prototype.startGame = function () {
         Sound.getInstance().stopIntro();
@@ -860,7 +867,7 @@ var StartScreen = (function () {
     StartScreen.prototype.update = function () {
     };
     return StartScreen;
-}());
+}(GameScreen));
 var User = (function () {
     function User() {
         this._level = 1;
@@ -1009,6 +1016,13 @@ var UserStats = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(UserStats.prototype, "bullet", {
+        get: function () {
+            return this._bullet;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return UserStats;
 }());
 var WalkBehavior = (function (_super) {
@@ -1094,23 +1108,24 @@ var Wave = (function () {
     };
     return Wave;
 }());
-var WaveScreen = (function () {
+var WaveScreen = (function (_super) {
+    __extends(WaveScreen, _super);
     function WaveScreen(g) {
-        var _this = this;
-        this.game = g;
-        this.element = document.createElement("Complete");
-        this.title = document.createElement("title");
-        this.title.innerHTML = "Wave Complete";
-        this.element.appendChild(this.title);
-        this.upgradeButton = document.createElement("UpgradeButton");
-        this.upgradeButton.innerHTML = "Upgrades";
-        this.element.appendChild(this.upgradeButton);
-        this.nextButton = document.createElement("NextButton");
-        this.nextButton.innerHTML = "Next Wave";
-        this.element.appendChild(this.nextButton);
-        document.body.appendChild(this.element);
-        this.upgradeButton.addEventListener("click", function () { return _this.openUpgrades(); });
-        this.nextButton.addEventListener("click", function () { return _this.nextWave(); });
+        var _this = _super.call(this, g) || this;
+        _this.element = document.createElement("Complete");
+        _this.title = document.createElement("title");
+        _this.title.innerHTML = "Wave Complete";
+        _this.element.appendChild(_this.title);
+        _this.upgradeButton = document.createElement("UpgradeButton");
+        _this.upgradeButton.innerHTML = "Upgrades";
+        _this.element.appendChild(_this.upgradeButton);
+        _this.nextButton = document.createElement("NextButton");
+        _this.nextButton.innerHTML = "Next Wave";
+        _this.element.appendChild(_this.nextButton);
+        document.body.appendChild(_this.element);
+        _this.upgradeButton.addEventListener("click", function () { return _this.openUpgrades(); });
+        _this.nextButton.addEventListener("click", function () { return _this.nextWave(); });
+        return _this;
     }
     WaveScreen.prototype.openUpgrades = function () {
         document.body.innerHTML = "";
@@ -1126,7 +1141,7 @@ var WaveScreen = (function () {
     WaveScreen.prototype.update = function () {
     };
     return WaveScreen;
-}());
+}(GameScreen));
 var Zombie = (function (_super) {
     __extends(Zombie, _super);
     function Zombie(playScreen, xPos, yPos) {
@@ -1136,8 +1151,8 @@ var Zombie = (function (_super) {
         _this.attackFrames = 6;
         _this.dieFrames = 7;
         _this.health = (_this.playScreen.game.enemyLevel * 2) + 3;
-        _this.rewardScore = (100 * (_this.playScreen.game.enemyLevel + 1));
-        _this.rewardCoins = 50;
+        _this._rewardScore = (100 * (_this.playScreen.game.enemyLevel + 1));
+        _this._rewardCoins = 50;
         _this.spawn();
         return _this;
     }

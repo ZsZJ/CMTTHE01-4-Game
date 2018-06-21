@@ -1,4 +1,6 @@
-class GameOverScreen {
+/// <reference path="gamescreen.ts" />
+
+class GameOverScreen extends GameScreen {
 
     private element : HTMLElement
     private title : HTMLElement
@@ -9,11 +11,10 @@ class GameOverScreen {
     private endScore : HTMLElement
     private return : HTMLElement
 
-    private game : Game
 
     constructor(g : Game) {
 
-        this.game = g
+        super(g)
 
         document.body.innerHTML = ""
 

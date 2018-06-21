@@ -107,6 +107,11 @@ class UserStats {
         return this._reload
     }
 
+    // Get the bullet power
+    public get bullet() : number {
+        return this._bullet
+    }
+
     constructor() {
 
         // Set health according to level (default health + health level)

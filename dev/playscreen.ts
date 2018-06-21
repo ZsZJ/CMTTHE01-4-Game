@@ -1,6 +1,7 @@
-class PlayScreen {
+/// <reference path="gamescreen.ts"/>
 
-    private _game : Game
+class PlayScreen extends GameScreen {
+
     private _player : Player
     private _enemies : Enemy[]
     private bullets : Bullet[]
@@ -22,8 +23,7 @@ class PlayScreen {
 
     constructor(g : Game) {
 
-        // Assign Game Object
-        this._game = g
+        super(g)
 
         // Assign arrays
         this.bullets = new Array
@@ -89,11 +89,6 @@ class PlayScreen {
         this._wave = new Wave(this, this._player)
     }
 
-    // Get the game instance
-    public get game() : Game {
-        return this._game
-    }
-
     // Get the player instance
     public get player() : Player {
         return this._player
@@ -127,7 +122,7 @@ class PlayScreen {
         this._player.update()
 
         // HEALTH UI
-        this.healthCap.innerHTML = `${this._game.user.userStats.currentHealth}`
+        this.healthCap.innerHTML = `${this.game.user.userStats.currentHealth}`
 
         // BULLET UI 
 
@@ -136,10 +131,10 @@ class PlayScreen {
         this.coinsText.innerHTML = `${this.game.user.coins}`
 
         // Keep the current bullets updated
-        this.bulletCap.innerHTML = `${this._game.user.userStats.currentBullets}`
+        this.bulletCap.innerHTML = `${this.game.user.userStats.currentBullets}`
 
         // Make the bullet cap text red if there is zero bullets
-        if(this._game.user.userStats.currentBullets == 0) {
+        if(this.game.user.userStats.currentBullets == 0) {
             this.bulletCap.classList.add('red')
         } 
         // Remove the red class of there are bullets

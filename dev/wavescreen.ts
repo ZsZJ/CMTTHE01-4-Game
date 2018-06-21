@@ -1,16 +1,15 @@
-class WaveScreen {
+class WaveScreen extends GameScreen {
 
     private element : HTMLElement
-    private game : Game
     
     private upgradeButton : HTMLElement
     private nextButton : HTMLElement
     private title : HTMLElement
 
     constructor(g : Game) {
-        
-        this.game = g
 
+        super(g)
+    
         // Set element
         this.element = document.createElement("Complete")
 
