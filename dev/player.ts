@@ -28,18 +28,23 @@ class Player extends AnimatedGameObject {
     public set reloading(r : boolean) {
         this._reloading = r
     }
+
+    // Getter die state
+    public get die() : boolean {
+        return this._die
+    }
     
     constructor(playScreen : PlayScreen, xPos : number, yPos : number) {
 
         // Call parent constructor
         super("Player", playScreen, xPos, yPos)
 
-        // Add controls to the player
-        this.event = (e:KeyboardEvent) => this.control(e)
-        window.addEventListener("keydown", this.event)
-
         // Player behavior idle
         this.behavior = new IdleBehavior(this)
+
+         // Add controls to the player
+         this.event = (e:KeyboardEvent) => this.control(e)
+         window.addEventListener("keydown", this.event)
     }
 
     // Player Controls
@@ -81,15 +86,14 @@ class Player extends AnimatedGameObject {
 
     public update() {
 
-        // Keep the behavior updated
-        this.behavior.update(); 
-
         // Check if player is dead
-        if (this.playScreen.game.user.userStats.currentHealth <= 0 && this._die == false) {
-            
+        if (this.playScreen.game.user.userStats.currentHealth <= 0 && this._die == false) { 
             this._die = true
             this.behavior = new PlayerDeadBehavior(this)
         }
+
+        // Keep the behavior updated
+        this.behavior.update(); 
 
     }
 

@@ -396,9 +396,9 @@ var Player = (function (_super) {
         _this._direction = 1;
         _this._reloading = false;
         _this._die = false;
+        _this.behavior = new IdleBehavior(_this);
         _this.event = function (e) { return _this.control(e); };
         window.addEventListener("keydown", _this.event);
-        _this.behavior = new IdleBehavior(_this);
         return _this;
     }
     Object.defineProperty(Player.prototype, "viewDirection", {
@@ -414,6 +414,13 @@ var Player = (function (_super) {
         },
         set: function (r) {
             this._reloading = r;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Player.prototype, "die", {
+        get: function () {
+            return this._die;
         },
         enumerable: true,
         configurable: true
@@ -445,11 +452,11 @@ var Player = (function (_super) {
         }
     };
     Player.prototype.update = function () {
-        this.behavior.update();
         if (this.playScreen.game.user.userStats.currentHealth <= 0 && this._die == false) {
             this._die = true;
             this.behavior = new PlayerDeadBehavior(this);
         }
+        this.behavior.update();
     };
     Player.prototype.removeListener = function () {
         window.removeEventListener("keydown", this.event);
@@ -621,8 +628,10 @@ var ShootBehavior = (function (_super) {
         this.gameObject.playScreen.addBullet(bullet);
     };
     ShootBehavior.prototype.onAnimationCompleted = function () {
-        this.gameObject.element.classList.remove("shoot");
-        this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, this, this.gameObject);
+        if (this.gameObject.playScreen.player.die == false) {
+            this.gameObject.element.classList.remove("shoot");
+            this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, this, this.gameObject);
+        }
     };
     return ShootBehavior;
 }(Behavior));
