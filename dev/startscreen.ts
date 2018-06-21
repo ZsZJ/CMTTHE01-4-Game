@@ -32,8 +32,7 @@ class StartScreen {
         // Click on start to start the game
         this.start.addEventListener("click", () => this.startGame())
 
-        let intro = new Sound()
-        intro.playIntro() 
+        Sound.getInstance().playIntro()
     }
 
     private startGame() {

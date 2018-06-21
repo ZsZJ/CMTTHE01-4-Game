@@ -828,8 +828,7 @@ var StartScreen = (function () {
         this.menu.appendChild(this.start);
         this.start.innerHTML = "Start";
         this.start.addEventListener("click", function () { return _this.startGame(); });
-        var intro = new Sound();
-        intro.playIntro();
+        Sound.getInstance().playIntro();
     }
     StartScreen.prototype.startGame = function () {
         document.body.innerHTML = "";
