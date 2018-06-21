@@ -635,9 +635,12 @@ var ShootBehavior = (function (_super) {
         this.gameObject.playScreen.addBullet(bullet);
     };
     ShootBehavior.prototype.onAnimationCompleted = function () {
+        this.gameObject.element.classList.remove("shoot");
         if (this.gameObject.playScreen.player.die == false) {
-            this.gameObject.element.classList.remove("shoot");
             this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, this, this.gameObject);
+        }
+        else {
+            this.gameAnimation = new GameAnimation("images/hero/modegun/die/die", 9, this, this.gameObject);
         }
     };
     return ShootBehavior;

@@ -35,11 +35,15 @@ class ShootBehavior extends Behavior{
     }
 
     public onAnimationCompleted() {
+
+        this.gameObject.element.classList.remove("shoot");
         
         if(this.gameObject.playScreen.player.die == false) {
-            
-            this.gameObject.element.classList.remove("shoot");
+        
             this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, this, this.gameObject)
+        }
+        else {
+            this.gameAnimation = new GameAnimation("images/hero/modegun/die/die", 9, this, this.gameObject)
         }
     }
 }
