@@ -15,7 +15,7 @@ class Zombie extends Enemy {
         *  yPosition
         */
 
-        super("Zombie", playScreen, xPos, yPos)
+        super("zombie", playScreen, xPos, yPos)
 
         // Animation amount frames
         this.appearFrames = 10
