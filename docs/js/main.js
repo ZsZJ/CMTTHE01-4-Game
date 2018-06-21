@@ -1053,7 +1053,7 @@ var Wave = (function () {
         this.waveIntroElement.innerHTML = "Wave " + this.playScreen.game.user.level;
         document.body.appendChild(this.waveIntroElement);
         Sound.getInstance().playBattle();
-        setTimeout(function () { return _this.createEnemies(); }, 3000);
+        setTimeout(function () { return _this.createEnemies(); }, 5000);
     };
     Wave.prototype.createEnemies = function () {
         var _this = this;

@@ -152,7 +152,7 @@ waveintro {
     width: 100%;
     height: 100%;
     position: fixed;
-    animation: fadeInOut 3s;
+    animation: fadeInOut 5s;
     color: #af111c;
     font-family : Horror;
     font-size: 8em;

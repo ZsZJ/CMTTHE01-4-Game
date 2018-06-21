@@ -48,7 +48,7 @@ class Wave {
         Sound.getInstance().playBattle()
 
         // Wait 3 seconds for the intro
-        setTimeout( () => this.createEnemies(), 3000)
+        setTimeout( () => this.createEnemies(), 5000)
     }
 
     private createEnemies() {
