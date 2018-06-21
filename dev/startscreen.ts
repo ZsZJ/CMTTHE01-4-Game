@@ -25,9 +25,9 @@ class StartScreen {
         this.start.innerHTML = "Start"
 
         // Make the highscore option
-        this.highscores = document.createElement("highscores")
-        this.element.appendChild(this.highscores)
-        this.highscores.innerHTML = "Highscores"
+        // this.highscores = document.createElement("highscores")
+        // this.element.appendChild(this.highscores)
+        // this.highscores.innerHTML = "Highscores"
 
         // Click on start to start the game
         this.start.addEventListener("click", () => this.startGame())
