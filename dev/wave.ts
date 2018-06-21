@@ -44,6 +44,9 @@ class Wave {
         this.waveIntroElement.innerHTML = `Wave ${this.playScreen.game.user.level}`
         document.body.appendChild(this.waveIntroElement)
 
+        // Start battle sound
+        Sound.getInstance().playBattle()
+
         // Wait 3 seconds for the intro
         setTimeout( () => this.createEnemies(), 3000)
     }

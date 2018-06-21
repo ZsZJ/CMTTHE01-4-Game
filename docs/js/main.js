@@ -790,15 +790,15 @@ var ShopScreen = (function () {
 }());
 var Sound = (function () {
     function Sound() {
-        this.soundFiles = ['sounds/intro.mp3'];
-        this.sounds = [];
-        for (var i = 0; i < 5; i++) {
-            var h = new Howl({
-                src: [this.soundFiles[i]],
-                loop: false
-            });
-            this.sounds.push(h);
-        }
+        this.soundFiles = ['sounds/intro.mp3', 'sounds/battle.mp3'];
+        this.intro = new Howl({
+            src: [this.soundFiles[0]],
+            loop: true
+        });
+        this.battle = new Howl({
+            src: [this.soundFiles[1]],
+            loop: true
+        });
     }
     Sound.getInstance = function () {
         if (Sound.instance == null) {
@@ -807,7 +807,10 @@ var Sound = (function () {
         return Sound.instance;
     };
     Sound.prototype.playIntro = function () {
-        this.sounds[0].play();
+        this.intro.play();
+    };
+    Sound.prototype.playBattle = function () {
+        this.battle.play();
     };
     Sound.instance = null;
     return Sound;
@@ -1038,6 +1041,7 @@ var Wave = (function () {
         var _this = this;
         this.waveIntroElement.innerHTML = "Wave " + this.playScreen.game.user.level;
         document.body.appendChild(this.waveIntroElement);
+        Sound.getInstance().playBattle();
         setTimeout(function () { return _this.createEnemies(); }, 3000);
     };
     Wave.prototype.createEnemies = function () {

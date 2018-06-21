@@ -2,26 +2,30 @@ class Sound {
 
     private static instance:Sound | null = null;
 
-    private soundFiles:Array<string> = ['sounds/intro.mp3'];
-    private sounds:Array<Howl> = [];
+    private soundFiles:Array<string> = ['sounds/intro.mp3', 'sounds/battle.mp3'];
+    // private sounds:Array<Howl> = [];
+
+    private intro : Howl
+    private battle : Howl
 
 
     constructor() {
         // Load sounds
         // TODO: verwijder constante, en voeg type toe
-        for(let i = 0; i < 5; i++) {
+        this.intro = new Howl({
+            src: [this.soundFiles[0]],
+            loop: true
+        })
 
-            let h = new Howl({
-                src: [this.soundFiles[i]],
-                loop: false
-            });
-
-            this.sounds.push(h);
-        }
+        this.battle = new Howl({
+            src: [this.soundFiles[1]],
+            loop: true
+        })
 
     }
 
     public static getInstance():Sound {
+
         if(Sound.instance == null) {
             Sound.instance = new Sound();
         }
@@ -31,7 +35,12 @@ class Sound {
 
     public playIntro() {
         // play intro sound
-        this.sounds[0].play();
+        this.intro.play();
+    }
+
+    public playBattle() {
+        // play battle sound
+        this.battle.play();
     }
 
 }
