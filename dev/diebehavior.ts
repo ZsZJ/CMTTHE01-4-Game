@@ -26,6 +26,9 @@ class DieBehavior extends Behavior {
         // Stop moving
         this.gameObject.move = false
 
+        // remove any class
+        this.gameObject.element.classList.remove('shoot')
+
         // Add class dead
         this.gameObject.element.classList.add('dead')
     }

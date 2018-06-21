@@ -11,10 +11,15 @@ class IdleBehavior extends Behavior {
     }
 
     public performBehavior() : void {
-
+        
     }
 
     public onAnimationCompleted() : void {
-        this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, this, this.gameObject)
+        if(this.gameObject.playScreen.player.die == false) {
+            this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, this, this.gameObject)
+        }
+        else {
+            this.gameObject.behavior = new PlayerDeadBehavior(this.gameObject)
+        }
     }
 }

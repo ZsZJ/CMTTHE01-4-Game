@@ -233,6 +233,7 @@ var DieBehavior = (function (_super) {
         this.gameObject.playScreen.game.user.coins += this.rewardCoins;
         this.gameObject.state = 3;
         this.gameObject.move = false;
+        this.gameObject.element.classList.remove('shoot');
         this.gameObject.element.classList.add('dead');
     };
     DieBehavior.prototype.onAnimationCompleted = function () {
@@ -392,7 +393,12 @@ var IdleBehavior = (function (_super) {
     IdleBehavior.prototype.performBehavior = function () {
     };
     IdleBehavior.prototype.onAnimationCompleted = function () {
-        this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, this, this.gameObject);
+        if (this.gameObject.playScreen.player.die == false) {
+            this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, this, this.gameObject);
+        }
+        else {
+            this.gameObject.behavior = new PlayerDeadBehavior(this.gameObject);
+        }
     };
     return IdleBehavior;
 }(Behavior));
