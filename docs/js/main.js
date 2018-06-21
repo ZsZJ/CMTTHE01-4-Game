@@ -486,7 +486,7 @@ var PlayScreen = (function () {
         this._enemies = new Array;
         var ground = document.createElement("ground");
         document.body.appendChild(ground);
-        this._player = new Player(this, (window.innerWidth / 2 - 70), 0);
+        this._player = new Player(this, (window.innerWidth / 2 - 50), 0);
         this.scoreText = document.createElement("scoreText");
         this.scoreText.innerHTML = "" + this.game.user.score;
         document.body.appendChild(this.scoreText);

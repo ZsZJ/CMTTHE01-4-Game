@@ -32,7 +32,7 @@ class PlayScreen {
         document.body.appendChild(ground)
 
         // Create the player
-        this._player = new Player(this, (window.innerWidth / 2 - 70), 0)
+        this._player = new Player(this, (window.innerWidth / 2 - 50), 0)
 
         /**
          * 
