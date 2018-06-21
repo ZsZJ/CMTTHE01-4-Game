@@ -23,25 +23,25 @@ class UserStats {
     // Set the health according to level
     public set healthLevel(h : number) {
         this._health += h
-        this._healthLevel = h
+        this._healthLevel += h
     }
 
     // Set the reload speed according to level
     public set reloadLevel(r : number) {
         this._reload -= (r * 50)
-        this._reloadLevel = r
+        this._reloadLevel += r
     }
 
     // Set the bullet power according to level
     public set bulletPowerLevel(b : number) {
-        this._bullet += (b * 0.5)
-        this._bulletPowerLevel = b
+        this._bullet += b
+        this._bulletPowerLevel += b
     }
 
     // Set the bullet cap according to level
     public set bulletCapLevel(b : number) {
         this._bulletCap += b
-        this._bulletCapLevel = b
+        this._bulletCapLevel += b
     }
 
     /**

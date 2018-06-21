@@ -33,10 +33,10 @@ class ShopScreen {
         this.menu.appendChild(this.upgrades)
 
         // Set prices of each upgrade
-        this.bulletPowerPrice = 250 * (this.game.user.userStats.bulletPowerLevel + 1)
+        this.bulletPowerPrice = 400 * (this.game.user.userStats.bulletPowerLevel + 1)
         this.bulletCapPrice = 250 * (this.game.user.userStats.bulletCapLevel + 1)
         this.reloadSpeedPrice = 250 * (this.game.user.userStats.reloadLevel + 1)
-        this.maxHealthPrice = 250 * (this.game.user.userStats.healthLevel + 1)
+        this.maxHealthPrice = 450 * (this.game.user.userStats.healthLevel + 1)
 
 
         /**
@@ -93,10 +93,10 @@ class ShopScreen {
         this.amountCoins.innerHTML = `You Have : ${this.game.user.coins}G`
 
         // Keep the prices up to date
-        this.bulletPowerPrice = 250 * (this.game.user.userStats.bulletPowerLevel + 1)
-        this.bulletCapPrice = 250 * (this.game.user.userStats.bulletCapLevel + 1)
+        this.bulletPowerPrice = 400 * (this.game.user.userStats.bulletPowerLevel + 1)
+        this.bulletCapPrice = 600 * (this.game.user.userStats.bulletCapLevel + 1)
         this.reloadSpeedPrice = 250 * (this.game.user.userStats.reloadLevel + 1)
-        this.maxHealthPrice = 250 * (this.game.user.userStats.healthLevel + 1)
+        this.maxHealthPrice = 450 * (this.game.user.userStats.healthLevel + 1)
 
     }
 
@@ -117,25 +117,27 @@ class ShopScreen {
             switch(type) {
 
                 case 0 :
-                    this.game.user.userStats.bulletPowerLevel++
+                    this.game.user.userStats.bulletPowerLevel = 1
                     text.innerHTML = `Bullet power <br /> Level : ${this.game.user.userStats.bulletPowerLevel}`
+                    cost.innerHTML = `${price + 400}G`
                     break
                 case 1 :
-                    this.game.user.userStats.bulletCapLevel++
+                    this.game.user.userStats.bulletCapLevel = 1
                     text.innerHTML = `Bullet cap <br /> Level : ${this.game.user.userStats.bulletCapLevel}`
+                    cost.innerHTML = `${price + 600}G`
                     break
                 case 2 :
-                    this.game.user.userStats.reloadLevel++
+                    this.game.user.userStats.reloadLevel = 1
                     text.innerHTML = `Reload speed <br /> Level : ${this.game.user.userStats.reloadLevel}`
+                    cost.innerHTML = `${price + 250}G`
                     break
                 case 3 :
-                    this.game.user.userStats.healthLevel++
+                    this.game.user.userStats.healthLevel = 1
                     text.innerHTML = `Max health <br /> Level : ${this.game.user.userStats.healthLevel}`
+                    cost.innerHTML = `${price + 450}G`
                     break
 
             }
-
-            cost.innerHTML = `${price * 2}G`
 
         }
 

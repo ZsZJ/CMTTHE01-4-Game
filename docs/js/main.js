@@ -638,10 +638,10 @@ var ShopScreen = (function () {
         this.menu.appendChild(title);
         this.upgrades = document.createElement("upgrades");
         this.menu.appendChild(this.upgrades);
-        this.bulletPowerPrice = 250 * (this.game.user.userStats.bulletPowerLevel + 1);
+        this.bulletPowerPrice = 400 * (this.game.user.userStats.bulletPowerLevel + 1);
         this.bulletCapPrice = 250 * (this.game.user.userStats.bulletCapLevel + 1);
         this.reloadSpeedPrice = 250 * (this.game.user.userStats.reloadLevel + 1);
-        this.maxHealthPrice = 250 * (this.game.user.userStats.healthLevel + 1);
+        this.maxHealthPrice = 450 * (this.game.user.userStats.healthLevel + 1);
         this.createBulletPowerTile();
         this.createBulletCapTile();
         this.createReloadSpeedTile();
@@ -662,10 +662,10 @@ var ShopScreen = (function () {
     };
     ShopScreen.prototype.update = function () {
         this.amountCoins.innerHTML = "You Have : " + this.game.user.coins + "G";
-        this.bulletPowerPrice = 250 * (this.game.user.userStats.bulletPowerLevel + 1);
-        this.bulletCapPrice = 250 * (this.game.user.userStats.bulletCapLevel + 1);
+        this.bulletPowerPrice = 400 * (this.game.user.userStats.bulletPowerLevel + 1);
+        this.bulletCapPrice = 600 * (this.game.user.userStats.bulletCapLevel + 1);
         this.reloadSpeedPrice = 250 * (this.game.user.userStats.reloadLevel + 1);
-        this.maxHealthPrice = 250 * (this.game.user.userStats.healthLevel + 1);
+        this.maxHealthPrice = 450 * (this.game.user.userStats.healthLevel + 1);
     };
     ShopScreen.prototype.upgrade = function (price, type, text, cost) {
         var _this = this;
@@ -673,23 +673,26 @@ var ShopScreen = (function () {
             this.game.user.coins -= price;
             switch (type) {
                 case 0:
-                    this.game.user.userStats.bulletPowerLevel++;
+                    this.game.user.userStats.bulletPowerLevel = 1;
                     text.innerHTML = "Bullet power <br /> Level : " + this.game.user.userStats.bulletPowerLevel;
+                    cost.innerHTML = price + 400 + "G";
                     break;
                 case 1:
-                    this.game.user.userStats.bulletCapLevel++;
+                    this.game.user.userStats.bulletCapLevel = 1;
                     text.innerHTML = "Bullet cap <br /> Level : " + this.game.user.userStats.bulletCapLevel;
+                    cost.innerHTML = price + 600 + "G";
                     break;
                 case 2:
-                    this.game.user.userStats.reloadLevel++;
+                    this.game.user.userStats.reloadLevel = 1;
                     text.innerHTML = "Reload speed <br /> Level : " + this.game.user.userStats.reloadLevel;
+                    cost.innerHTML = price + 250 + "G";
                     break;
                 case 3:
-                    this.game.user.userStats.healthLevel++;
+                    this.game.user.userStats.healthLevel = 1;
                     text.innerHTML = "Max health <br /> Level : " + this.game.user.userStats.healthLevel;
+                    cost.innerHTML = price + 450 + "G";
                     break;
             }
-            cost.innerHTML = price * 2 + "G";
         }
         else {
             this.amountCoins.classList.add("warning");
@@ -864,7 +867,7 @@ var UserStats = (function () {
         },
         set: function (h) {
             this._health += h;
-            this._healthLevel = h;
+            this._healthLevel += h;
         },
         enumerable: true,
         configurable: true
@@ -875,7 +878,7 @@ var UserStats = (function () {
         },
         set: function (r) {
             this._reload -= (r * 50);
-            this._reloadLevel = r;
+            this._reloadLevel += r;
         },
         enumerable: true,
         configurable: true
@@ -885,8 +888,8 @@ var UserStats = (function () {
             return this._bulletPowerLevel;
         },
         set: function (b) {
-            this._bullet += (b * 0.5);
-            this._bulletPowerLevel = b;
+            this._bullet += b;
+            this._bulletPowerLevel += b;
         },
         enumerable: true,
         configurable: true
@@ -897,7 +900,7 @@ var UserStats = (function () {
         },
         set: function (b) {
             this._bulletCap += b;
-            this._bulletCapLevel = b;
+            this._bulletCapLevel += b;
         },
         enumerable: true,
         configurable: true
