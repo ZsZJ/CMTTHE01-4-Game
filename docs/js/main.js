@@ -785,9 +785,6 @@ var StartScreen = (function () {
         this.start = document.createElement("start");
         this.element.appendChild(this.start);
         this.start.innerHTML = "Start";
-        this.highscores = document.createElement("highscores");
-        this.element.appendChild(this.highscores);
-        this.highscores.innerHTML = "Highscores";
         this.start.addEventListener("click", function () { return _this.startGame(); });
     }
     StartScreen.prototype.startGame = function () {
@@ -1065,7 +1062,7 @@ var WaveScreen = (function () {
 var Zombie = (function (_super) {
     __extends(Zombie, _super);
     function Zombie(playScreen, xPos, yPos) {
-        var _this = _super.call(this, "Zombie", playScreen, xPos, yPos) || this;
+        var _this = _super.call(this, "zombie", playScreen, xPos, yPos) || this;
         _this.appearFrames = 10;
         _this.walkFrames = 9;
         _this.attackFrames = 6;
