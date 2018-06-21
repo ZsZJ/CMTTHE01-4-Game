@@ -1,0 +1,146 @@
+shopmenu {
+    position: absolute;
+    width: 35%;
+    height: 80%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url('../images/dialogs/paper-dialog.png');
+    background-size: cover;
+}
+
+shopmenu title {
+    font-size: 200%;
+    font-weight: bold;
+    top: 7.5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+shopmenu upgrades {
+    /* border: 1px solid #000; */
+    position: absolute;
+    width: 80%; height: 70%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Shop upgrade tile */
+shopmenu .tile {
+    background-image: url("../images/dialogs/paper-button-on.png");
+    background-size: 100%;
+    position: absolute;
+    width: 80%; height: 20%;
+    transform: translate(-50%, -50%);
+}
+
+shopmenu .tile:hover {
+    cursor: pointer;
+}
+
+shopmenu .tile .image {
+    background-size: contain;
+    width: 25px; height: 25px;
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translate(-50%, -50%);
+}
+
+shopmenu .tile .text {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+}
+
+shopmenu .tile .cost {
+    color: #27ae60;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 150%;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    transform: translate(-50%, -50%);
+}
+
+/* bullet power tile */
+shopmenu bulletpowerupgrade {
+    top: 15%;
+    left: 50%;
+}
+
+shopmenu bulletpowerupgradeimage {
+    background-image: url("../images/Hero/_Weapon/Bullet.png");
+}
+
+/* bullet cap tile */
+shopmenu bulletcapupgrade {
+    top: 35%;
+    left: 50%;
+}
+
+shopmenu bulletcapupgradeimage {
+    background-image: url("../images/Hero/_Weapon/Bullet.png");
+}
+
+/* reload speed tile */
+shopmenu reloadspeedupgrade {
+    top: 55%;
+    left: 50%;
+}
+
+shopmenu reloadspeedupgradeimage {
+    background-image: url("../images/Hero/_Weapon/Bullet.png");
+}
+
+/* max health tile */
+shopmenu maxhealthupgrade {
+    top: 75%;
+    left: 50%;
+}
+
+shopmenu maxhealthupgradeimage {
+    background-image: url("../images/Hero/heart.png");
+}
+
+/* Amount coins  */
+shopmenu amount {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    color: #27ae60;
+    font-size: 130%;
+    bottom: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+shopmenu amount.warning {
+    animation: blink 1s;
+}
+
+@keyframes blink {
+    0% { color: #27ae60; }
+    25%   { color: #af111c; }
+    50%   { color: #27ae60; }
+    75%   { color: #af111c; }
+    100% { color: #27ae60; }
+}
+
+/* Next Wave button */
+shopmenu nextbutton {
+    font-weight: bold;
+    color: #af111c;
+    font-size: 200%;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+shopmenu nextbutton:hover {
+    cursor: pointer;
+}

@@ -27,9 +27,13 @@ class Wave {
         // Calculate amount monster ( FLOOR : level * 1.50 )
         this.amountMonsters = Math.floor(this.playScreen.game.user.level * 1.50)
 
-        // Create the enemies
-        this.waveIntroElement = document.createElement("waveintro")
+        // Enemy getting stronger after 10 waves
+        if (this.playScreen.game.user.level % 10 == 0) {
+            this.playScreen.game.enemyLevel++
+        }
 
+        // Wave intro
+        this.waveIntroElement = document.createElement("waveintro")
         this.waveIntro()
     }
 

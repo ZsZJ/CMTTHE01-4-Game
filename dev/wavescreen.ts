@@ -33,9 +33,17 @@ class WaveScreen {
         document.body.appendChild(this.element)
 
         // Click on next to start the next wave
+        this.upgradeButton.addEventListener("click", () => this.openUpgrades())
         this.nextButton.addEventListener("click", () => this.nextWave())
     }
 
+    // Open the upgrade shop
+    private openUpgrades() {
+        document.body.innerHTML = ""
+        this.game.screen = new ShopScreen(this.game)
+    }
+
+    // Start the next Wave
     private nextWave() {
 
         // Game Level up

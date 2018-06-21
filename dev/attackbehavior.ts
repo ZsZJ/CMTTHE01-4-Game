@@ -11,6 +11,10 @@ class AttackBehavior extends Behavior {
     }
 
     public onAnimationCompleted () {
+        
+        // If enemy attacked player decrease the player health
+        this.gameObject.playScreen.game.user.userStats.currentHealth--
+
         this.gameObject.behavior = new AttackBehavior(this.gameObject)
     }
 

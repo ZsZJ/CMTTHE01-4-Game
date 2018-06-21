@@ -38,7 +38,7 @@ body * {
     color: #af111c;
 }
 
-/* Start Screen */
+/* Start Screen && GameOver Screen */
 splash {
     text-align: center;
     text-shadow: -5px 0 black, 0 5px black, 5px 0 black, 0 -5px black;
@@ -56,7 +56,7 @@ splash title {
     transform: translate(-50%, -50%);
 }
 
-splash start {
+splash start, splash return {
     color: #ffffff;
     font-size: 4em;
     font-weight: bold;
@@ -66,7 +66,7 @@ splash start {
     transform: translate(-50%, -50%);
 }
 
-splash start:hover {
+splash start:hover, splash return:hover {
     cursor: pointer;
 }
 
@@ -84,28 +84,6 @@ splash highscores:hover {
     cursor: pointer;
 }
 
-/* Bullet Cap & Bullet image */
-bulletPlaceholder {
-    position: absolute;
-    top: 70%;
-    left: 50%; 
-    transform: translate(-50%, -50%);
-}
-
-bulletImage {
-    transform: translate(-150%, 5%);
-    background-image: url("../images/Hero/_Weapon/Bullet.png");
-    width: 1.5em; height: 1.5em;
-    top: 20%;
-    background-size: cover;
-}
-
-bulletcap {
-    font-family: 'Courier New', Courier, monospace;
-    color: #ffffff;
-    font-size: 1.5em;
-    font-weight: bold;
-}
 
 /* Player */
 player {
@@ -119,6 +97,10 @@ player.shoot {
     width: 10.5em; height: 10.5em;
     bottom: -1%;
     background-size: contain;
+}
+
+player.dead {
+    background-size: cover;
 }
 
 /* Ground */
@@ -185,6 +167,10 @@ complete upgradebutton {
     transform: translate(-50%, -50%);
 }
 
+complete upgradebutton:hover {
+    cursor: pointer;
+}
+
 complete nextbutton {
     color: #fff;
     font-weight: bold;
@@ -214,132 +200,3 @@ zombie.dead {
     width: 14em;
     background-size: cover;
 }
-
-/* Player preload images */
-#player-idle-0 {
-    background-image: url('../images/Hero/modegun/idle/idle_0.png')
-}
-#player-idle-1 {
-    background-image: url('../images/Hero/modegun/idle/idle_1.png')
-}
-#player-idle-2 {
-    background-image: url('../images/Hero/modegun/idle/idle_2.png')
-}
-#player-idle-3 {
-    background-image: url('../images/Hero/modegun/idle/idle_3.png')
-}
-#player-idle-4 {
-    background-image: url('../images/Hero/modegun/idle/idle_4.png')
-}
-#player-idle-5 {
-    background-image: url('../images/Hero/modegun/idle/idle_5.png')
-}
-#player-idle-6 {
-    background-image: url('../images/Hero/modegun/idle/idle_6.png')
-}
-#player-idle-7 {
-    background-image: url('../images/Hero/modegun/idle/idle_7.png')
-}
-#player-idle-8 {
-    background-image: url('../images/Hero/modegun/idle/idle_8.png')
-}
-#player-idle-9 {
-    background-image: url('../images/Hero/modegun/idle/idle_9.png')
-}
-
-#player-shoot-0 {
-    background-image: url('../images/Hero/modegun/shot/attack_0.png')
-}
-#player-shoot-1 {
-    background-image: url('../images/Hero/modegun/shot/attack_1.png')
-}
-#player-shoot-2 {
-    background-image: url('../images/Hero/modegun/shot/attack_2.png')
-}
-#player-shoot-3 {
-    background-image: url('../images/Hero/modegun/shot/attack_3.png')
-}
-#player-shoot-4 {
-    background-image: url('../images/Hero/modegun/shot/attack_4.png')
-}
-#player-shoot-5 {
-    background-image: url('../images/Hero/modegun/shot/attack_5.png')
-}
-#player-shoot-6 {
-    background-image: url('../images/Hero/modegun/shot/attack_6.png')
-}
-#player-shoot-7 {
-    background-image: url('../images/Hero/modegun/shot/attack_7.png')
-}
-#player-shoot-8 {
-    background-image: url('../images/Hero/modegun/shot/attack_8.png')
-}
-#player-shoot-9 {
-    background-image: url('../images/Hero/modegun/shot/attack_9.png')
-}
-
-/* Zombie preload images */
-
-/* Zombie appear */
-#zombie-appear-1 {
-    background-image: url('../images/Zombie/appear/appear_0.png')
-}
-#zombie-appear-2 {
-    background-image: url('../images/Zombie/appear/appear_1.png')
-}
-#zombie-appear-3 {
-    background-image: url('../images/Zombie/appear/appear_2.png')
-}
-#zombie-appear-4 {
-    background-image: url('../images/Zombie/appear/appear_3.png')
-}
-#zombie-appear-5 {
-    background-image: url('../images/Zombie/appear/appear_4.png')
-}
-#zombie-appear-6 {
-    background-image: url('../images/Zombie/appear/appear_6.png')
-}
-#zombie-appear-7 {
-    background-image: url('../images/Zombie/appear/appear_7.png')
-}
-#zombie-appear-8 {
-    background-image: url('../images/Zombie/appear/appear_8.png')
-}
-#zombie-appear-9 {
-    background-image: url('../images/Zombie/appear/appear_9.png')
-}
-#zombie-appear-10 {
-    background-image: url('../images/Zombie/appear/appear_10.png')
-}
-
-/* Zombie walk */
-#zombie-walk-1 {
-    background-image: url('../images/Zombie/walk/go_0.png')
-}
-#zombie-walk-2 {
-    background-image: url('../images/Zombie/walk/go_1.png')
-}
-#zombie-walk-3 {
-    background-image: url('../images/Zombie/walk/go_2.png')
-}
-#zombie-walk-4 {
-    background-image: url('../images/Zombie/walk/go_3.png')
-}
-#zombie-walk-5 {
-    background-image: url('../images/Zombie/walk/go_4.png')
-}
-#zombie-walk-6 {
-    background-image: url('../images/Zombie/walk/go_5.png')
-}
-#zombie-walk-7 {
-    background-image: url('../images/Zombie/walk/go_6.png')
-}
-#zombie-walk-8 {
-    background-image: url('../images/Zombie/walk/go_7.png')
-}
-#zombie-walk-9 {
-    background-image: url('../images/Zombie/walk/go_8.png')
-}
-#zombie-walk-10 {
-    background-image: url('../images/Zombie/walk/go_9.png')
-} 

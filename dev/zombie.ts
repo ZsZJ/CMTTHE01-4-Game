@@ -24,7 +24,11 @@ class Zombie extends Enemy {
         this.dieFrames = 7
 
         // Zombie stats
-        this.health = 3
+        this.health = this.playScreen.game.enemyLevel + 3
+
+        // Reward Zombie
+        this.rewardScore = (100 * (this.playScreen.game.enemyLevel + 1) )
+        this.rewardCoins = 50
         
         // Let the zombie spawn
         this.spawn()        

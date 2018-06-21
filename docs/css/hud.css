@@ -1,0 +1,82 @@
+/* Score Element */
+scoreText::before {
+    content: "Score : ";
+}
+scoreText {
+    padding: 1em;
+    position: absolute;
+    color: #fff;
+    font-size: 2em;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+coinsplaceholder {
+    position: absolute;
+    top: 10%;
+    left: 4.6%;
+    transform: translate(-50%, -50%);
+
+}
+
+coinsImage {
+    transform: translate(-150%, 5%);
+    background-image: url("../images/Currency/Coins.png");
+    width: 1.5em; height: 1.5em;
+    top: 20%;
+    background-size: cover;
+    filter: hue-rotate(75deg);
+}
+
+coinsText {
+    font-family: 'Courier New', Courier, monospace;
+    color: #ffffff;
+    font-size: 1.5em;
+    font-weight: bold; 
+}
+
+/* Bullet Cap & Bullet image */
+bulletPlaceholder {
+    position: absolute;
+    top: 73%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
+bulletImage {
+    transform: translate(-150%, 5%);
+    background-image: url("../images/Hero/_Weapon/Bullet.png");
+    width: 1.5em; height: 1.5em;
+    top: 20%;
+    background-size: cover;
+}
+
+bulletcap {
+    font-family: 'Courier New', Courier, monospace;
+    color: #ffffff;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/* Health Cap & Health image */
+healthPlaceholder {
+    position: absolute;
+    top: 68%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
+healthImage {
+    transform: translate(-150%, 5%);
+    background-image: url("../images/Hero/heart.png");
+    width: 1.5em; height: 1.5em;
+    top: 20%;
+    background-size: cover;
+}
+
+healthcap {
+    font-family: 'Courier New', Courier, monospace;
+    color: #ffffff;
+    font-size: 1.5em;
+    font-weight: bold;
+}

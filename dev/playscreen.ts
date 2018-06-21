@@ -10,6 +10,14 @@ class PlayScreen {
     private bulletPlaceHolder : HTMLElement
     public bulletCap : HTMLElement
 
+    private healthPlaceHolder : HTMLElement
+    public healthCap : HTMLElement
+
+    public scoreText : HTMLElement
+
+    private coinsPlaceHolder : HTMLElement
+    public coinsText : HTMLElement
+
     constructor(g : Game) {
 
         // Assign Game Object
@@ -26,7 +34,29 @@ class PlayScreen {
         // Create the player
         this._player = new Player(this, 640, 0)
 
-        // Create the UI / Stats
+        /**
+         * 
+         *  Create the UI / Stats
+        */
+
+        // Score
+        this.scoreText = document.createElement("scoreText")
+        this.scoreText.innerHTML = `${this.game.user.score}`
+        document.body.appendChild(this.scoreText)
+
+        // Coins
+        this.coinsPlaceHolder = document.createElement("coinsPlaceholder");
+        document.body.appendChild(this.coinsPlaceHolder)
+
+        let coinsImage = document.createElement("coinsImage")
+        this.coinsPlaceHolder.appendChild(coinsImage)
+
+        this.coinsText = document.createElement("coinsText")
+        this.coinsText.innerHTML = `${this.game.user.coins}`
+
+        this.coinsPlaceHolder.appendChild(this.coinsText)
+
+        // Current bullet UI
         this.bulletPlaceHolder = document.createElement("bulletplaceholder")
         document.body.appendChild(this.bulletPlaceHolder)
 
@@ -35,6 +65,17 @@ class PlayScreen {
 
         let bulletImage = document.createElement("bulletimage")
         this.bulletPlaceHolder.appendChild(bulletImage)
+
+        // Current health UI
+        this.healthPlaceHolder = document.createElement("healthplaceholder")
+        document.body.appendChild(this.healthPlaceHolder)
+
+        this.healthCap = document.createElement("healthcap")
+        this.healthPlaceHolder.appendChild(this.healthCap)
+
+        let healthImage = document.createElement("healthimage")
+        this.healthPlaceHolder.appendChild(healthImage)
+
         // END UI CREATION
 
         // Create the Wave
@@ -78,21 +119,33 @@ class PlayScreen {
         // Keep the player updated
         this._player.update()
 
+        // HEALTH UI
+        this.healthCap.innerHTML = `${this._game.user.userStats.currentHealth}`
+
+        // BULLET UI 
+
+        // Keep the score update
+        this.scoreText.innerHTML = `${this.game.user.score}`
+        this.coinsText.innerHTML = `${this.game.user.coins}`
+
         // Keep the current bullets updated
         this.bulletCap.innerHTML = `${this._game.user.userStats.currentBullets}`
 
+        // Make the bullet cap text red if there is zero bullets
         if(this._game.user.userStats.currentBullets == 0) {
             this.bulletCap.classList.add('red')
         } 
+        // Remove the red class of there are bullets
         else {
             this.bulletCap.classList.remove('red')
         }
         
-        // Player is reloading
+        // Player is reloading replace text with reloading
         if (this.player.reloading == true) {
             this.bulletCap.innerHTML = 'Reloading...'
             this.bulletCap.classList.remove('red')
         }
+        // END BULLET UI
 
         // Loop through enemies
         for (let e of this._enemies) {

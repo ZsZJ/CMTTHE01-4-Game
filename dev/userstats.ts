@@ -7,13 +7,13 @@ class UserStats {
     private _bulletCapLevel : number = 0
 
     // Player stats defaults
-    private _health : number = 10
-    private _reload : number = 1500
+    private _health : number = 5
+    private _reload : number = 1700
     private _bullet : number = 1
     private _bulletCap : number = 3
 
     // Player current tempory stats ( FIRST INIT IN GAME )
-    private _currentHealth : number = 10
+    private _currentHealth : number = 5
     private _currentBullets : number = 3
 
     /**
@@ -28,13 +28,13 @@ class UserStats {
 
     // Set the reload speed according to level
     public set reloadLevel(r : number) {
-        this._reload -= (r * 200)
+        this._reload -= (r * 50)
         this._reloadLevel = r
     }
 
     // Set the bullet power according to level
     public set bulletPowerLevel(b : number) {
-        this._bullet += b
+        this._bullet += (b * 0.5)
         this._bulletPowerLevel = b
     }
 

@@ -7,8 +7,6 @@ class ReloadBehavior extends Behavior {
     public performBehavior() {
         
         // After hero stats reload speed
-        console.log('reloading....')
-
         this.gameObject.playScreen.bulletCap.innerHTML = "Reloading..."
 
         this.gameObject.playScreen.player.reloading = true
@@ -18,8 +16,7 @@ class ReloadBehavior extends Behavior {
 
     public onAnimationCompleted() {
 
-        console.log("Done reloading!")
-
+        // Player is not reloading anymore
         this.gameObject.playScreen.player.reloading = false
 
         // If reloading is done, give the bullet cap back to the player

@@ -11,6 +11,9 @@ class Player extends AnimatedGameObject {
     // Check if character is reloading
     private _reloading : boolean = false
 
+    // Check if character died
+    private _die : boolean = false
+
     // Getter player direction
     public get viewDirection() : number {
         return this._direction
@@ -42,35 +45,52 @@ class Player extends AnimatedGameObject {
     // Player Controls
     private control(e:KeyboardEvent): void {
 
-        switch(e.keyCode) {
-            // Player look left (Left arrow key)
-            case 37 :
-                this.element.style.transform = "translate(640px, 0) scaleX(-1)"
-                this._direction = 0
-                break
-            // Player look right (Right arrow key)
-            case 39 :
-                this.element.style.transform = "translate(640px, 0) scaleX(1)"
-                this._direction = 1
-                break
-            // Player shoots (Spacebar)
-            case 32 :
+        // Disable the controls when the player died
+        if(this._die == false) {
 
-                // Cannot shoot if the player has zero bullets
-                if (this.playScreen.game.user.userStats.currentBullets != 0) {
-                    this.behavior = new ShootBehavior(this)
-                    this.behavior.performBehavior()
-                }
-
-                break
-            case 67 :
-                // Reload if the player has less bullets than its cap
-                if ( this.playScreen.game.user.userStats.currentBullets != this.playScreen.game.user.userStats.bulletCap && this.reloading == false) {
-                    this.behavior = new ReloadBehavior(this)
-                    this.behavior.performBehavior()
-                }
-                break
+            switch(e.keyCode) {
+                // Player look left (Left arrow key)
+                case 37 :
+                    this.element.style.transform = "translate(640px, 0) scaleX(-1)"
+                    this._direction = 0
+                    break
+                // Player look right (Right arrow key)
+                case 39 :
+                    this.element.style.transform = "translate(640px, 0) scaleX(1)"
+                    this._direction = 1
+                    break
+                // Player shoots (Spacebar)
+                case 32 :
+                    // Cannot shoot if the player has zero bullets
+                    if (this.playScreen.game.user.userStats.currentBullets != 0 && this._reloading == false) {
+                        this.behavior = new ShootBehavior(this)
+                        this.behavior.performBehavior()
+                    }
+                    break
+                case 82 :
+                    // Reload if the player has less bullets than its cap
+                    if ( this.playScreen.game.user.userStats.currentBullets != this.playScreen.game.user.userStats.bulletCap && this.reloading == false) {
+                        this.behavior = new ReloadBehavior(this)
+                        this.behavior.performBehavior()
+                    }
+                    break
+            }
+            
         }
+    }
+
+    public update() {
+
+        // Keep the behavior updated
+        this.behavior.update(); 
+
+        // Check if player is dead
+        if (this.playScreen.game.user.userStats.currentHealth <= 0 && this._die == false) {
+            
+            this._die = true
+            this.behavior = new PlayerDeadBehavior(this)
+        }
+
     }
 
     // Remove the event listener
