@@ -34,6 +34,9 @@ class Sound {
     }
 
     public playIntro() {
+        
+        this.stopBattle()
+
         // play intro sound
         this.intro.play()
     }

@@ -807,6 +807,7 @@ var Sound = (function () {
         return Sound.instance;
     };
     Sound.prototype.playIntro = function () {
+        this.stopBattle();
         this.intro.play();
     };
     Sound.prototype.stopIntro = function () {
