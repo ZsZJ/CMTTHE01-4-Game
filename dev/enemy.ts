@@ -47,7 +47,7 @@ class Enemy extends AnimatedGameObject {
         }
 
         // Change the color if the enemy is stronger
-        this.element.style.filter += `hue-rotate(${360 - (this.playScreen.game.enemyLevel * 20)}deg)`
+        this.element.style.filter += `hue-rotate(${360 - (this.playScreen.game.enemyLevel * 50)}deg)`
     }
 
     // Enemy Spawn

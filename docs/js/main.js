@@ -256,7 +256,7 @@ var Enemy = (function (_super) {
             _this.viewDirection = 1;
             _this.element.style.transform += "scaleX(1)";
         }
-        _this.element.style.filter += "hue-rotate(" + (360 - (_this.playScreen.game.enemyLevel * 20)) + "deg)";
+        _this.element.style.filter += "hue-rotate(" + (360 - (_this.playScreen.game.enemyLevel * 50)) + "deg)";
         return _this;
     }
     Object.defineProperty(Enemy.prototype, "rewardScore", {
@@ -1075,7 +1075,7 @@ var Zombie = (function (_super) {
         _this.walkFrames = 9;
         _this.attackFrames = 6;
         _this.dieFrames = 7;
-        _this.health = _this.playScreen.game.enemyLevel + 3;
+        _this.health = (_this.playScreen.game.enemyLevel * 2) + 3;
         _this.rewardScore = (100 * (_this.playScreen.game.enemyLevel + 1));
         _this.rewardCoins = 50;
         _this.spawn();
