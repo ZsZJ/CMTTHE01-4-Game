@@ -43,7 +43,7 @@ class ShootBehavior extends Behavior{
             this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, this, this.gameObject)
         }
         else {
-            this.gameAnimation = new GameAnimation("images/hero/modegun/die/die", 9, this, this.gameObject)
+            this.gameObject.behavior = new PlayerDeadBehavior(this.gameObject)
         }
     }
 }

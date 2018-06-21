@@ -15,6 +15,8 @@ class PlayScreen {
 
     public scoreText : HTMLElement
 
+    public waveText : HTMLElement
+
     private coinsPlaceHolder : HTMLElement
     public coinsText : HTMLElement
 
@@ -55,6 +57,11 @@ class PlayScreen {
         this.coinsText.innerHTML = `${this.game.user.coins}`
 
         this.coinsPlaceHolder.appendChild(this.coinsText)
+
+        // Current wave
+        this.waveText = document.createElement("waveText")
+        this.waveText.innerHTML = `Wave : ${this.game.user.level}`
+        document.body.appendChild(this.waveText)
 
         // Current bullet UI
         this.bulletPlaceHolder = document.createElement("bulletplaceholder")

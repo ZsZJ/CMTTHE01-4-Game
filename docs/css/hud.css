@@ -10,10 +10,20 @@ scoreText {
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
 }
+waveText {
+    position: absolute;
+    left: 7.7%;
+    top: 11%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 2em;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
 
 coinsplaceholder {
     position: absolute;
-    top: 10%;
+    top: 15%;
     left: 4.6%;
     transform: translate(-50%, -50%);
 

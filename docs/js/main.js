@@ -510,6 +510,9 @@ var PlayScreen = (function () {
         this.coinsText = document.createElement("coinsText");
         this.coinsText.innerHTML = "" + this.game.user.coins;
         this.coinsPlaceHolder.appendChild(this.coinsText);
+        this.waveText = document.createElement("waveText");
+        this.waveText.innerHTML = "Wave : " + this.game.user.level;
+        document.body.appendChild(this.waveText);
         this.bulletPlaceHolder = document.createElement("bulletplaceholder");
         document.body.appendChild(this.bulletPlaceHolder);
         this.bulletCap = document.createElement("bulletcap");
@@ -646,7 +649,7 @@ var ShootBehavior = (function (_super) {
             this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, this, this.gameObject);
         }
         else {
-            this.gameAnimation = new GameAnimation("images/hero/modegun/die/die", 9, this, this.gameObject);
+            this.gameObject.behavior = new PlayerDeadBehavior(this.gameObject);
         }
     };
     return ShootBehavior;
