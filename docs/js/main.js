@@ -229,7 +229,6 @@ var DieBehavior = (function (_super) {
         return _this;
     }
     DieBehavior.prototype.performBehavior = function () {
-        console.log(this.rewardScore);
         this.gameObject.playScreen.game.user.score += this.rewardScore;
         this.gameObject.playScreen.game.user.coins += this.rewardCoins;
         this.gameObject.state = 3;

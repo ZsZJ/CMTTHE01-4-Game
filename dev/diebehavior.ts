@@ -16,8 +16,6 @@ class DieBehavior extends Behavior {
 
     public performBehavior() {
 
-        console.log(this.rewardScore)
-
         // Give player the rewards of killing enemy
         this.gameObject.playScreen.game.user.score += this.rewardScore
         this.gameObject.playScreen.game.user.coins += this.rewardCoins
