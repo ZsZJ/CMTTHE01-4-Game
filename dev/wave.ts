@@ -94,6 +94,9 @@ class Wave {
 
         // If the amount of monster on screen is zero, complete the wave
         if (this.currentMonsters == 0 && this.playScreen.enemies.length == this.amountMonsters) {
+
+            // Stop battle sound
+            Sound.getInstance().stopBattle()
             
             // Complete the wave
             this.waveComplete = true

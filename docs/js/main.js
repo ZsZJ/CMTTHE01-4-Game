@@ -812,6 +812,9 @@ var Sound = (function () {
     Sound.prototype.playBattle = function () {
         this.battle.play();
     };
+    Sound.prototype.stopBattle = function () {
+        this.battle.stop();
+    };
     Sound.instance = null;
     return Sound;
 }());
@@ -1065,6 +1068,7 @@ var Wave = (function () {
     };
     Wave.prototype.update = function () {
         if (this.currentMonsters == 0 && this.playScreen.enemies.length == this.amountMonsters) {
+            Sound.getInstance().stopBattle();
             this.waveComplete = true;
             this.player.removeListener();
             document.body.innerHTML = "";

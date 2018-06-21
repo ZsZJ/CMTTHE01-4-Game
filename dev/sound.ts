@@ -27,7 +27,7 @@ class Sound {
     public static getInstance():Sound {
 
         if(Sound.instance == null) {
-            Sound.instance = new Sound();
+            Sound.instance = new Sound()
         }
 
         return Sound.instance;
@@ -35,12 +35,16 @@ class Sound {
 
     public playIntro() {
         // play intro sound
-        this.intro.play();
+        this.intro.play()
     }
 
     public playBattle() {
         // play battle sound
-        this.battle.play();
+        this.battle.play()
+    }
+
+    public stopBattle() {
+        this.battle.stop()
     }
 
 }
