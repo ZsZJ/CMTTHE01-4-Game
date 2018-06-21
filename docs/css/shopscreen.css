@@ -75,7 +75,7 @@ shopmenu bulletpowerupgrade {
 }
 
 shopmenu bulletpowerupgradeimage {
-    background-image: url("../images/Hero/_Weapon/Bullet.png");
+    background-image: url("../images/hero/weapon/bullet.png");
 }
 
 /* bullet cap tile */
@@ -85,7 +85,7 @@ shopmenu bulletcapupgrade {
 }
 
 shopmenu bulletcapupgradeimage {
-    background-image: url("../images/Hero/_Weapon/Bullet.png");
+    background-image: url("../images/hero/weapon/bullet.png");
 }
 
 /* reload speed tile */
@@ -95,7 +95,7 @@ shopmenu reloadspeedupgrade {
 }
 
 shopmenu reloadspeedupgradeimage {
-    background-image: url("../images/Hero/_Weapon/Bullet.png");
+    background-image: url("../images/hero/weapon/bullet.png");
 }
 
 /* max health tile */
@@ -105,7 +105,7 @@ shopmenu maxhealthupgrade {
 }
 
 shopmenu maxhealthupgradeimage {
-    background-image: url("../images/Hero/heart.png");
+    background-image: url("../images/hero/heart.png");
 }
 
 /* Amount coins  */

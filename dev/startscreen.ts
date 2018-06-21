@@ -3,7 +3,7 @@ class StartScreen {
     private element : HTMLElement
     private title : HTMLElement
     private start : HTMLElement
-    private highscores: HTMLElement
+    //private highscores: HTMLElement
 
     private game : Game
 
