@@ -34,7 +34,7 @@ class ShopScreen {
 
         // Set prices of each upgrade
         this.bulletPowerPrice = 400 * (this.game.user.userStats.bulletPowerLevel + 1)
-        this.bulletCapPrice = 250 * (this.game.user.userStats.bulletCapLevel + 1)
+        this.bulletCapPrice = 600 * (this.game.user.userStats.bulletCapLevel + 1)
         this.reloadSpeedPrice = 250 * (this.game.user.userStats.reloadLevel + 1)
         this.maxHealthPrice = 450 * (this.game.user.userStats.healthLevel + 1)
 
@@ -100,7 +100,7 @@ class ShopScreen {
 
     }
 
-    // Upgrade the level
+    // Upgrade the level 
     private upgrade(price : number, type : number, text : HTMLElement, cost : HTMLElement) {
 
         if (this.game.user.coins >= price) {

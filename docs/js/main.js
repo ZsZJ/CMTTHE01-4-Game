@@ -638,7 +638,7 @@ var ShopScreen = (function () {
         this.upgrades = document.createElement("upgrades");
         this.menu.appendChild(this.upgrades);
         this.bulletPowerPrice = 400 * (this.game.user.userStats.bulletPowerLevel + 1);
-        this.bulletCapPrice = 250 * (this.game.user.userStats.bulletCapLevel + 1);
+        this.bulletCapPrice = 600 * (this.game.user.userStats.bulletCapLevel + 1);
         this.reloadSpeedPrice = 250 * (this.game.user.userStats.reloadLevel + 1);
         this.maxHealthPrice = 450 * (this.game.user.userStats.healthLevel + 1);
         this.createBulletPowerTile();
