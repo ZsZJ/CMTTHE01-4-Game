@@ -4,7 +4,7 @@ class PlayerDeadBehavior extends Behavior {
     
     constructor(gameObject : AnimatedGameObject) {
         super(gameObject)
-        this.gameAnimation = new GameAnimation("images/Hero/06-Die/JK_P__Die", 9, this, gameObject)
+        this.gameAnimation = new GameAnimation("images/hero/die/die", 9, this, gameObject)
         this.performBehavior()
     }
 

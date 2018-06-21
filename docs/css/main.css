@@ -117,7 +117,7 @@ ground {
 /* Bullet */
 bullet {
     width:1em; height:1em;
-    background-image: url('../images/Hero/_Weapon/Bullet.png');
+    background-image: url('../images/hero/weapon/bullet.png');
     background-size: contain;
 }
 

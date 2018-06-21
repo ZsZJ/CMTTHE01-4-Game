@@ -21,7 +21,7 @@ coinsplaceholder {
 
 coinsImage {
     transform: translate(-150%, 5%);
-    background-image: url("../images/Currency/Coins.png");
+    background-image: url("../images/currency/coins.png");
     width: 1.5em; height: 1.5em;
     top: 20%;
     background-size: cover;
@@ -45,7 +45,7 @@ bulletPlaceholder {
 
 bulletImage {
     transform: translate(-150%, 5%);
-    background-image: url("../images/Hero/_Weapon/Bullet.png");
+    background-image: url("../images/hero/weapon/bullet.png");
     width: 1.5em; height: 1.5em;
     top: 20%;
     background-size: cover;
@@ -68,7 +68,7 @@ healthPlaceholder {
 
 healthImage {
     transform: translate(-150%, 5%);
-    background-image: url("../images/Hero/heart.png");
+    background-image: url("../images/hero/heart.png");
     width: 1.5em; height: 1.5em;
     top: 20%;
     background-size: cover;

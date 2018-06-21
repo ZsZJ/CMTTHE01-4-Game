@@ -380,13 +380,13 @@ var IdleBehavior = (function (_super) {
     __extends(IdleBehavior, _super);
     function IdleBehavior(gameObject) {
         var _this = _super.call(this, gameObject) || this;
-        _this.gameAnimation = new GameAnimation("images/Hero/modegun/idle/idle", 9, _this, gameObject);
+        _this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, _this, gameObject);
         return _this;
     }
     IdleBehavior.prototype.performBehavior = function () {
     };
     IdleBehavior.prototype.onAnimationCompleted = function () {
-        this.gameAnimation = new GameAnimation("images/Hero/modegun/idle/idle", 9, this, this.gameObject);
+        this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, this, this.gameObject);
     };
     return IdleBehavior;
 }(Behavior));
@@ -461,7 +461,7 @@ var PlayerDeadBehavior = (function (_super) {
     __extends(PlayerDeadBehavior, _super);
     function PlayerDeadBehavior(gameObject) {
         var _this = _super.call(this, gameObject) || this;
-        _this.gameAnimation = new GameAnimation("images/Hero/06-Die/JK_P__Die", 9, _this, gameObject);
+        _this.gameAnimation = new GameAnimation("images/hero/die/die", 9, _this, gameObject);
         _this.performBehavior();
         return _this;
     }
@@ -607,7 +607,7 @@ var ShootBehavior = (function (_super) {
     __extends(ShootBehavior, _super);
     function ShootBehavior(gameObject) {
         var _this = _super.call(this, gameObject) || this;
-        _this.gameAnimation = new GameAnimation("images/Hero/modegun/shot/attack", 9, _this, gameObject);
+        _this.gameAnimation = new GameAnimation("images/hero/modegun/shot/attack", 9, _this, gameObject);
         return _this;
     }
     ShootBehavior.prototype.performBehavior = function () {
@@ -623,7 +623,7 @@ var ShootBehavior = (function (_super) {
     };
     ShootBehavior.prototype.onAnimationCompleted = function () {
         this.gameObject.element.classList.remove("shoot");
-        this.gameAnimation = new GameAnimation("images/Hero/modegun/idle/idle", 9, this, this.gameObject);
+        this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, this, this.gameObject);
     };
     return ShootBehavior;
 }(Behavior));

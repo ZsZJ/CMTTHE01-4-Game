@@ -1,128 +1,211 @@
 /* Player preload images */
 #player-idle-0 {
-    background-image: url('../images/Hero/modegun/idle/idle_0.png')
+    background-image: url('../images/hero/modegun/idle/idle_0.png')
 }
 #player-idle-1 {
-    background-image: url('../images/Hero/modegun/idle/idle_1.png')
+    background-image: url('../images/hero/modegun/idle/idle_1.png')
 }
 #player-idle-2 {
-    background-image: url('../images/Hero/modegun/idle/idle_2.png')
+    background-image: url('../images/hero/modegun/idle/idle_2.png')
 }
 #player-idle-3 {
-    background-image: url('../images/Hero/modegun/idle/idle_3.png')
+    background-image: url('../images/hero/modegun/idle/idle_3.png')
 }
 #player-idle-4 {
-    background-image: url('../images/Hero/modegun/idle/idle_4.png')
+    background-image: url('../images/hero/modegun/idle/idle_4.png')
 }
 #player-idle-5 {
-    background-image: url('../images/Hero/modegun/idle/idle_5.png')
+    background-image: url('../images/hero/modegun/idle/idle_5.png')
 }
 #player-idle-6 {
-    background-image: url('../images/Hero/modegun/idle/idle_6.png')
+    background-image: url('../images/hero/modegun/idle/idle_6.png')
 }
 #player-idle-7 {
-    background-image: url('../images/Hero/modegun/idle/idle_7.png')
+    background-image: url('../images/hero/modegun/idle/idle_7.png')
 }
 #player-idle-8 {
-    background-image: url('../images/Hero/modegun/idle/idle_8.png')
+    background-image: url('../images/hero/modegun/idle/idle_8.png')
 }
 #player-idle-9 {
-    background-image: url('../images/Hero/modegun/idle/idle_9.png')
+    background-image: url('../images/hero/modegun/idle/idle_9.png')
 }
 
 #player-shoot-0 {
-    background-image: url('../images/Hero/modegun/shot/attack_0.png')
+    background-image: url('../images/hero/modegun/shot/attack_0.png')
 }
 #player-shoot-1 {
-    background-image: url('../images/Hero/modegun/shot/attack_1.png')
+    background-image: url('../images/hero/modegun/shot/attack_1.png')
 }
 #player-shoot-2 {
-    background-image: url('../images/Hero/modegun/shot/attack_2.png')
+    background-image: url('../images/hero/modegun/shot/attack_2.png')
 }
 #player-shoot-3 {
-    background-image: url('../images/Hero/modegun/shot/attack_3.png')
+    background-image: url('../images/hero/modegun/shot/attack_3.png')
 }
 #player-shoot-4 {
-    background-image: url('../images/Hero/modegun/shot/attack_4.png')
+    background-image: url('../images/hero/modegun/shot/attack_4.png')
 }
 #player-shoot-5 {
-    background-image: url('../images/Hero/modegun/shot/attack_5.png')
+    background-image: url('../images/hero/modegun/shot/attack_5.png')
 }
 #player-shoot-6 {
-    background-image: url('../images/Hero/modegun/shot/attack_6.png')
+    background-image: url('../images/hero/modegun/shot/attack_6.png')
 }
 #player-shoot-7 {
-    background-image: url('../images/Hero/modegun/shot/attack_7.png')
+    background-image: url('../images/hero/modegun/shot/attack_7.png')
 }
 #player-shoot-8 {
-    background-image: url('../images/Hero/modegun/shot/attack_8.png')
+    background-image: url('../images/hero/modegun/shot/attack_8.png')
 }
 #player-shoot-9 {
-    background-image: url('../images/Hero/modegun/shot/attack_9.png')
+    background-image: url('../images/hero/modegun/shot/attack_9.png')
 }
 
-/* Zombie preload images */
+#player-die-0 {
+    background-image: url('../images/hero/die/die_0.png')
+}
+#player-die-1 {
+    background-image: url('../images/hero/die/die_1.png')
+}
+#player-die-2 {
+    background-image: url('../images/hero/die/die_2.png')
+}
+#player-die-3 {
+    background-image: url('../images/hero/die/die_3.png')
+}
+#player-die-4 {
+    background-image: url('../images/hero/die/die_4.png')
+}
+#player-die-5 {
+    background-image: url('../images/hero/die/die_5.png')
+}
+#player-die-6 {
+    background-image: url('../images/hero/die/die_6.png')
+}
+#player-die-7 {
+    background-image: url('../images/hero/die/die_7.png')
+}
+#player-die-8 {
+    background-image: url('../images/hero/die/die_8.png')
+}
+#player-die-9 {
+    background-image: url('../images/hero/die/die_9.png')
+}
 
-/* Zombie appear */
+/* zombie preload images */
+
+/* zombie appear */
+#zombie-appear-0 {
+    background-image: url('../images/zombie/appear/appear_0.png')
+}
 #zombie-appear-1 {
-    background-image: url('../images/Zombie/appear/appear_0.png')
+    background-image: url('../images/zombie/appear/appear_1.png')
 }
 #zombie-appear-2 {
-    background-image: url('../images/Zombie/appear/appear_1.png')
+    background-image: url('../images/zombie/appear/appear_2.png')
 }
 #zombie-appear-3 {
-    background-image: url('../images/Zombie/appear/appear_2.png')
+    background-image: url('../images/zombie/appear/appear_3.png')
 }
 #zombie-appear-4 {
-    background-image: url('../images/Zombie/appear/appear_3.png')
+    background-image: url('../images/zombie/appear/appear_4.png')
 }
 #zombie-appear-5 {
-    background-image: url('../images/Zombie/appear/appear_4.png')
+    background-image: url('../images/zombie/appear/appear_5.png')
 }
 #zombie-appear-6 {
-    background-image: url('../images/Zombie/appear/appear_6.png')
+    background-image: url('../images/zombie/appear/appear_6.png')
 }
 #zombie-appear-7 {
-    background-image: url('../images/Zombie/appear/appear_7.png')
+    background-image: url('../images/zombie/appear/appear_7.png')
 }
 #zombie-appear-8 {
-    background-image: url('../images/Zombie/appear/appear_8.png')
+    background-image: url('../images/zombie/appear/appear_8.png')
 }
 #zombie-appear-9 {
-    background-image: url('../images/Zombie/appear/appear_9.png')
+    background-image: url('../images/zombie/appear/appear_9.png')
 }
 #zombie-appear-10 {
-    background-image: url('../images/Zombie/appear/appear_10.png')
+    background-image: url('../images/zombie/appear/appear_10.png')
 }
 
-/* Zombie walk */
+/* zombie walk */
+#zombie-walk-0 {
+    background-image: url('../images/zombie/walk/go_0.png')
+}
 #zombie-walk-1 {
-    background-image: url('../images/Zombie/walk/go_0.png')
+    background-image: url('../images/zombie/walk/go_1.png')
 }
 #zombie-walk-2 {
-    background-image: url('../images/Zombie/walk/go_1.png')
+    background-image: url('../images/zombie/walk/go_2.png')
 }
 #zombie-walk-3 {
-    background-image: url('../images/Zombie/walk/go_2.png')
+    background-image: url('../images/zombie/walk/go_3.png')
 }
 #zombie-walk-4 {
-    background-image: url('../images/Zombie/walk/go_3.png')
+    background-image: url('../images/zombie/walk/go_4.png')
 }
 #zombie-walk-5 {
-    background-image: url('../images/Zombie/walk/go_4.png')
+    background-image: url('../images/zombie/walk/go_5.png')
 }
 #zombie-walk-6 {
-    background-image: url('../images/Zombie/walk/go_5.png')
+    background-image: url('../images/zombie/walk/go_6.png')
 }
 #zombie-walk-7 {
-    background-image: url('../images/Zombie/walk/go_6.png')
+    background-image: url('../images/zombie/walk/go_7.png')
 }
 #zombie-walk-8 {
-    background-image: url('../images/Zombie/walk/go_7.png')
+    background-image: url('../images/zombie/walk/go_8.png')
 }
 #zombie-walk-9 {
-    background-image: url('../images/Zombie/walk/go_8.png')
-}
-#zombie-walk-10 {
-    background-image: url('../images/Zombie/walk/go_9.png')
+    background-image: url('../images/zombie/walk/go_9.png')
 } 
+
+/* zombie attack */
+#zombie-attack-0 {
+    background-image: url('../images/zombie/attack/hit_0.png')
+}
+#zombie-attack-1 {
+    background-image: url('../images/zombie/attack/hit_1.png')
+}
+#zombie-attack-2 {
+    background-image: url('../images/zombie/attack/hit_2.png')
+}
+#zombie-attack-3 {
+    background-image: url('../images/zombie/attack/hit_3.png')
+}
+#zombie-attack-4 {
+    background-image: url('../images/zombie/attack/hit_4.png')
+}
+#zombie-attack-5 {
+    background-image: url('../images/zombie/attack/hit_5.png')
+}
+#zombie-attack-6 {
+    background-image: url('../images/zombie/attack/hit_6.png')
+}
+
+/* zombie die */
+#zombie-die-0 {
+    background-image: url('../images/zombie/die/die_0.png')
+}
+#zombie-die-1 {
+    background-image: url('../images/zombie/die/die_1.png')
+}
+#zombie-die-2 {
+    background-image: url('../images/zombie/die/die_2.png')
+}
+#zombie-die-3 {
+    background-image: url('../images/zombie/die/die_3.png')
+}
+#zombie-die-4 {
+    background-image: url('../images/zombie/die/die_4.png')
+}
+#zombie-die-5 {
+    background-image: url('../images/zombie/die/die_5.png')
+}
+#zombie-die-6 {
+    background-image: url('../images/zombie/die/die_6.png')
+}
+#zombie-die-6 {
+    background-image: url('../images/zombie/die/die_6.png')
+}

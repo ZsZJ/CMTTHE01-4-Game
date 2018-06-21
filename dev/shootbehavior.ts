@@ -4,7 +4,7 @@ class ShootBehavior extends Behavior{
     
     constructor(gameObject : AnimatedGameObject) {
         super(gameObject)
-        this.gameAnimation = new GameAnimation("images/Hero/modegun/shot/attack", 9, this, gameObject)
+        this.gameAnimation = new GameAnimation("images/hero/modegun/shot/attack", 9, this, gameObject)
     }
 
     /**
@@ -36,6 +36,6 @@ class ShootBehavior extends Behavior{
 
     public onAnimationCompleted() {
         this.gameObject.element.classList.remove("shoot");
-        this.gameAnimation = new GameAnimation("images/Hero/modegun/idle/idle", 9, this, this.gameObject)
+        this.gameAnimation = new GameAnimation("images/hero/modegun/idle/idle", 9, this, this.gameObject)
     }
 }
