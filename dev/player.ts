@@ -56,12 +56,12 @@ class Player extends AnimatedGameObject {
             switch(e.keyCode) {
                 // Player look left (Left arrow key)
                 case 37 :
-                    this.element.style.transform = "translate(640px, 0) scaleX(-1)"
+                    this.element.style.transform = `translate(${this.objectPosX}px, 0) scaleX(-1)`
                     this._direction = 0
                     break
                 // Player look right (Right arrow key)
                 case 39 :
-                    this.element.style.transform = "translate(640px, 0) scaleX(1)"
+                    this.element.style.transform = `translate(${this.objectPosX}px, 0) scaleX(1)`
                     this._direction = 1
                     break
                 // Player shoots (Spacebar)

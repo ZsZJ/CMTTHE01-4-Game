@@ -429,11 +429,11 @@ var Player = (function (_super) {
         if (this._die == false) {
             switch (e.keyCode) {
                 case 37:
-                    this.element.style.transform = "translate(640px, 0) scaleX(-1)";
+                    this.element.style.transform = "translate(" + this.objectPosX + "px, 0) scaleX(-1)";
                     this._direction = 0;
                     break;
                 case 39:
-                    this.element.style.transform = "translate(640px, 0) scaleX(1)";
+                    this.element.style.transform = "translate(" + this.objectPosX + "px, 0) scaleX(1)";
                     this._direction = 1;
                     break;
                 case 32:
@@ -486,7 +486,7 @@ var PlayScreen = (function () {
         this._enemies = new Array;
         var ground = document.createElement("ground");
         document.body.appendChild(ground);
-        this._player = new Player(this, 640, 0);
+        this._player = new Player(this, (window.innerWidth / 2 - 70), 0);
         this.scoreText = document.createElement("scoreText");
         this.scoreText.innerHTML = "" + this.game.user.score;
         document.body.appendChild(this.scoreText);
