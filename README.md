@@ -321,7 +321,7 @@ class Zombie extends Enemy {
 
 # Klassendiagram
 
-![My image](ZsZJ.github.com/CMTTHE01-4-Game/classdiagram.png)
+![My image](ZsZJ/CMTTHE01-4-Game/blob/master/classdiagram.png)
 
 
 # Peer reviews
