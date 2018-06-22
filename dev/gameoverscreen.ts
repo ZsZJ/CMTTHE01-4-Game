@@ -56,7 +56,7 @@ class GameOverScreen extends GameScreen {
     }   
     
     // Return to the start screen ( New Game )
-    public returnMenu() {
+    private returnMenu() {
         document.body.innerHTML = ""
         new Game()
     }

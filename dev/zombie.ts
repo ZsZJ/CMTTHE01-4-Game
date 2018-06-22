@@ -18,10 +18,10 @@ class Zombie extends Enemy {
         super("zombie", playScreen, xPos, yPos)
 
         // Animation amount frames
-        this.appearFrames = 10
-        this.walkFrames = 9
-        this.attackFrames = 6
-        this.dieFrames = 7
+        this._appearFrames = 10
+        this._walkFrames = 9
+        this._attackFrames = 6
+        this._dieFrames = 7
 
         // Zombie stats
         this.health = (this.playScreen.game.enemyLevel * 2) + 3

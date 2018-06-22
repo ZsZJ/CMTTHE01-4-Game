@@ -1,12 +1,12 @@
 class GameAnimation {
 
-    public path : string
+    private path : string
     private behavior : Behavior
     private gameObject : GameObject
 
     private delayCounter : number = 0
-    public currentFrame : number = 0
-    public amountFrames : number
+    private currentFrame : number = 0
+    private amountFrames : number
     private animationCompleteTriggered = false;
 
     constructor(path : string, amountFrames : number, behavior : Behavior, gameObject : GameObject) {

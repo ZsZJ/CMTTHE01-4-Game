@@ -69,20 +69,6 @@ class ShopScreen extends GameScreen {
         nextButton.addEventListener("click", () => this.nextWave())
     }
 
-    private nextWave() {
-
-        // Wave Level Up
-        this.game.user.level ++
-
-        // Reset the health and bullets for the player
-        this.game.user.userStats.currentHealth = this.game.user.userStats.health
-        this.game.user.userStats.currentBullets = this.game.user.userStats.bulletCap
-
-        // Reset the body inner html and show the wave start screen
-        document.body.innerHTML = ""
-        this.game.screen = new PlayScreen(this.game)
-    }
-
     public update () {
         
         // Keep amount of coins up to date

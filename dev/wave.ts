@@ -1,34 +1,41 @@
 class Wave {
 
-    private playScreen : PlayScreen
-    private player : Player
-    private amountMonsters : number
-    private _currentMonsters : number = 0
-    private waveComplete : boolean = false
-
+    // Wave Intro HTML element
     private waveIntroElement : HTMLElement
 
-    public get currentMonsters() : number {
-        return this._currentMonsters
+    // Set essentials
+    private playScreen : PlayScreen
+    private player : Player
+
+    // Wave Properties
+    private amountMonsters : number
+    private waveComplete : boolean = false
+
+    // Trackers
+    private _currentMonsters : number = 0
+    
+    public set currentMonsters(c : number) 
+    {
+        this._currentMonsters = c
     }
 
-    public set currentMonsters(c : number) {
-        this._currentMonsters = c
+    public get currentMonsters() : number 
+    {
+        return this._currentMonsters
     }
 
     constructor(playScreen : PlayScreen, player : Player) {
         
-        // Set Playscreen
+        // Set essentials
         this.playScreen = playScreen
-
-        // Set Player
         this.player = player
 
         // Calculate amount monster ( FLOOR : level * 1.50 )
         this.amountMonsters = Math.floor(this.playScreen.game.user.level * 1.50)
 
         // Enemy getting stronger after 10 waves
-        if (this.playScreen.game.user.level % 10 == 0) {
+        if (this.playScreen.game.user.level % 10 == 0) 
+        {
             this.playScreen.game.enemyLevel++
         }
 
@@ -38,7 +45,7 @@ class Wave {
     }
 
     // The Wave intro
-    private waveIntro() {
+    private waveIntro() : void {
 
         // Show the Wave intro
         this.waveIntroElement.innerHTML = `Wave ${this.playScreen.game.user.level}`
@@ -47,11 +54,11 @@ class Wave {
         // Start battle sound
         Sound.getInstance().playBattle()
 
-        // Wait 3 seconds for the intro
+        // Wait 5 seconds for the intro, then create enemies
         setTimeout( () => this.createEnemies(), 5000)
     }
 
-    private createEnemies() {
+    private createEnemies() : void {
 
         // Remove the wave level intro
         this.waveIntroElement.remove()
@@ -64,7 +71,7 @@ class Wave {
         this.playScreen.addEnemy(new Zombie(this.playScreen, posX, posY))
 
         // Add currentMonster on the screen
-        this.currentMonsters++
+        this._currentMonsters++
 
         if ( this.waveComplete == false && this.playScreen.enemies.length < this.amountMonsters) {
             // Create enemies every 2 seconds
@@ -90,7 +97,7 @@ class Wave {
         return posX
     }
 
-    public update() {
+    public update() : void {
 
         // If the amount of monster on screen is zero, complete the wave
         if (this.currentMonsters == 0 && this.playScreen.enemies.length == this.amountMonsters) {

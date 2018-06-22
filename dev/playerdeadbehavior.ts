@@ -18,4 +18,5 @@ class PlayerDeadBehavior extends Behavior {
         this.gameObject.playScreen.game.screen = new GameOverScreen(this.gameObject.playScreen.game)
 
     }
+
 }

@@ -84,7 +84,7 @@ class Player extends AnimatedGameObject {
         }
     }
 
-    public update() {
+    public update() : void {
 
         // Check if player is dead
         if (this.playScreen.game.user.userStats.currentHealth <= 0 && this._die == false) { 
@@ -98,7 +98,7 @@ class Player extends AnimatedGameObject {
     }
 
     // Remove the event listener
-    public removeListener() {
+    public removeListener() : void {
         window.removeEventListener("keydown", this.event)
     }
 }

@@ -13,9 +13,9 @@ var GameObject = (function () {
     function GameObject(type, playScreen, xPos, yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
-        this.type = type;
-        this.playScreen = playScreen;
-        this.element = document.createElement(this.type);
+        this._type = type;
+        this._playScreen = playScreen;
+        this._element = document.createElement(this.type);
         this.element.style.transform = "translate(" + this.objectPosX + "px, " + this.objectPosY + "px)";
         document.body.appendChild(this.element);
     }
@@ -39,6 +39,27 @@ var GameObject = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(GameObject.prototype, "element", {
+        get: function () {
+            return this._element;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GameObject.prototype, "type", {
+        get: function () {
+            return this._type;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GameObject.prototype, "playScreen", {
+        get: function () {
+            return this._playScreen;
+        },
+        enumerable: true,
+        configurable: true
+    });
     GameObject.prototype.getRectangle = function () {
         return this.element.getBoundingClientRect();
     };
@@ -49,8 +70,8 @@ var AnimatedGameObject = (function (_super) {
     function AnimatedGameObject(type, playScreen, xPos, yPos) {
         var _this = _super.call(this, type, playScreen, xPos, yPos) || this;
         _this._behavior = null;
-        _this._viewDirection = 0;
         _this._move = false;
+        _this._viewDirection = 0;
         _this._appearFrames = 0;
         _this._walkFrames = 0;
         _this._attackFrames = 0;
@@ -72,18 +93,12 @@ var AnimatedGameObject = (function (_super) {
         get: function () {
             return this._appearFrames;
         },
-        set: function (f) {
-            this._appearFrames = f;
-        },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(AnimatedGameObject.prototype, "walkFrames", {
         get: function () {
             return this._walkFrames;
-        },
-        set: function (f) {
-            this._walkFrames = f;
         },
         enumerable: true,
         configurable: true
@@ -92,18 +107,12 @@ var AnimatedGameObject = (function (_super) {
         get: function () {
             return this._attackFrames;
         },
-        set: function (f) {
-            this._attackFrames = f;
-        },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(AnimatedGameObject.prototype, "dieFrames", {
         get: function () {
             return this._dieFrames;
-        },
-        set: function (f) {
-            this._dieFrames = f;
         },
         enumerable: true,
         configurable: true
@@ -121,9 +130,6 @@ var AnimatedGameObject = (function (_super) {
     Object.defineProperty(AnimatedGameObject.prototype, "viewDirection", {
         get: function () {
             return this._viewDirection;
-        },
-        set: function (v) {
-            this._viewDirection = v;
         },
         enumerable: true,
         configurable: true
@@ -250,11 +256,11 @@ var Enemy = (function (_super) {
         _this._rewardScore = 0;
         _this._rewardCoins = 0;
         if (_this.objectPosX < _this.playScreen.player.getRectangle().left) {
-            _this.viewDirection = 0;
+            _this._viewDirection = 0;
             _this.element.style.transform += "scaleX(-1)";
         }
         else {
-            _this.viewDirection = 1;
+            _this._viewDirection = 1;
             _this.element.style.transform += "scaleX(1)";
         }
         _this.element.style.filter += "hue-rotate(" + (360 - (_this.playScreen.game.enemyLevel * 50)) + "deg)";
@@ -356,6 +362,13 @@ var GameScreen = (function () {
         enumerable: true,
         configurable: true
     });
+    GameScreen.prototype.nextWave = function () {
+        this.game.user.level++;
+        this.game.user.userStats.currentHealth = this.game.user.userStats.health;
+        this.game.user.userStats.currentBullets = this.game.user.userStats.bulletCap;
+        document.body.innerHTML = "";
+        this.game.screen = new PlayScreen(this.game);
+    };
     GameScreen.prototype.update = function () {
     };
     return GameScreen;
@@ -686,13 +699,6 @@ var ShopScreen = (function (_super) {
         nextButton.addEventListener("click", function () { return _this.nextWave(); });
         return _this;
     }
-    ShopScreen.prototype.nextWave = function () {
-        this.game.user.level++;
-        this.game.user.userStats.currentHealth = this.game.user.userStats.health;
-        this.game.user.userStats.currentBullets = this.game.user.userStats.bulletCap;
-        document.body.innerHTML = "";
-        this.game.screen = new PlayScreen(this.game);
-    };
     ShopScreen.prototype.update = function () {
         this.amountCoins.innerHTML = "You Have : " + this.game.user.coins + "G";
         this.bulletPowerPrice = 400 * (this.game.user.userStats.bulletPowerLevel + 1);
@@ -873,7 +879,7 @@ var User = (function () {
         this._level = 1;
         this._score = 0;
         this._coins = 0;
-        this._userStats = new UserStats();
+        this._stats = new UserStats();
     }
     Object.defineProperty(User.prototype, "level", {
         get: function () {
@@ -907,7 +913,7 @@ var User = (function () {
     });
     Object.defineProperty(User.prototype, "userStats", {
         get: function () {
-            return this._userStats;
+            return this._stats;
         },
         enumerable: true,
         configurable: true
@@ -1050,8 +1056,8 @@ var WalkBehavior = (function (_super) {
 }(Behavior));
 var Wave = (function () {
     function Wave(playScreen, player) {
-        this._currentMonsters = 0;
         this.waveComplete = false;
+        this._currentMonsters = 0;
         this.playScreen = playScreen;
         this.player = player;
         this.amountMonsters = Math.floor(this.playScreen.game.user.level * 1.50);
@@ -1084,7 +1090,7 @@ var Wave = (function () {
         var posX = this.setEnemyPosition();
         var posY = 0;
         this.playScreen.addEnemy(new Zombie(this.playScreen, posX, posY));
-        this.currentMonsters++;
+        this._currentMonsters++;
         if (this.waveComplete == false && this.playScreen.enemies.length < this.amountMonsters) {
             setTimeout(function () { return _this.createEnemies(); }, 1000);
         }
@@ -1131,13 +1137,6 @@ var WaveScreen = (function (_super) {
         document.body.innerHTML = "";
         this.game.screen = new ShopScreen(this.game);
     };
-    WaveScreen.prototype.nextWave = function () {
-        this.game.user.level++;
-        this.game.user.userStats.currentHealth = this.game.user.userStats.health;
-        this.game.user.userStats.currentBullets = this.game.user.userStats.bulletCap;
-        document.body.innerHTML = "";
-        this.game.screen = new PlayScreen(this.game);
-    };
     WaveScreen.prototype.update = function () {
     };
     return WaveScreen;
@@ -1146,10 +1145,10 @@ var Zombie = (function (_super) {
     __extends(Zombie, _super);
     function Zombie(playScreen, xPos, yPos) {
         var _this = _super.call(this, "zombie", playScreen, xPos, yPos) || this;
-        _this.appearFrames = 10;
-        _this.walkFrames = 9;
-        _this.attackFrames = 6;
-        _this.dieFrames = 7;
+        _this._appearFrames = 10;
+        _this._walkFrames = 9;
+        _this._attackFrames = 6;
+        _this._dieFrames = 7;
         _this.health = (_this.playScreen.game.enemyLevel * 2) + 3;
         _this._rewardScore = (100 * (_this.playScreen.game.enemyLevel + 1));
         _this._rewardCoins = 50;

@@ -8,14 +8,15 @@ class AnimatedGameObject extends GameObject {
      * playScreen : PlayScreen
      */
     private _behavior : Behavior | null = null
-    private _viewDirection : number = 0
     private _move : boolean = false
 
+    protected _viewDirection : number = 0
+
     // Animation Behavior Frames
-    private _appearFrames : number = 0
-    private _walkFrames : number = 0
-    private _attackFrames : number = 0
-    private _dieFrames : number = 0
+    protected _appearFrames : number = 0
+    protected _walkFrames : number = 0
+    protected _attackFrames : number = 0
+    protected _dieFrames : number = 0
 
     // Object state
     private _state : number = 0
@@ -43,19 +44,9 @@ class AnimatedGameObject extends GameObject {
         return this._appearFrames
     }
 
-    // Setter appear frames
-    public set appearFrames(f : number) {
-        this._appearFrames = f
-    }
-
     // Getter walk frames
     public get walkFrames() : number {
         return this._walkFrames
-    }
-
-    // Setter walk frames
-    public set walkFrames(f : number) {
-        this._walkFrames = f
     }
 
     // Getter attack frames
@@ -63,19 +54,9 @@ class AnimatedGameObject extends GameObject {
         return this._attackFrames
     }
 
-    // Setter attacks frames
-    public set attackFrames(f : number) {
-        this._attackFrames = f
-    }
-
     // Getter die frames
     public get dieFrames() {
         return this._dieFrames
-    }
-
-    // Setter die frames
-    public set dieFrames(f : number) {
-        this._dieFrames = f
     }
 
     // Behavior Getter
@@ -86,11 +67,6 @@ class AnimatedGameObject extends GameObject {
     // Behavior Setter
     public set behavior(b : Behavior) {
         this._behavior = b
-    }
-
-    // Direction setter
-    public set viewDirection(v : number) {
-        this._viewDirection = v
     }
 
     // Direction getter

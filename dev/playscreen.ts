@@ -12,14 +12,13 @@ class PlayScreen extends GameScreen {
     public bulletCap : HTMLElement
 
     private healthPlaceHolder : HTMLElement
-    public healthCap : HTMLElement
+    private healthCap : HTMLElement
 
-    public scoreText : HTMLElement
-
-    public waveText : HTMLElement
+    private scoreText : HTMLElement
+    private waveText : HTMLElement
 
     private coinsPlaceHolder : HTMLElement
-    public coinsText : HTMLElement
+    private coinsText : HTMLElement
 
     constructor(g : Game) {
 
@@ -105,8 +104,7 @@ class PlayScreen extends GameScreen {
     }
 
     // Push enemy in array
-    public addEnemy(e : Enemy)
-    {
+    public addEnemy(e : Enemy) {
         this._enemies.push(e)
     }
 

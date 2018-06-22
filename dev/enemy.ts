@@ -38,11 +38,11 @@ class Enemy extends AnimatedGameObject {
 
         // Flip the enemy sprite depends on side
         if ( this.objectPosX < this.playScreen.player.getRectangle().left ) {
-            this.viewDirection = 0 // Left
+            this._viewDirection = 0 // Left
             this.element.style.transform += `scaleX(-1)`
         }
         else {
-            this.viewDirection = 1 // Right
+            this._viewDirection = 1 // Right
             this.element.style.transform += `scaleX(1)`
         }
 
@@ -51,14 +51,14 @@ class Enemy extends AnimatedGameObject {
     }
 
     // Enemy Spawn
-    public spawn () {
+    public spawn () : void {
         // Set Spawn Behavior
         this.behavior = new AppearBehavior(this)
         this.behavior.performBehavior()
     }
 
     // Enemy is hit by bullet
-    public hit () {
+    public hit () : void {
 
         // Subtract health according to bullet power level
         this.health -= (this.playScreen.game.user.userStats.bulletPowerLevel + 1)
